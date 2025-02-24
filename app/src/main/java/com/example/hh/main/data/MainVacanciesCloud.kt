@@ -29,7 +29,7 @@ data class MainVacancyCloud(
     @SerializedName("work_schedule_by_days")
     val workScheduleByDays: List<WorkScheduleByDays>?,
     @SerializedName("experience")
-    val experience: Experience,
+    val experience: Experience?,
     @SerializedName("url")
     val url: String,
     @SerializedName("type")
