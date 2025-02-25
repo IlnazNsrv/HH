@@ -42,8 +42,6 @@ android {
 
 dependencies {
 
-    implementation(libs.picasso)
-
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
