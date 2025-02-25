@@ -2,23 +2,39 @@ package com.example.hh.main.presentation
 
 import android.view.View
 import com.example.hh.R
+import com.example.hh.databinding.ItemErrorBinding
+import com.example.hh.databinding.ItemProgressBinding
 import com.example.hh.databinding.ItemVacancyBinding
 import com.example.hh.main.data.Experience
 import com.example.hh.main.data.MainVacancyCloud
 import com.example.hh.main.data.Salary
+import com.squareup.picasso.Picasso
 
 interface VacancyUi {
 
-    fun show(binding: ItemVacancyBinding)
+    fun type() : VacancyUiType
+
+    fun show(binding: ItemVacancyBinding) = Unit
+    fun showError(binding: ItemErrorBinding) = Unit
     fun id() : String
     fun changeFavoriteChosen() : VacancyUi
     abstract fun favoriteChosen() : Boolean
+    fun favoriteOrNot(clickActions: ClickActions) = Unit
 
 
     class Base(
         private val vacancyCloud: MainVacancyCloud,
         private val favoriteChosen: Boolean
     ) : VacancyUi {
+
+        override fun favoriteOrNot(clickActions: ClickActions) {
+            if (favoriteChosen)
+                clickActions.stop()
+            else
+                clickActions.favorite(this)
+        }
+
+        override fun type() = VacancyUiType.Vacancy
 
         override fun show(binding: ItemVacancyBinding) {
             binding.vacancyTitle.setText(vacancyCloud.name)
@@ -43,6 +59,8 @@ interface VacancyUi {
                     text = vacancyCloud.type.name
                 }
             }
+            vacancyCloud.employer.logoUrls?.ninety?.let {
+                loadImage(it, binding) }
         }
 
         override fun id(): String {
@@ -55,6 +73,10 @@ interface VacancyUi {
 
         override fun favoriteChosen(): Boolean {
            return favoriteChosen
+        }
+
+        private fun loadImage(imageUrl: String, binding: ItemVacancyBinding) {
+            Picasso.get().load(imageUrl).into(binding.companyImageView)
         }
 
         private fun setSalary(salary: Salary?) : String {
@@ -73,6 +95,28 @@ interface VacancyUi {
                 "Без опыта"
             } else experience.name
         }
+    }
+
+    object Progress : VacancyUi {
+        override fun type(): VacancyUiType = VacancyUiType.Progress
+
+        override fun id(): String = javaClass.simpleName
+
+        override fun changeFavoriteChosen(): VacancyUi = VacancyUi.Progress
+        override fun favoriteChosen(): Boolean = false
+    }
+
+    data class Error(private val message: String) : VacancyUi {
+        override fun type(): VacancyUiType = VacancyUiType.Error
+
+        override fun showError(binding: ItemErrorBinding) {
+            binding.errorText.setText(message)
+        }
+
+        override fun id(): String = javaClass.simpleName + message
+
+        override fun changeFavoriteChosen(): VacancyUi = VacancyUi.Error(message)
+        override fun favoriteChosen(): Boolean = false
 
     }
 
@@ -102,6 +146,10 @@ interface VacancyUi {
             binding.city.setText(city)
             binding.companyName.setText(companyName)
             binding.experience.setText(setExperience(experience))
+        }
+
+        override fun type(): VacancyUiType {
+            TODO("Not yet implemented")
         }
 
         override fun id(): String {

@@ -69,6 +69,14 @@
         android:textColor="@color/white"
         android:layout_gravity="start"
         tools:text="companyName" />
+    
+    <ImageView
+        android:id="@+id/companyImageView"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/ic_launcher_foreground"
+        android:contentDescription=""
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/experience"
