@@ -1,4 +1,4 @@
-package com.example.hh.main.data
+package com.example.hh.main.data.cloud
 
 import com.google.gson.annotations.SerializedName
 

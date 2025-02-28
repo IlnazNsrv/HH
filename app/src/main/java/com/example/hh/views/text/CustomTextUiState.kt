@@ -1,8 +1,8 @@
 package com.example.hh.views.text
 
-import com.example.hh.core.LiveDataWrapper
+import com.example.hh.core.UiState
 
-interface CustomTextUiState : LiveDataWrapper.UiState {
+interface CustomTextUiState : UiState {
 
     fun show(updateCustomTextView: UpdateCustomTextView) = Unit
 

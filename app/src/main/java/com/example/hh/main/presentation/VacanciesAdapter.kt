@@ -1,13 +1,12 @@
 package com.example.hh.main.presentation
 
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.hh.databinding.ItemErrorBinding
-import com.example.hh.databinding.ItemProgressBinding
 import com.example.hh.databinding.ItemVacancyBinding
 
 class VacanciesAdapter(
@@ -15,18 +14,19 @@ class VacanciesAdapter(
         VacancyUiType.Error,
         VacancyUiType.Progress,
         VacancyUiType.Vacancy
-    )
+    ),
+    private val clickActions: ClickActions
 ) : RecyclerView.Adapter<VacancyViewHolder>() {
 
     private val list = mutableListOf<VacancyUi>()
 
     fun updateVacancies(newList: List<VacancyUi>) {
-        val result = DiffUtil.calculateDiff(
-            Diff(
-                list,
-                newList
-            )
+        Log.d("Inz", "updateVacancies pinged with list $list and newList $newList")
+        val callback = Diff(
+            list,
+            newList
         )
+        val result = DiffUtil.calculateDiff(callback)
         list.clear()
         list.addAll(newList)
         result.dispatchUpdatesTo(this)
@@ -37,7 +37,7 @@ class VacanciesAdapter(
         val type = item.type()
         val index = typeList.indexOf(type)
         if (index == -1)
-            throw IllegalStateException("add type $type to typeList $typeList")\
+            throw IllegalStateException("add type $type to typeList $typeList")
         return index //0, 1, 2
     }
 
@@ -83,9 +83,10 @@ abstract class VacancyViewHolder(
     ) : VacancyViewHolder(binding.root) {
 
         override fun bind(vacancy: VacancyUi) {
-            binding.favoriteButton.setOnClickListener {
-                vacancy.favoriteOrNot(clickActions)
-            }
+//            binding.favoriteButton.setOnClickListener {
+//                //vacancy.favoriteOrNot(clickActions)
+//                clickActions.clickFavorite(vacancy)
+//            }
             vacancy.show(binding)
         }
     }
@@ -107,5 +108,12 @@ private class Diff(
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return old[oldItemPosition] == new[newItemPosition]
     }
+}
+
+interface ClickActions {
+
+    fun clickFavorite(vacancyUi: VacancyUi)
+    fun retry() = Unit
+    fun showError(value: String) = Unit
 }
 

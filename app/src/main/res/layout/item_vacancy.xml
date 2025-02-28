@@ -37,9 +37,11 @@
             android:layout_gravity="end"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/ic_favorite"
-            android:backgroundTint="@color/white"
-            android:textColorLink="@color/white" />
+            android:background="@drawable/favorite_state"
+            android:clickable="true"
+            android:drawableStart="@drawable/ic_favorite" />
+        <!--            android:backgroundTint="@color/white"-->
+        <!--            android:textColorLink="@color/white" />-->
 
     </LinearLayout>
 

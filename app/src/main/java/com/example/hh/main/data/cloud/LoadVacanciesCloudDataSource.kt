@@ -1,15 +1,16 @@
-package com.example.hh.main.data
+package com.example.hh.main.data.cloud
 
+import com.example.hh.main.data.HandleError
 import retrofit2.Retrofit
 
-interface LoadQuoteCloudDataSource {
+interface LoadVacanciesCloudDataSource {
 
     suspend fun loadMainVacancies(): List<MainVacancyCloud>
 
     class Base(
         private val service: MainVacanciesService,
         private val handleError: HandleError<Exception>
-    ) : LoadQuoteCloudDataSource {
+    ) : LoadVacanciesCloudDataSource {
 
         constructor(
             retrofitBuilder: Retrofit.Builder,

@@ -19,10 +19,11 @@ class CustomRecyclerView : RecyclerView, UpdateVacanciesRecyclerView {
 
     fun init(viewModel: VacanciesViewModel) {
 
-        adapter = VacanciesAdapter()
+        adapter = VacanciesAdapter(clickActions = viewModel)
         setAdapter(adapter)
 
-        viewModel.liveData().observe(findViewTreeLifecycleOwner()) {
+        viewModel.liveData().observe(findViewTreeLifecycleOwner()!!) {
+            it.handle(viewModel)
             it.show(this)
         }
     }

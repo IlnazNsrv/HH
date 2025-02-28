@@ -15,7 +15,8 @@ interface LiveDataWrapper {
 
     interface Mutable<T: UiState> : GetLiveData<T>, Update<T>
 
-    abstract class Abstract<T: UiState>(protected val liveData: MutableLiveData<T> = SingleLiveEvent()) : LiveDataWrapper.Mutable<T> {
+    abstract class Abstract<T : UiState>(protected val liveData: MutableLiveData<T> = SingleLiveEvent()) :
+        Mutable<T> {
 
         override fun liveData(): LiveData<T> {
             return liveData
@@ -25,6 +26,6 @@ interface LiveDataWrapper {
             liveData.value = data
         }
     }
-
-    interface UiState
 }
+
+interface UiState

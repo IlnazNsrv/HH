@@ -3,14 +3,14 @@ package com.example.hh.main.presentation
 import android.view.View
 import com.example.hh.R
 import com.example.hh.databinding.ItemErrorBinding
-import com.example.hh.databinding.ItemProgressBinding
 import com.example.hh.databinding.ItemVacancyBinding
-import com.example.hh.main.data.Experience
-import com.example.hh.main.data.MainVacancyCloud
-import com.example.hh.main.data.Salary
+import com.example.hh.main.data.cloud.Experience
+import com.example.hh.main.data.cloud.MainVacancyCloud
+import com.example.hh.main.data.cloud.Salary
 import com.squareup.picasso.Picasso
+import java.io.Serializable
 
-interface VacancyUi {
+interface VacancyUi : Serializable {
 
     fun type() : VacancyUiType
 
@@ -18,7 +18,7 @@ interface VacancyUi {
     fun showError(binding: ItemErrorBinding) = Unit
     fun id() : String
     fun changeFavoriteChosen() : VacancyUi
-    abstract fun favoriteChosen() : Boolean
+    fun favoriteChosen(): Boolean
     fun favoriteOrNot(clickActions: ClickActions) = Unit
 
 
@@ -27,17 +27,17 @@ interface VacancyUi {
         private val favoriteChosen: Boolean
     ) : VacancyUi {
 
-        override fun favoriteOrNot(clickActions: ClickActions) {
-            if (favoriteChosen)
-                clickActions.stop()
-            else
-                clickActions.favorite(this)
-        }
+//        override fun favoriteOrNot(clickActions: ClickActions) {
+//            if (favoriteChosen)
+//                clickActions.stop()
+//            else
+//                clickActions.favorite(this)
+//        }
 
         override fun type() = VacancyUiType.Vacancy
 
         override fun show(binding: ItemVacancyBinding) {
-            binding.vacancyTitle.setText(vacancyCloud.name)
+            binding.vacancyTitle.text = vacancyCloud.name
             binding.salary.apply {
                 if (vacancyCloud.salary == null)
                     visibility = View.GONE
@@ -46,13 +46,19 @@ interface VacancyUi {
                     setSalary(vacancyCloud.salary)
                 }
             }
-            binding.city.setText(vacancyCloud.area.name)
-            binding.companyName.setText(vacancyCloud.employer.name)
-            binding.experience.setText(setExperience(vacancyCloud.experience))
+            binding.city.text = vacancyCloud.area.name
+            binding.companyName.text = vacancyCloud.employer.name
+            binding.experience.text = setExperience(vacancyCloud.experience)
             binding.favoriteButton.apply {
                 if (favoriteChosen)
-                    setBackgroundColor(R.color.red)
+                    startAnimation(
+                        android.view.animation.AnimationUtils.loadAnimation(
+                            this.context,
+                            R.anim.fill_animation
+                        )
+                    )
             }
+
             binding.respondButton.apply {
                 if (vacancyCloud.type.id == "closed"){
                     isEnabled = false
@@ -68,7 +74,7 @@ interface VacancyUi {
         }
 
         override fun changeFavoriteChosen(): VacancyUi {
-            return VacancyUi.Base(vacancyCloud, favoriteChosen)
+            return Base(vacancyCloud, !favoriteChosen)
         }
 
         override fun favoriteChosen(): Boolean {
@@ -102,7 +108,7 @@ interface VacancyUi {
 
         override fun id(): String = javaClass.simpleName
 
-        override fun changeFavoriteChosen(): VacancyUi = VacancyUi.Progress
+        override fun changeFavoriteChosen(): VacancyUi = Progress
         override fun favoriteChosen(): Boolean = false
     }
 
@@ -110,12 +116,12 @@ interface VacancyUi {
         override fun type(): VacancyUiType = VacancyUiType.Error
 
         override fun showError(binding: ItemErrorBinding) {
-            binding.errorText.setText(message)
+            binding.errorText.text = message
         }
 
         override fun id(): String = javaClass.simpleName + message
 
-        override fun changeFavoriteChosen(): VacancyUi = VacancyUi.Error(message)
+        override fun changeFavoriteChosen(): VacancyUi = Error(message)
         override fun favoriteChosen(): Boolean = false
 
     }
@@ -134,7 +140,7 @@ interface VacancyUi {
     ): VacancyUi {
 
         override fun show(binding: ItemVacancyBinding) {
-            binding.vacancyTitle.setText(title)
+            binding.vacancyTitle.text = title
             binding.salary.apply {
                 if (salary == null)
                     visibility = View.GONE
@@ -143,9 +149,9 @@ interface VacancyUi {
                     text = salary(salary)
                 }
             }
-            binding.city.setText(city)
-            binding.companyName.setText(companyName)
-            binding.experience.setText(setExperience(experience))
+            binding.city.text = city
+            binding.companyName.text = companyName
+            binding.experience.text = setExperience(experience)
         }
 
         override fun type(): VacancyUiType {
