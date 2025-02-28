@@ -8,9 +8,8 @@ import com.example.hh.main.data.cloud.Experience
 import com.example.hh.main.data.cloud.MainVacancyCloud
 import com.example.hh.main.data.cloud.Salary
 import com.squareup.picasso.Picasso
-import java.io.Serializable
 
-interface VacancyUi : Serializable {
+interface VacancyUi {
 
     fun type() : VacancyUiType
 
