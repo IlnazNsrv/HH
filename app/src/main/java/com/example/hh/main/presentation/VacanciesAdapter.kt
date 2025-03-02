@@ -1,31 +1,63 @@
 package com.example.hh.main.presentation
 
-import android.view.LayoutInflater
+import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.hh.databinding.ItemErrorBinding
 import com.example.hh.databinding.ItemVacancyBinding
+import com.example.hh.main.data.BundleWrapper
 
 class VacanciesAdapter(
-
-) : RecyclerView.Adapter<VacanciesAdapter.VacancyViewHolder>() {
+    private val typeList: List<VacancyUiType> = listOf(
+        VacancyUiType.Error,
+        VacancyUiType.Progress,
+        VacancyUiType.Vacancy
+    ),
+    private val clickActions: ClickActions,
+    private val liveDataWrapper: VacanciesLiveDataWrapper
+) : RecyclerView.Adapter<VacancyViewHolder>() {
 
     private val list = mutableListOf<VacancyUi>()
 
     fun updateVacancies(newList: List<VacancyUi>) {
-        val result = DiffUtil.calculateDiff(Diff(
+        Log.d("Inz", "updateVacancies pinged with list $list and newList $newList")
+        val callback = Diff(
             list,
             newList
-        ))
+        )
+        val result = DiffUtil.calculateDiff(callback)
         list.clear()
         list.addAll(newList)
         result.dispatchUpdatesTo(this)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VacancyViewHolder = VacancyViewHolder(
-        ItemVacancyBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-    )
+    fun save(bundle: BundleWrapper.Save<VacanciesUiState>) {
+        liveDataWrapper.save(bundle)
+    }
+
+    fun restore(bundleWrapper: BundleWrapper.Restore<VacanciesUiState>) {
+        val uiState = bundleWrapper.restore()
+        liveDataWrapper.update(uiState)
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        val item = list[position]
+        val type = item.type()
+        val index = typeList.indexOf(type)
+        if (index == -1)
+            throw IllegalStateException("add type $type to typeList $typeList")
+        return index //0, 1, 2
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VacancyViewHolder {
+        return typeList[viewType].viewHolder(parent, clickActions)
+    }
+//        VacancyViewHolder(
+//            ItemVacancyBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+//        )
 
     override fun onBindViewHolder(holder: VacancyViewHolder, position: Int) {
         holder.bind(list[position])
@@ -33,16 +65,49 @@ class VacanciesAdapter(
 
     override fun getItemCount(): Int = list.size
 
-    class VacancyViewHolder(
-        private val binding: ItemVacancyBinding
-    ) : ViewHolder(binding.root) {
+}
 
-        fun bind(vacancy: VacancyUi) {
-            vacancy.show(binding)
+abstract class VacancyViewHolder(
+    view: View
+) : ViewHolder(view) {
+
+    open fun bind(vacancy: VacancyUi) = Unit
+
+    class Progress(view: View) : VacancyViewHolder(view)
+
+    class Error(
+        private val binding: ItemErrorBinding,
+        private val clickActions: ClickActions
+    ) : VacancyViewHolder(binding.root) {
+
+        override fun bind(vacancy: VacancyUi) {
+            vacancy.showError(binding)
+            binding.retryButton.setOnClickListener {
+                clickActions.retry()
+            }
         }
     }
 
+    class Vacancy(
+        private val binding: ItemVacancyBinding,
+        private val clickActions: ClickActions
+    ) : VacancyViewHolder(binding.root) {
+
+        override fun bind(vacancy: VacancyUi) {
+
+            binding.favoriteButton.setOnClickListener {
+                vacancy.changeFavoriteIcon(binding)
+                clickActions.clickFavorite(vacancy)
+            }
+            binding.respondButton.setOnClickListener {
+                clickActions.clickRespond(vacancy)
+            }
+
+            vacancy.show(binding)
+        }
+    }
 }
+
 
 private class Diff(
     private val old: List<VacancyUi>,
@@ -59,5 +124,12 @@ private class Diff(
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return old[oldItemPosition] == new[newItemPosition]
     }
+}
+
+interface ClickActions {
+
+    fun clickFavorite(vacancyUi: VacancyUi)
+    fun retry() = Unit
+    fun clickRespond(vacancyUi: VacancyUi) = Unit
 }
 

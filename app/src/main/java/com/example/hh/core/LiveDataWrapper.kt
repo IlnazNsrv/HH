@@ -2,6 +2,7 @@ package com.example.hh.core
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import java.io.Serializable
 
 interface LiveDataWrapper {
 
@@ -15,7 +16,8 @@ interface LiveDataWrapper {
 
     interface Mutable<T: UiState> : GetLiveData<T>, Update<T>
 
-    abstract class Abstract<T: UiState>(protected val liveData: MutableLiveData<T> = SingleLiveEvent()) : LiveDataWrapper.Mutable<T> {
+    abstract class Abstract<T : UiState>(protected val liveData: MutableLiveData<T> = SingleLiveEvent()) :
+        Mutable<T> {
 
         override fun liveData(): LiveData<T> {
             return liveData
@@ -25,6 +27,6 @@ interface LiveDataWrapper {
             liveData.value = data
         }
     }
-
-    interface UiState
 }
+
+interface UiState : Serializable

@@ -1,8 +1,8 @@
 package com.example.hh.views.button
 
-import com.example.hh.core.LiveDataWrapper
+import com.example.hh.core.UiState
 
-interface CustomButtonUiState : LiveDataWrapper.UiState {
+interface CustomButtonUiState : UiState {
 
     fun show(updateCustomButton: UpdateCustomButton)
 }

@@ -5,6 +5,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import com.example.hh.core.ClearViewModel
+import com.example.hh.core.ProvideViewModel
+import com.example.hh.main.presentation.screen.MainFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,5 +22,36 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        val viewModel =
+            (application as ProvideViewModel).viewModel<MainViewModel>(MainViewModel::class.java.simpleName)
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+
+        bottomNavigationView.setOnItemSelectedListener {
+            val fragment: Fragment = when (it.itemId) {
+                R.id.main -> {
+                    MainFragment()
+                }
+
+                else -> throw IllegalStateException()
+            }
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container_view, fragment)
+                .commit()
+            true
+        }
+
+        if (savedInstanceState == null)
+            bottomNavigationView.selectedItemId = R.id.main
+    }
+}
+
+class MainViewModel(
+    private val clearViewModel: ClearViewModel
+) : ViewModel() {
+
+    fun clearHome() = with(clearViewModel) {
+        clear(MainViewModel::class.java.simpleName)
     }
 }

@@ -2,26 +2,34 @@ package com.example.hh.main.presentation
 
 import android.view.View
 import com.example.hh.R
+import com.example.hh.databinding.ItemErrorBinding
 import com.example.hh.databinding.ItemVacancyBinding
-import com.example.hh.main.data.Experience
-import com.example.hh.main.data.MainVacancyCloud
-import com.example.hh.main.data.Salary
+import com.example.hh.main.data.cloud.Experience
+import com.example.hh.main.data.cloud.MainVacancyCloud
+import com.example.hh.main.data.cloud.Salary
+import com.squareup.picasso.Picasso
 
 interface VacancyUi {
 
-    fun show(binding: ItemVacancyBinding)
-    fun id() : String
-    fun changeFavoriteChosen() : VacancyUi
-    abstract fun favoriteChosen() : Boolean
+    fun type(): VacancyUiType
+
+    fun show(binding: ItemVacancyBinding) = Unit
+    fun changeFavoriteIcon(binding: ItemVacancyBinding) = Unit
+    fun showError(binding: ItemErrorBinding) = Unit
+    fun id(): String
+    fun changeFavoriteChosen(): VacancyUi
+    fun favoriteChosen(): Boolean
 
 
     class Base(
         private val vacancyCloud: MainVacancyCloud,
-        private val favoriteChosen: Boolean
+        private var favoriteChosen: Boolean
     ) : VacancyUi {
 
+        override fun type() = VacancyUiType.Vacancy
+
         override fun show(binding: ItemVacancyBinding) {
-            binding.vacancyTitle.setText(vacancyCloud.name)
+            binding.vacancyTitle.text = vacancyCloud.name
             binding.salary.apply {
                 if (vacancyCloud.salary == null)
                     visibility = View.GONE
@@ -30,18 +38,40 @@ interface VacancyUi {
                     setSalary(vacancyCloud.salary)
                 }
             }
-            binding.city.setText(vacancyCloud.area.name)
-            binding.companyName.setText(vacancyCloud.employer.name)
-            binding.experience.setText(setExperience(vacancyCloud.experience))
+            binding.city.text = vacancyCloud.area.name
+            binding.companyName.text = vacancyCloud.employer.name
+            binding.experience.text = setExperience(vacancyCloud.experience)
             binding.favoriteButton.apply {
-                if (favoriteChosen)
-                    setBackgroundColor(R.color.red)
+                if (favoriteChosen) {
+                    startAnimation(
+                        android.view.animation.AnimationUtils.loadAnimation(
+                            this.context,
+                            R.anim.fill_animation
+                        )
+                    )
+                    setBackgroundResource(R.drawable.ic_favorite_clicked)
+                }
+                else {
+                    startAnimation(
+                        android.view.animation.AnimationUtils.loadAnimation(
+                            this.context,
+                            R.anim.fill_animation
+                        )
+                    )
+                    setBackgroundResource(R.drawable.ic_favorite)
+                }
+
             }
+
+
             binding.respondButton.apply {
-                if (vacancyCloud.type.id == "closed"){
+                if (vacancyCloud.type.id == "closed") {
                     isEnabled = false
                     text = vacancyCloud.type.name
                 }
+            }
+            vacancyCloud.employer.logoUrls?.ninety?.let {
+                loadImage(it, binding)
             }
         }
 
@@ -49,91 +79,81 @@ interface VacancyUi {
             return vacancyCloud.id
         }
 
-        override fun changeFavoriteChosen(): VacancyUi {
-            return VacancyUi.Base(vacancyCloud, favoriteChosen)
-        }
-
-        override fun favoriteChosen(): Boolean {
-           return favoriteChosen
-        }
-
-        private fun setSalary(salary: Salary?) : String {
-            return when {
-                (salary!!.from != null && salary.to != null) -> {
-                    "${salary.from} - ${salary.to}"
+        override fun changeFavoriteIcon(binding: ItemVacancyBinding) {
+            binding.favoriteButton.apply {
+                if (!favoriteChosen) {
+                    startAnimation(
+                        android.view.animation.AnimationUtils.loadAnimation(
+                            this.context,
+                            R.anim.fill_animation
+                        )
+                    )
+                    setBackgroundResource(R.drawable.ic_favorite_clicked)
                 }
-                (salary.from != null) -> "от ${salary.from}"
-                (salary.to != null) -> "до ${salary.to}"
-                else -> salary.currency!!
-            }
-        }
-
-        private fun setExperience(experience: Experience?) : String {
-            return if (experience == null) {
-                "Без опыта"
-            } else experience.name
-        }
-
-    }
-
-
-
-
-    data class Base2(
-        private val id: String,
-        private val title: String,
-        private val salary: Salary?,
-        private val city: String,
-        private val companyName: String,
-        private val experience: Experience?,
-        private val favoriteChosen: Boolean
-    ): VacancyUi {
-
-        override fun show(binding: ItemVacancyBinding) {
-            binding.vacancyTitle.setText(title)
-            binding.salary.apply {
-                if (salary == null)
-                    visibility = View.GONE
                 else {
-                    visibility = View.VISIBLE
-                    text = salary(salary)
+                    startAnimation(
+                        android.view.animation.AnimationUtils.loadAnimation(
+                            this.context,
+                            R.anim.fill_animation
+                        )
+                    )
+                    setBackgroundResource(R.drawable.ic_favorite)
                 }
             }
-            binding.city.setText(city)
-            binding.companyName.setText(companyName)
-            binding.experience.setText(setExperience(experience))
         }
-
-        override fun id(): String {
-            TODO("Not yet implemented")
-        }
-
-        override fun changeFavoriteChosen(): VacancyUi {
-            TODO("Not yet implemented")
+        override fun changeFavoriteChosen() : VacancyUi  {
+            favoriteChosen = !favoriteChosen
+            return this
         }
 
         override fun favoriteChosen(): Boolean {
-            TODO("Not yet implemented")
+            return favoriteChosen
         }
 
-        private fun salary(salary: Salary?) : String {
+        private fun loadImage(imageUrl: String, binding: ItemVacancyBinding) {
+            Picasso.get().load(imageUrl).into(binding.companyImageView)
+        }
+
+        private fun setSalary(salary: Salary?): String {
             return when {
                 (salary!!.from != null && salary.to != null) -> {
                     "${salary.from} - ${salary.to}"
                 }
+
                 (salary.from != null) -> "от ${salary.from}"
                 (salary.to != null) -> "до ${salary.to}"
                 else -> salary.currency!!
             }
         }
 
-        private fun setExperience(experience: Experience?) : String {
+        private fun setExperience(experience: Experience?): String {
             return if (experience == null) {
                 "Без опыта"
             } else experience.name
         }
-
     }
 
+    object Progress : VacancyUi {
+        override fun type(): VacancyUiType = VacancyUiType.Progress
+
+        override fun id(): String = javaClass.simpleName
+
+        override fun changeFavoriteChosen(): VacancyUi = Progress
+        override fun favoriteChosen(): Boolean = false
+    }
+
+    data class Error(private val message: String) : VacancyUi {
+        override fun type(): VacancyUiType = VacancyUiType.Error
+
+        override fun showError(binding: ItemErrorBinding) {
+            binding.errorText.text = message
+        }
+
+        override fun id(): String = javaClass.simpleName + message
+
+        override fun changeFavoriteChosen(): VacancyUi = Error(message)
+        override fun favoriteChosen(): Boolean = false
+
+    }
 
 }

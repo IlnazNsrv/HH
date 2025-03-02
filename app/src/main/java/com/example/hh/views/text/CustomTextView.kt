@@ -6,7 +6,6 @@ import android.util.AttributeSet
 import androidx.annotation.ColorRes
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import com.example.hh.R
-import com.example.hh.core.ProvideViewModel
 
 class CustomTextView : androidx.appcompat.widget.AppCompatTextView, UpdateCustomTextView {
 
