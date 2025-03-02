@@ -6,8 +6,6 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:background="@drawable/rounded_background"
-    android:focusable="true"
-    android:clickable="true"
     android:orientation="vertical">
 
     <LinearLayout
@@ -36,13 +34,13 @@
             android:id="@+id/favoriteButton"
             android:layout_width="56dp"
             android:layout_height="wrap_content"
+            android:tag="default"
             android:layout_gravity="end"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:background="@drawable/ic_favorite"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackgroundBorderless" />
+            android:background="@drawable/favorite_state"
+            android:drawableStart="@drawable/ic_favorite" />
+
     </LinearLayout>
 
     <TextView

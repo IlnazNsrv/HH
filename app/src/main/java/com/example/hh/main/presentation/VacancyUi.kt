@@ -1,6 +1,7 @@
 package com.example.hh.main.presentation
 
 import android.view.View
+import com.example.hh.R
 import com.example.hh.databinding.ItemErrorBinding
 import com.example.hh.databinding.ItemVacancyBinding
 import com.example.hh.main.data.cloud.Experience
@@ -13,24 +14,17 @@ interface VacancyUi {
     fun type(): VacancyUiType
 
     fun show(binding: ItemVacancyBinding) = Unit
+    fun changeFavoriteIcon(binding: ItemVacancyBinding) = Unit
     fun showError(binding: ItemErrorBinding) = Unit
     fun id(): String
     fun changeFavoriteChosen(): VacancyUi
     fun favoriteChosen(): Boolean
-    fun favoriteOrNot(clickActions: ClickActions) = Unit
 
 
     class Base(
         private val vacancyCloud: MainVacancyCloud,
-        private val favoriteChosen: Boolean
+        private var favoriteChosen: Boolean
     ) : VacancyUi {
-
-//        override fun favoriteOrNot(clickActions: ClickActions) {
-//            if (favoriteChosen)
-//                clickActions.stop()
-//            else
-//                clickActions.favorite(this)
-//        }
 
         override fun type() = VacancyUiType.Vacancy
 
@@ -47,28 +41,28 @@ interface VacancyUi {
             binding.city.text = vacancyCloud.area.name
             binding.companyName.text = vacancyCloud.employer.name
             binding.experience.text = setExperience(vacancyCloud.experience)
-            //binding.favoriteButton.setBackgroundResource(if (favoriteChosen) R.drawable.ic_favorite_clicked else R.drawable.favorite_state)
-//            binding.favoriteButton.apply {
-//                if (favoriteChosen) {
-//                    startAnimation(
-//                        android.view.animation.AnimationUtils.loadAnimation(
-//                            this.context,
-//                            R.anim.fill_animation
-//                        )
-//                    )
-//                    setBackgroundResource(R.drawable.ic_favorite_clicked)
-//                }
-//                else {
-//                    startAnimation(
-//                        android.view.animation.AnimationUtils.loadAnimation(
-//                            this.context,
-//                            R.anim.fill_animation
-//                        )
-//                    )
-//                    setBackgroundResource(R.drawable.favorite_state)
-//                }
-//
-//            }
+            binding.favoriteButton.apply {
+                if (favoriteChosen) {
+                    startAnimation(
+                        android.view.animation.AnimationUtils.loadAnimation(
+                            this.context,
+                            R.anim.fill_animation
+                        )
+                    )
+                    setBackgroundResource(R.drawable.ic_favorite_clicked)
+                }
+                else {
+                    startAnimation(
+                        android.view.animation.AnimationUtils.loadAnimation(
+                            this.context,
+                            R.anim.fill_animation
+                        )
+                    )
+                    setBackgroundResource(R.drawable.ic_favorite)
+                }
+
+            }
+
 
             binding.respondButton.apply {
                 if (vacancyCloud.type.id == "closed") {
@@ -85,8 +79,31 @@ interface VacancyUi {
             return vacancyCloud.id
         }
 
-        override fun changeFavoriteChosen(): VacancyUi {
-            return VacancyUi.Base(vacancyCloud, !favoriteChosen)
+        override fun changeFavoriteIcon(binding: ItemVacancyBinding) {
+            binding.favoriteButton.apply {
+                if (!favoriteChosen) {
+                    startAnimation(
+                        android.view.animation.AnimationUtils.loadAnimation(
+                            this.context,
+                            R.anim.fill_animation
+                        )
+                    )
+                    setBackgroundResource(R.drawable.ic_favorite_clicked)
+                }
+                else {
+                    startAnimation(
+                        android.view.animation.AnimationUtils.loadAnimation(
+                            this.context,
+                            R.anim.fill_animation
+                        )
+                    )
+                    setBackgroundResource(R.drawable.ic_favorite)
+                }
+            }
+        }
+        override fun changeFavoriteChosen() : VacancyUi  {
+            favoriteChosen = !favoriteChosen
+            return this
         }
 
         override fun favoriteChosen(): Boolean {
@@ -138,68 +155,5 @@ interface VacancyUi {
         override fun favoriteChosen(): Boolean = false
 
     }
-
-
-    data class Base2(
-        private val id: String,
-        private val title: String,
-        private val salary: Salary?,
-        private val city: String,
-        private val companyName: String,
-        private val experience: Experience?,
-        private val favoriteChosen: Boolean
-    ) : VacancyUi {
-
-        override fun show(binding: ItemVacancyBinding) {
-            binding.vacancyTitle.text = title
-            binding.salary.apply {
-                if (salary == null)
-                    visibility = View.GONE
-                else {
-                    visibility = View.VISIBLE
-                    text = salary(salary)
-                }
-            }
-            binding.city.text = city
-            binding.companyName.text = companyName
-            binding.experience.text = setExperience(experience)
-        }
-
-        override fun type(): VacancyUiType {
-            TODO("Not yet implemented")
-        }
-
-        override fun id(): String {
-            TODO("Not yet implemented")
-        }
-
-        override fun changeFavoriteChosen(): VacancyUi {
-            TODO("Not yet implemented")
-        }
-
-        override fun favoriteChosen(): Boolean {
-            TODO("Not yet implemented")
-        }
-
-        private fun salary(salary: Salary?): String {
-            return when {
-                (salary!!.from != null && salary.to != null) -> {
-                    "${salary.from} - ${salary.to}"
-                }
-
-                (salary.from != null) -> "от ${salary.from}"
-                (salary.to != null) -> "до ${salary.to}"
-                else -> salary.currency!!
-            }
-        }
-
-        private fun setExperience(experience: Experience?): String {
-            return if (experience == null) {
-                "Без опыта"
-            } else experience.name
-        }
-
-    }
-
 
 }

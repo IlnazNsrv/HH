@@ -44,7 +44,6 @@ class VacanciesViewModel(
     }
 
     override fun clickRespond(vacancyUi: VacancyUi) {
-        liveDataWrapper.clickFavorite(vacancyUi)
     }
 
     override fun retry() {
