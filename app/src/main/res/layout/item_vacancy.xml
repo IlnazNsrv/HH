@@ -4,8 +4,10 @@
     android:id="@+id/itemContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/rounded_background"
     android:layout_margin="5dp"
+    android:background="@drawable/rounded_background"
+    android:focusable="true"
+    android:clickable="true"
     android:orientation="vertical">
 
     <LinearLayout
@@ -21,45 +23,43 @@
             android:layout_gravity="center_horizontal"
             android:layout_weight="2"
             android:gravity="center|end"
-            android:textSize="20sp"
             android:textColor="@color/white"
+            android:textSize="20sp"
             tools:text="vacancy title" />
 
         <Space
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
         <Button
             android:id="@+id/favoriteButton"
             android:layout_width="56dp"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/favorite_state"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/ic_favorite"
             android:clickable="true"
-            android:drawableStart="@drawable/ic_favorite" />
-        <!--            android:backgroundTint="@color/white"-->
-        <!--            android:textColorLink="@color/white" />-->
-
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/salary"
-        android:textColor="@color/white"
         android:layout_width="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/white"
         tools:text="Salary" />
 
     <TextView
         android:id="@+id/city"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginStart="8dp"
         android:layout_gravity="start"
+        android:layout_marginStart="8dp"
         android:textColor="@color/white"
         tools:text="City" />
 
@@ -67,37 +67,37 @@
         android:id="@+id/companyName"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_gravity="start"
         android:layout_marginStart="8dp"
         android:textColor="@color/white"
-        android:layout_gravity="start"
         tools:text="companyName" />
-    
+
     <ImageView
         android:id="@+id/companyImageView"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:src="@drawable/ic_launcher_foreground"
         android:contentDescription=""
-        android:visibility="gone"/>
+        android:src="@drawable/ic_launcher_foreground"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/experience"
-        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginStart="8dp"
         android:layout_gravity="start"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/white"
         tools:text="experience" />
 
     <Button
         android:id="@+id/respondButton"
-        android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_gravity="center_horizontal"
         android:backgroundTint="@color/DodgerBlue"
-        tools:text="respond" />
+        android:textColor="@color/white"
+        android:text="respond" />
 
 </LinearLayout>

@@ -1,7 +1,6 @@
 package com.example.hh.main.presentation
 
 import android.view.View
-import com.example.hh.R
 import com.example.hh.databinding.ItemErrorBinding
 import com.example.hh.databinding.ItemVacancyBinding
 import com.example.hh.main.data.cloud.Experience
@@ -11,12 +10,12 @@ import com.squareup.picasso.Picasso
 
 interface VacancyUi {
 
-    fun type() : VacancyUiType
+    fun type(): VacancyUiType
 
     fun show(binding: ItemVacancyBinding) = Unit
     fun showError(binding: ItemErrorBinding) = Unit
-    fun id() : String
-    fun changeFavoriteChosen() : VacancyUi
+    fun id(): String
+    fun changeFavoriteChosen(): VacancyUi
     fun favoriteChosen(): Boolean
     fun favoriteOrNot(clickActions: ClickActions) = Unit
 
@@ -48,24 +47,38 @@ interface VacancyUi {
             binding.city.text = vacancyCloud.area.name
             binding.companyName.text = vacancyCloud.employer.name
             binding.experience.text = setExperience(vacancyCloud.experience)
-            binding.favoriteButton.apply {
-                if (favoriteChosen)
-                    startAnimation(
-                        android.view.animation.AnimationUtils.loadAnimation(
-                            this.context,
-                            R.anim.fill_animation
-                        )
-                    )
-            }
+            //binding.favoriteButton.setBackgroundResource(if (favoriteChosen) R.drawable.ic_favorite_clicked else R.drawable.favorite_state)
+//            binding.favoriteButton.apply {
+//                if (favoriteChosen) {
+//                    startAnimation(
+//                        android.view.animation.AnimationUtils.loadAnimation(
+//                            this.context,
+//                            R.anim.fill_animation
+//                        )
+//                    )
+//                    setBackgroundResource(R.drawable.ic_favorite_clicked)
+//                }
+//                else {
+//                    startAnimation(
+//                        android.view.animation.AnimationUtils.loadAnimation(
+//                            this.context,
+//                            R.anim.fill_animation
+//                        )
+//                    )
+//                    setBackgroundResource(R.drawable.favorite_state)
+//                }
+//
+//            }
 
             binding.respondButton.apply {
-                if (vacancyCloud.type.id == "closed"){
+                if (vacancyCloud.type.id == "closed") {
                     isEnabled = false
                     text = vacancyCloud.type.name
                 }
             }
             vacancyCloud.employer.logoUrls?.ninety?.let {
-                loadImage(it, binding) }
+                loadImage(it, binding)
+            }
         }
 
         override fun id(): String {
@@ -73,29 +86,30 @@ interface VacancyUi {
         }
 
         override fun changeFavoriteChosen(): VacancyUi {
-            return Base(vacancyCloud, !favoriteChosen)
+            return VacancyUi.Base(vacancyCloud, !favoriteChosen)
         }
 
         override fun favoriteChosen(): Boolean {
-           return favoriteChosen
+            return favoriteChosen
         }
 
         private fun loadImage(imageUrl: String, binding: ItemVacancyBinding) {
             Picasso.get().load(imageUrl).into(binding.companyImageView)
         }
 
-        private fun setSalary(salary: Salary?) : String {
+        private fun setSalary(salary: Salary?): String {
             return when {
                 (salary!!.from != null && salary.to != null) -> {
                     "${salary.from} - ${salary.to}"
                 }
+
                 (salary.from != null) -> "от ${salary.from}"
                 (salary.to != null) -> "до ${salary.to}"
                 else -> salary.currency!!
             }
         }
 
-        private fun setExperience(experience: Experience?) : String {
+        private fun setExperience(experience: Experience?): String {
             return if (experience == null) {
                 "Без опыта"
             } else experience.name
@@ -126,8 +140,6 @@ interface VacancyUi {
     }
 
 
-
-
     data class Base2(
         private val id: String,
         private val title: String,
@@ -136,7 +148,7 @@ interface VacancyUi {
         private val companyName: String,
         private val experience: Experience?,
         private val favoriteChosen: Boolean
-    ): VacancyUi {
+    ) : VacancyUi {
 
         override fun show(binding: ItemVacancyBinding) {
             binding.vacancyTitle.text = title
@@ -169,18 +181,19 @@ interface VacancyUi {
             TODO("Not yet implemented")
         }
 
-        private fun salary(salary: Salary?) : String {
+        private fun salary(salary: Salary?): String {
             return when {
                 (salary!!.from != null && salary.to != null) -> {
                     "${salary.from} - ${salary.to}"
                 }
+
                 (salary.from != null) -> "от ${salary.from}"
                 (salary.to != null) -> "до ${salary.to}"
                 else -> salary.currency!!
             }
         }
 
-        private fun setExperience(experience: Experience?) : String {
+        private fun setExperience(experience: Experience?): String {
             return if (experience == null) {
                 "Без опыта"
             } else experience.name

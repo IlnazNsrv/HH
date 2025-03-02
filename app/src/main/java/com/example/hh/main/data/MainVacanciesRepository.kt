@@ -2,6 +2,7 @@ package com.example.hh.main.data
 
 import com.example.hh.main.data.cloud.LoadVacanciesCloudDataSource
 import com.example.hh.main.data.cloud.MainVacancyCloud
+import com.example.hh.main.presentation.VacancyUi
 
 interface MainVacanciesRepository {
 
@@ -16,7 +17,7 @@ interface MainVacanciesRepository {
             return try {
                 val data: List<MainVacancyCloud> = cloudDataSource.loadMainVacancies()
                 LoadVacanciesResult.Success(data.map {
-                    VacancyChoice(it, false)
+                    VacancyUi.Base(it, false)
                 })
             } catch (e: Exception) {
                 return LoadVacanciesResult.Error(handleError.handle(e))
@@ -34,12 +35,12 @@ interface LoadVacanciesResult {
     fun map(mapper: Mapper)
 
     interface Mapper {
-        fun mapSuccess(list: List<VacancyChoice>)
+        fun mapSuccess(list: List<VacancyUi>)
         fun mapError(message: String)
         fun mapProgress() = Unit
     }
 
-    data class Success(private val list: List<VacancyChoice>) : LoadVacanciesResult {
+    data class Success(private val list: List<VacancyUi>) : LoadVacanciesResult {
         override fun map(mapper: Mapper) {
             mapper.mapSuccess(list)
         }

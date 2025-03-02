@@ -1,9 +1,8 @@
 package com.example.hh.main.presentation
 
 import com.example.hh.core.UiState
-import java.io.Serializable
 
-interface VacanciesUiState : UiState, Serializable {
+interface VacanciesUiState : UiState {
     fun handle(viewModel: LoadVacancies) = Unit
     fun show(updateVacanciesRecyclerView: UpdateVacanciesRecyclerView) = Unit
 

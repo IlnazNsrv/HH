@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.hh.databinding.ItemErrorBinding
 import com.example.hh.databinding.ItemVacancyBinding
+import com.example.hh.main.data.BundleWrapper
 
 class VacanciesAdapter(
     private val typeList: List<VacancyUiType> = listOf(
@@ -15,7 +16,8 @@ class VacanciesAdapter(
         VacancyUiType.Progress,
         VacancyUiType.Vacancy
     ),
-    private val clickActions: ClickActions
+    private val clickActions: ClickActions,
+    private val liveDataWrapper: VacanciesLiveDataWrapper
 ) : RecyclerView.Adapter<VacancyViewHolder>() {
 
     private val list = mutableListOf<VacancyUi>()
@@ -30,6 +32,15 @@ class VacanciesAdapter(
         list.clear()
         list.addAll(newList)
         result.dispatchUpdatesTo(this)
+    }
+
+    fun save(bundle: BundleWrapper.Save<VacanciesUiState>) {
+        liveDataWrapper.save(bundle)
+    }
+
+    fun restore(bundleWrapper: BundleWrapper.Restore<VacanciesUiState>) {
+        val uiState = bundleWrapper.restore()
+        liveDataWrapper.update(uiState)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -83,10 +94,13 @@ abstract class VacancyViewHolder(
     ) : VacancyViewHolder(binding.root) {
 
         override fun bind(vacancy: VacancyUi) {
-//            binding.favoriteButton.setOnClickListener {
-//                //vacancy.favoriteOrNot(clickActions)
-//                clickActions.clickFavorite(vacancy)
-//            }
+
+            binding.favoriteButton.setOnClickListener {
+                clickActions.clickFavorite(vacancy)
+            }
+            binding.respondButton.setOnClickListener {
+                clickActions.retry()
+            }
             vacancy.show(binding)
         }
     }
@@ -114,6 +128,7 @@ interface ClickActions {
 
     fun clickFavorite(vacancyUi: VacancyUi)
     fun retry() = Unit
+    fun clickRespond(vacancyUi: VacancyUi) = Unit
     fun showError(value: String) = Unit
 }
 

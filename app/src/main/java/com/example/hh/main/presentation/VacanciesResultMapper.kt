@@ -1,16 +1,13 @@
 package com.example.hh.main.presentation
 
 import com.example.hh.main.data.LoadVacanciesResult
-import com.example.hh.main.data.VacancyChoice
 
 class VacanciesResultMapper(
     private val vacanciesLiveDataWrapper: VacanciesLiveDataWrapper
 ) : LoadVacanciesResult.Mapper {
 
-    override fun mapSuccess(list: List<VacancyChoice>) {
-        vacanciesLiveDataWrapper.update(VacanciesUiState.Show(list.map {
-            VacancyUi.Base(it.vacancyCloud, it.favoriteChosen)
-        }))
+    override fun mapSuccess(list: List<VacancyUi>) {
+        vacanciesLiveDataWrapper.update(VacanciesUiState.Show(list))
     }
 
     override fun mapError(message: String) {

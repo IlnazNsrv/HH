@@ -1,9 +1,11 @@
 package com.example.hh.main.presentation
 
 import android.content.Context
+import android.os.Bundle
 import android.util.AttributeSet
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hh.main.data.BundleWrapper
 
 class CustomRecyclerView : RecyclerView, UpdateVacanciesRecyclerView {
 
@@ -17,15 +19,24 @@ class CustomRecyclerView : RecyclerView, UpdateVacanciesRecyclerView {
 
     private lateinit var adapter: VacanciesAdapter
 
-    fun init(viewModel: VacanciesViewModel) {
 
-        adapter = VacanciesAdapter(clickActions = viewModel)
+    fun init(viewModel: VacanciesViewModel, liveDataWrapper: VacanciesLiveDataWrapper) {
+
+        adapter = VacanciesAdapter(clickActions = viewModel, liveDataWrapper = liveDataWrapper)
         setAdapter(adapter)
 
         viewModel.liveData().observe(findViewTreeLifecycleOwner()!!) {
             it.handle(viewModel)
             it.show(this)
         }
+    }
+
+    fun save(bundle: Bundle) {
+        adapter.save(BundleWrapper.Base(bundle))
+    }
+
+    fun restore(bundle: Bundle) {
+        adapter.restore(BundleWrapper.Base(bundle))
     }
 
     override fun update(list: List<VacancyUi>) {

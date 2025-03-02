@@ -12,15 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 
 class VacanciesViewModel(
-    //private val errorTextViewModel: CustomTextViewModel,
-    // private val retryButtonViewModel: CustomButtonViewModel,
-//    private val vacancyTitleViewModel: CustomTextViewModel,
-//    private val vacancySalaryViewModel: CustomTextViewModel,
-//    private val vacancyCityViewModel: CustomTextViewModel,
-//    private val vacancyCompanyNameViewModel: CustomTextViewModel,
-//    private val vacancyExperienceViewModel: CustomTextViewModel,
-//    private val vacancyFavoriteButtonViewModel: CustomButtonViewModel,
-//    private val vacancyRespondButtonViewModel: CustomButtonViewModel,
     private val mainVacanciesRepository: MainVacanciesRepository,
     private val runAsync: RunAsync,
     private val mapper: LoadVacanciesResult.Mapper,
@@ -29,16 +20,8 @@ class VacanciesViewModel(
 
     interface Mapper {
         fun map(
-            //errorTextViewModel: CustomTextViewModel,
-            //retryButtonViewModel: CustomButtonViewModel,
-//            vacancyTitleViewModel: CustomTextViewModel,
-//            vacancySalaryViewModel: CustomTextViewModel,
-//            vacancyCityViewModel: CustomTextViewModel,
-//            vacancyCompanyNameViewModel: CustomTextViewModel,
-//            vacancyExperienceViewModel: CustomTextViewModel,
-//            vacancyFavoriteButtonViewModel: CustomButtonViewModel,
-//            vacancyRespondButtonViewModel: CustomButtonViewModel,
-            vacanciesViewModel: VacanciesViewModel
+            vacanciesViewModel: VacanciesViewModel,
+            liveDataWrapper: VacanciesLiveDataWrapper
         )
     }
 
@@ -51,16 +34,8 @@ class VacanciesViewModel(
 
     fun init(mapper: Mapper) {
         mapper.map(
-            //errorTextViewModel,
-            // retryButtonViewModel,
-//            vacancyTitleViewModel,
-//            vacancySalaryViewModel,
-//            vacancyCityViewModel,
-//            vacancyCompanyNameViewModel,
-//            vacancyExperienceViewModel,
-//            vacancyFavoriteButtonViewModel,
-//            vacancyRespondButtonViewModel,
-            this
+            this,
+            liveDataWrapper
         )
     }
 
@@ -68,15 +43,19 @@ class VacanciesViewModel(
         liveDataWrapper.clickFavorite(vacancyUi)
     }
 
+    override fun clickRespond(vacancyUi: VacancyUi) {
+        liveDataWrapper.clickFavorite(vacancyUi)
+    }
+
     override fun retry() {
         //retryButtonViewModel.handleClick()
     }
 
-    fun save(bundleWrapper: BundleWrapper.Save) {
+    fun save(bundleWrapper: BundleWrapper.Save<VacanciesUiState>) {
         liveDataWrapper.save(bundleWrapper)
     }
 
-    fun restore(bundleWrapper: BundleWrapper.Restore) {
+    fun restore(bundleWrapper: BundleWrapper.Restore<VacanciesUiState>) {
         val vacancyState = bundleWrapper.restore()
         liveDataWrapper.update(vacancyState)
     }

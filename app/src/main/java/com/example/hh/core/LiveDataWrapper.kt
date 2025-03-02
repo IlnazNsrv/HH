@@ -2,6 +2,7 @@ package com.example.hh.core
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import java.io.Serializable
 
 interface LiveDataWrapper {
 
@@ -28,4 +29,4 @@ interface LiveDataWrapper {
     }
 }
 
-interface UiState
+interface UiState : Serializable
