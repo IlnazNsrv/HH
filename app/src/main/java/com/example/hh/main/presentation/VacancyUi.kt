@@ -7,7 +7,6 @@ import com.example.hh.databinding.ItemVacancyBinding
 import com.example.hh.main.data.cloud.Experience
 import com.example.hh.main.data.cloud.MainVacancyCloud
 import com.example.hh.main.data.cloud.Salary
-import com.squareup.picasso.Picasso
 
 interface VacancyUi {
 
@@ -70,9 +69,9 @@ interface VacancyUi {
                     text = vacancyCloud.type.name
                 }
             }
-            vacancyCloud.employer.logoUrls?.ninety?.let {
-                loadImage(it, binding)
-            }
+//            vacancyCloud.employer.logoUrls?.ninety?.let {
+//                loadImage(it, binding)
+//            }
         }
 
         override fun id(): String {
@@ -110,9 +109,9 @@ interface VacancyUi {
             return favoriteChosen
         }
 
-        private fun loadImage(imageUrl: String, binding: ItemVacancyBinding) {
-            Picasso.get().load(imageUrl).into(binding.companyImageView)
-        }
+//        private fun loadImage(imageUrl: String, binding: ItemVacancyBinding) {
+//            Picasso.get().load(imageUrl).into(binding.companyImageView)
+//        }
 
         private fun setSalary(salary: Salary?): String {
             return when {
