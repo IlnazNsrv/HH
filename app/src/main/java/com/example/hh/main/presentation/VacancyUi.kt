@@ -5,8 +5,8 @@ import com.example.hh.R
 import com.example.hh.databinding.ItemErrorBinding
 import com.example.hh.databinding.ItemVacancyBinding
 import com.example.hh.main.data.cloud.Experience
-import com.example.hh.main.data.cloud.MainVacancyCloud
 import com.example.hh.main.data.cloud.Salary
+import com.example.hh.main.data.cloud.VacancyCloud
 
 interface VacancyUi {
 
@@ -21,7 +21,7 @@ interface VacancyUi {
 
 
     class Base(
-        private val vacancyCloud: MainVacancyCloud,
+        private val vacancyCloud: VacancyCloud,
         private var favoriteChosen: Boolean
     ) : VacancyUi {
 

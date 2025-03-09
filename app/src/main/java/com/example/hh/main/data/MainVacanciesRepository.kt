@@ -1,7 +1,7 @@
 package com.example.hh.main.data
 
 import com.example.hh.main.data.cloud.LoadVacanciesCloudDataSource
-import com.example.hh.main.data.cloud.MainVacancyCloud
+import com.example.hh.main.data.cloud.VacancyCloud
 import com.example.hh.main.presentation.VacancyUi
 
 interface MainVacanciesRepository {
@@ -15,7 +15,7 @@ interface MainVacanciesRepository {
 
         override suspend fun vacancies(): LoadVacanciesResult {
             return try {
-                val data: List<MainVacancyCloud> = cloudDataSource.loadMainVacancies()
+                val data: List<VacancyCloud> = cloudDataSource.loadMainVacancies()
                 LoadVacanciesResult.Success(data.map {
                     VacancyUi.Base(it, false)
                 })
@@ -27,7 +27,7 @@ interface MainVacanciesRepository {
 }
 
 data class VacancyChoice(
-    val vacancyCloud: MainVacancyCloud,
+    val vacancyCloud: VacancyCloud,
     val favoriteChosen: Boolean
 )
 

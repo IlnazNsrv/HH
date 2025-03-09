@@ -8,13 +8,13 @@ import com.example.hh.databinding.ItemVacancyBinding
 
 interface VacancyUiType {
 
-    fun viewHolder(parent: ViewGroup, clickActions: Any): VacancyViewHolder
+    fun viewHolder(parent: ViewGroup, clickActions: ClickActions): VacancyViewHolder
 
     object Progress : VacancyUiType {
 
         override fun viewHolder(
             parent: ViewGroup,
-            clickActions: Any
+            clickActions: ClickActions
         ): VacancyViewHolder {
             return VacancyViewHolder.Progress(
                 ItemProgressBinding.inflate(
@@ -29,7 +29,7 @@ interface VacancyUiType {
 
         override fun viewHolder(
             parent: ViewGroup,
-            clickActions: Any
+            clickActions: ClickActions
         ): VacancyViewHolder {
             return VacancyViewHolder.Error(
                 ItemErrorBinding.inflate(
@@ -44,7 +44,7 @@ interface VacancyUiType {
 
         override fun viewHolder(
             parent: ViewGroup,
-            clickActions: Any
+            clickActions: ClickActions
         ): VacancyViewHolder {
             return VacancyViewHolder.Vacancy(
                 ItemVacancyBinding.inflate(
