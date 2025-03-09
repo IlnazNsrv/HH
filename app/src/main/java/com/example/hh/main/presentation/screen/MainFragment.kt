@@ -9,6 +9,7 @@ import com.example.hh.core.ProvideViewModel
 import com.example.hh.databinding.FragmentMainBinding
 import com.example.hh.main.presentation.VacanciesLiveDataWrapper
 import com.example.hh.main.presentation.VacanciesViewModel
+import com.example.hh.search.presentation.screen.SearchFragment
 
 class MainFragment : AbstractFragment<FragmentMainBinding>() {
 
@@ -33,6 +34,11 @@ class MainFragment : AbstractFragment<FragmentMainBinding>() {
                 binding.recyclerView.init(vacanciesViewModel, liveDataWrapper)
             }
         })
+
+        binding.filterButton.setOnClickListener {
+            val dialogFragment = SearchFragment()
+            dialogFragment.show(parentFragmentManager, SearchFragment.TAG)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

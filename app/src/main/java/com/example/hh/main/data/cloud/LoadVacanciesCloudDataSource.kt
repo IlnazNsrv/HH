@@ -5,7 +5,8 @@ import retrofit2.Retrofit
 
 interface LoadVacanciesCloudDataSource {
 
-    suspend fun loadMainVacancies(): List<MainVacancyCloud>
+    suspend fun loadMainVacancies(): List<VacancyCloud>
+    suspend fun loadVacancies(searchText: String) : List<VacancyCloud>
 
     class Base(
         private val service: MainVacanciesService,
@@ -22,9 +23,18 @@ interface LoadVacanciesCloudDataSource {
                 .create(MainVacanciesService::class.java), handleError
         )
 
-        override suspend fun loadMainVacancies(): List<MainVacancyCloud> {
+        override suspend fun loadMainVacancies(): List<VacancyCloud> {
             try {
                 val data = service.loadVacanciesForMainPage().execute()
+                return data.body()!!.items
+            } catch (e: Exception) {
+                throw handleError.handle(e)
+            }
+        }
+
+        override suspend fun loadVacancies(searchText: String): List<VacancyCloud> {
+            try {
+                val data = service.searchVacancies(searchText).execute()
                 return data.body()!!.items
             } catch (e: Exception) {
                 throw handleError.handle(e)

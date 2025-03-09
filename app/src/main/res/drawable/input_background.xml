@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Состояние, когда поле в фокусе -->
+    <item android:state_focused="true">
+        <shape android:shape="rectangle">
+            <stroke android:width="4dp" android:color="#FF6200EE" /> <!-- Фиолетовый -->
+            <corners android:radius="8dp" /> <!-- Закругленные углы -->
+        </shape>
+    </item>
+
+    <!-- Состояние, когда поле не в фокусе -->
+    <item>
+        <shape android:shape="rectangle">
+            <stroke android:width="2dp" android:color="#FFBB86FC" /> <!-- Светло-фиолетовый -->
+            <corners android:radius="8dp" /> <!-- Закругленные углы -->
+        </shape>
+    </item>
+</selector>

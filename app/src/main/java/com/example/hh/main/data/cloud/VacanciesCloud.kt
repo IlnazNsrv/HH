@@ -2,14 +2,14 @@ package com.example.hh.main.data.cloud
 
 import com.google.gson.annotations.SerializedName
 
-data class MainVacanciesCloud(
+data class VacanciesCloud(
     @SerializedName("request_id")
     val requestId: String?,
     @SerializedName("items")
-    val items: List<MainVacancyCloud>
+    val items: List<VacancyCloud>
 )
 
-data class MainVacancyCloud(
+data class VacancyCloud(
     @SerializedName("id")
     val id: String,
     @SerializedName("name")
