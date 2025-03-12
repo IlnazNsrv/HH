@@ -16,25 +16,25 @@ interface MainVacanciesService {
     @GET("vacancies")
     fun searchVacancies(
         @Query("text") searchText: String,
-        @Query("search_field") vacancySearchField: List<String> = listOf(
+        @Query("search_field") vacancySearchField: List<String>? = listOf(
             "name",
             "company_name",
             "description"
         ),
-        @Query("experience") experience: List<String> = listOf(
+        @Query("experience") experience: List<String>? = listOf(
             "noExperience",
             "between1And3",
             "between3And6",
             "moreThan6"
         ),
-        @Query("employment") employment: List<String> = listOf(
+        @Query("employment") employment: List<String>? = listOf(
             "full",
             "part",
             "project",
             "volunteer",
             "probation"
         ),
-        @Query("schedule") schedule: List<String> = listOf(
+        @Query("schedule") schedule: List<String>? = listOf(
             "fullDay",
             "shift",
             "flexible",
@@ -42,7 +42,7 @@ interface MainVacanciesService {
             "flyInFlyOut",
         ),
         @Query("area") area: String = "1",
-        @Query("salary") salary: String? = null,
+        @Query("salary") salary: Int? = null,
         @Query("only_with_salary") onlyWithSalary: Boolean = false
     ): Call<VacanciesCloud>
 }

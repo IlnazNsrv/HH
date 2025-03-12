@@ -7,7 +7,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
 import com.example.hh.R
-import com.example.hh.load.ProgressUi
+import com.example.hh.loadvacancies.ProgressUi
 
 class RecyclerUi {
 

@@ -1,4 +1,4 @@
-package com.example.hh.load
+package com.example.hh.loadvacancies
 
 import android.view.View
 import android.widget.LinearLayout

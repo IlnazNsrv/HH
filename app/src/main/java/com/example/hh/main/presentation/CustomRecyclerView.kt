@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.AttributeSet
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hh.loadvacancies.presentation.LoadVacanciesViewModel
 import com.example.hh.main.data.BundleWrapper
 
 class CustomRecyclerView : RecyclerView, UpdateVacanciesRecyclerView {
@@ -26,7 +27,17 @@ class CustomRecyclerView : RecyclerView, UpdateVacanciesRecyclerView {
         setAdapter(adapter)
 
         viewModel.liveData().observe(findViewTreeLifecycleOwner()!!) {
-            it.handle(viewModel)
+           it.handle(viewModel)
+            it.show(this)
+        }
+    }
+
+    fun initSearchFragment(viewModel: LoadVacanciesViewModel, liveDataWrapper: VacanciesLiveDataWrapper) {
+        adapter = VacanciesAdapter(clickActions = viewModel, liveDataWrapper = liveDataWrapper)
+        setAdapter(adapter)
+
+        viewModel.liveData().observe(findViewTreeLifecycleOwner()!!) {
+           // it.handle(viewModel)
             it.show(this)
         }
     }

@@ -1,4 +1,4 @@
-package com.example.hh.load
+package com.example.hh.loadvacancies
 
 import android.view.View
 import androidx.test.espresso.PerformException
@@ -8,7 +8,6 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.util.HumanReadables
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers.any
 import java.util.concurrent.TimeoutException
 
 fun waitTillDisplayed(id: Int, timeout: Long) = waitForView(id, isDisplayed(), timeout)

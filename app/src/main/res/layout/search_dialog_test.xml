@@ -44,10 +44,30 @@
         </LinearLayout>
 
 
-        <com.example.hh.views.input.CustomInputView
-            android:id="@+id/inputView"
+        <com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/inputLayout"
+            app:startIconDrawable="@drawable/ic_search"
             android:layout_width="match_parent"
-            android:layout_height="64dp" />
+            android:layout_height="80dp"
+            app:boxStrokeWidth="2dp"
+            app:hintEnabled="true"
+            app:hintAnimationEnabled="true"
+            android:layout_marginHorizontal="16dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputEditText"
+                android:layout_width="match_parent"
+                android:paddingStart="40dp"
+                android:theme="@style/MyEditTextTheme"
+                android:hint="Должность, ключевые слова"
+                android:background="@drawable/input_background"
+                android:textColor="@android:color/white"
+                android:layout_margin="8dp"
+                android:layout_height="wrap_content"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/cityButton"

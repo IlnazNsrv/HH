@@ -10,8 +10,8 @@ import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import com.example.hh.load.waitTillDisplayed
-import com.example.hh.load.waitTillDoesntExist
+import com.example.hh.loadvacancies.waitTillDisplayed
+import com.example.hh.loadvacancies.waitTillDoesntExist
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher

@@ -9,10 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import com.example.hh.core.ClearViewModel
 import com.example.hh.core.ProvideViewModel
+import com.example.hh.core.presentation.Screen
+import com.example.hh.loadvacancies.presentation.screen.LoadVacanciesScreen
+import com.example.hh.loadvacancies.presentation.screen.NavigateToLoadVacancies
 import com.example.hh.main.presentation.screen.MainFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), Navigate {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -45,6 +48,10 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null)
             bottomNavigationView.selectedItemId = R.id.main
     }
+
+    override fun navigate(screen: Screen) {
+        screen.show(R.id.fragment_container_view, supportFragmentManager)
+    }
 }
 
 class MainViewModel(
@@ -54,4 +61,10 @@ class MainViewModel(
     fun clearHome() = with(clearViewModel) {
         clear(MainViewModel::class.java.simpleName)
     }
+}
+
+interface Navigate : NavigateToLoadVacancies {
+    fun navigate(screen: Screen)
+
+    override fun navigateToLoadVacancies() = navigate(LoadVacanciesScreen)
 }
