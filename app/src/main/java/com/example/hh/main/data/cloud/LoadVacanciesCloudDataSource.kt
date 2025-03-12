@@ -1,12 +1,13 @@
 package com.example.hh.main.data.cloud
 
 import com.example.hh.main.data.HandleError
+import com.example.hh.search.presentation.VacanciesSearchParams
 import retrofit2.Retrofit
 
 interface LoadVacanciesCloudDataSource {
 
     suspend fun loadMainVacancies(): List<VacancyCloud>
-    suspend fun loadVacancies(searchText: String) : List<VacancyCloud>
+    suspend fun loadVacancies(searchParams: VacanciesSearchParams) : List<VacancyCloud>
 
     class Base(
         private val service: MainVacanciesService,
@@ -32,9 +33,18 @@ interface LoadVacanciesCloudDataSource {
             }
         }
 
-        override suspend fun loadVacancies(searchText: String): List<VacancyCloud> {
+        override suspend fun loadVacancies(searchParams: VacanciesSearchParams): List<VacancyCloud> {
             try {
-                val data = service.searchVacancies(searchText).execute()
+                val data = service.searchVacancies(
+                    searchText = searchParams.searchText,
+                    vacancySearchField = searchParams.vacancySearchField,
+                    experience = searchParams.experience,
+                    employment = searchParams.employment,
+                    schedule = searchParams.schedule,
+                    area = searchParams.area,
+                    salary = searchParams.salary,
+                    onlyWithSalary = searchParams.onlyWithSalary
+                ).execute()
                 return data.body()!!.items
             } catch (e: Exception) {
                 throw handleError.handle(e)

@@ -2,6 +2,8 @@ package com.example.hh.core
 
 import androidx.lifecycle.ViewModel
 import com.example.hh.MainViewModel
+import com.example.hh.loadvacancies.di.LoadVacanciesModule
+import com.example.hh.loadvacancies.presentation.LoadVacanciesViewModel
 import com.example.hh.main.di.VacanciesModule
 import com.example.hh.main.presentation.VacanciesViewModel
 
@@ -35,6 +37,10 @@ interface ProvideViewModel {
             MainViewModel::class.java.simpleName -> MainViewModel(core.clearViewModel)
 
             VacanciesViewModel::class.java.simpleName -> VacanciesModule(core).viewModel()
+
+            LoadVacanciesViewModel::class.java.simpleName -> LoadVacanciesModule(core).viewModel()
+
+            //SearchViewModel::class.java.simpleName -> SearchViewModule(core, VacanciesLiveDataWrapper.Base(), CustomInputLiveDataWrapper.Base()).viewModel()
 
             else -> throw IllegalStateException("unknown class: $tag")
 

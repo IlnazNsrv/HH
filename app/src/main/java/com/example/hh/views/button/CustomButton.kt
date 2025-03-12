@@ -26,6 +26,7 @@ class CustomButton : MaterialButton, UpdateCustomButton {
         }
 
         setOnClickListener {
+            //LoadVacanciesScreen
             viewModel.handleClick()
         }
     }

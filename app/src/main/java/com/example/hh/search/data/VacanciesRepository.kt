@@ -4,19 +4,20 @@ import com.example.hh.main.data.HandleError
 import com.example.hh.main.data.LoadVacanciesResult
 import com.example.hh.main.data.cloud.LoadVacanciesCloudDataSource
 import com.example.hh.main.presentation.VacancyUi
+import com.example.hh.search.presentation.VacanciesSearchParams
 
 interface VacanciesRepository {
 
-    suspend fun vacancies(searchText: String): LoadVacanciesResult
+    suspend fun vacancies(searchParams: VacanciesSearchParams): LoadVacanciesResult
 
     class Base(
         private val cloudDataSource: LoadVacanciesCloudDataSource,
         private val handleError: HandleError<String>
     ) : VacanciesRepository {
 
-        override suspend fun vacancies(searchText: String): LoadVacanciesResult {
+        override suspend fun vacancies(searchParams: VacanciesSearchParams): LoadVacanciesResult {
             return try {
-               val data = cloudDataSource.loadVacancies(searchText)
+               val data = cloudDataSource.loadVacancies(searchParams)
                 LoadVacanciesResult.Success(
                     data.map {
                         VacancyUi.Base(it, false)

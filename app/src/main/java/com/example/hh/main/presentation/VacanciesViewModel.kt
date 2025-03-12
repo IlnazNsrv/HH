@@ -72,6 +72,7 @@ class VacanciesViewModel(
 }
 
 interface LoadVacancies {
-    fun loadVacancies()
+    fun loadVacancies() = Unit
+    fun loadVacanciesWithQuery(query: String) = Unit
 }
 
