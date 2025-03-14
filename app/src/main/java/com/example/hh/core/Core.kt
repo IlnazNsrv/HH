@@ -14,4 +14,6 @@ class Core(val clearViewModel: ClearViewModel, private val context: Context) {
     val runAsync = RunAsync.Base()
 
     val provideRetrofitBuilder = ProvideRetrofitBuilder.Base()
+
+    val sharedPreferences = context.getSharedPreferences("hhAppData", Context.MODE_PRIVATE)
 }

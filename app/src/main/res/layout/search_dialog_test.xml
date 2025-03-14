@@ -58,6 +58,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputEditText"
                 android:layout_width="match_parent"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
                 android:paddingStart="40dp"
                 android:theme="@style/MyEditTextTheme"
                 android:hint="Должность, ключевые слова"

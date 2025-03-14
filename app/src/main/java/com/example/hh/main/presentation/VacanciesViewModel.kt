@@ -1,9 +1,8 @@
 package com.example.hh.main.presentation
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import com.example.hh.core.LiveDataWrapper
 import com.example.hh.core.RunAsync
+import com.example.hh.core.presentation.AbstractViewModel
 import com.example.hh.main.data.BundleWrapper
 import com.example.hh.main.data.LoadVacanciesResult
 import com.example.hh.main.data.MainVacanciesRepository
@@ -16,7 +15,7 @@ class VacanciesViewModel(
     private val runAsync: RunAsync,
     private val mapper: LoadVacanciesResult.Mapper,
     private val liveDataWrapper: VacanciesLiveDataWrapper,
-) : ViewModel(), ClickActions, LoadVacancies, LiveDataWrapper.GetLiveData<VacanciesUiState> {
+) : AbstractViewModel<VacanciesUiState>(), LoadVacancies {
 
     interface Mapper {
         fun map(

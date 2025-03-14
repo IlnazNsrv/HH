@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.hh.core.UiState
 import com.example.hh.databinding.ItemErrorBinding
 import com.example.hh.databinding.ItemVacancyBinding
 import com.example.hh.main.data.BundleWrapper
@@ -18,7 +19,7 @@ class VacanciesAdapter(
     ),
     private val clickActions: ClickActions,
     private val liveDataWrapper: VacanciesLiveDataWrapper
-) : RecyclerView.Adapter<VacancyViewHolder>() {
+) : RecyclerView.Adapter<VacancyViewHolder>(), UpdateItems<VacancyUi>, SaveItems<VacanciesUiState> {
 
     private val list = mutableListOf<VacancyUi>()
 
@@ -34,11 +35,22 @@ class VacanciesAdapter(
         result.dispatchUpdatesTo(this)
     }
 
-    fun save(bundle: BundleWrapper.Save<VacanciesUiState>) {
+    override fun updateItems(newList: List<VacancyUi>) {
+        val callback = Diff(
+            list,
+            newList
+        )
+        val result = DiffUtil.calculateDiff(callback)
+        list.clear()
+        list.addAll(newList)
+        result.dispatchUpdatesTo(this)
+    }
+
+     override fun save(bundle: BundleWrapper.Save<VacanciesUiState>) {
         liveDataWrapper.save(bundle)
     }
 
-    fun restore(bundleWrapper: BundleWrapper.Restore<VacanciesUiState>) {
+    override fun restore(bundleWrapper: BundleWrapper.Restore<VacanciesUiState>) {
         val uiState = bundleWrapper.restore()
         liveDataWrapper.update(uiState)
     }
@@ -65,6 +77,15 @@ class VacanciesAdapter(
 
     override fun getItemCount(): Int = list.size
 
+}
+
+interface SaveItems<T: UiState> {
+    fun save(bundle: BundleWrapper.Save<T>)
+    fun restore(bundleWrapper: BundleWrapper.Restore<T>)
+}
+
+interface UpdateItems<T: ItemsUi> {
+    fun updateItems(newList: List<T>)
 }
 
 abstract class VacancyViewHolder(
@@ -128,7 +149,7 @@ private class Diff(
 
 interface ClickActions {
 
-    fun clickFavorite(vacancyUi: VacancyUi)
+    fun clickFavorite(vacancyUi: VacancyUi) = Unit
     fun retry() = Unit
     fun clickRespond(vacancyUi: VacancyUi) = Unit
 }

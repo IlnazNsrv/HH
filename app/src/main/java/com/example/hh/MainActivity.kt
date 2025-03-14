@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModel
 import com.example.hh.core.ClearViewModel
 import com.example.hh.core.ProvideViewModel
 import com.example.hh.core.presentation.Screen
+import com.example.hh.filters.presentation.screen.FiltersScreen
+import com.example.hh.filters.presentation.screen.NavigateToFilters
 import com.example.hh.loadvacancies.presentation.screen.LoadVacanciesScreen
 import com.example.hh.loadvacancies.presentation.screen.NavigateToLoadVacancies
 import com.example.hh.main.presentation.screen.MainFragment
@@ -63,8 +65,9 @@ class MainViewModel(
     }
 }
 
-interface Navigate : NavigateToLoadVacancies {
+interface Navigate : NavigateToLoadVacancies, NavigateToFilters {
     fun navigate(screen: Screen)
 
     override fun navigateToLoadVacancies() = navigate(LoadVacanciesScreen)
+    override fun navigateToFilters() = navigate(FiltersScreen)
 }
