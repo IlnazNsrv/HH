@@ -5,6 +5,7 @@ import com.example.hh.core.RunAsync
 import com.example.hh.loadvacancies.presentation.screen.NavigateToLoadVacancies
 import com.example.hh.main.presentation.VacanciesResultMapper
 import com.example.hh.search.data.VacanciesRepository
+import java.io.Serializable
 
 class SearchViewModel(
     private val runAsync: RunAsync,
@@ -49,7 +50,7 @@ class VacanciesSearchParams private constructor(
     val area: String,
     val salary: Int?,
     val onlyWithSalary: Boolean
-) {
+) : Serializable {
     class Builder {
         private var searchText: String = ""
         private var vacancySearchField: MutableList<String>? = null
@@ -69,38 +70,84 @@ class VacanciesSearchParams private constructor(
 
         fun setSearchText(searchText: String) = apply { this.searchText = searchText }
 
-        fun setVacancySearchField(vacancySearchField: String) = apply {
-            if (this.vacancySearchField == null)
-                this.vacancySearchField = mutableListOf()
-            this.vacancySearchField?.add(vacancySearchField)
+        fun setVacancySearchField(vacancySearchField: String) {
+            if (this.vacancySearchField == null) {
+                this.vacancySearchField = mutableListOf(vacancySearchField)
+                return
+            }
+
+            if (this.vacancySearchField!!.contains(vacancySearchField)) {
+                this.vacancySearchField!!.remove(vacancySearchField)
+            } else
+                this.vacancySearchField!!.add(vacancySearchField)
+
+            if (this.vacancySearchField!!.isEmpty()) {
+                this.vacancySearchField = null
+            }
         }
 
-        fun setExperience(experienceValue: String) = apply {
-            if (experience == null)
-                experience = mutableListOf()
-            experience?.add(experienceValue)
+        fun setExperience(experienceValue: String) {
+            if (experience == null) {
+                experience = mutableListOf(experienceValue)
+                return
+            }
+            if (experience!!.contains(experienceValue)) {
+                experience!!.remove(experienceValue)
+            } else
+                experience!!.add(experienceValue)
+
+            if (experience!!.isEmpty()) {
+                experience = null
+            }
         }
 
-        fun setEmployment(employmentValue: String) = apply {
-            if (employment == null)
-                employment = mutableListOf()
-            employment?.add(employmentValue)
+        fun setEmployment(employmentValue: String) {
+            if (employment == null) {
+                employment = mutableListOf(employmentValue)
+                return
+            }
+
+            if (employment!!.contains(employmentValue)) {
+                employment!!.remove(employmentValue)
+            } else
+                employment!!.add(employmentValue)
+
+            if (employment!!.isEmpty()) {
+                employment = null
+            }
         }
 
-        fun setSchedule(scheduleValue: String) = apply {
-            if (schedule == null)
+        fun setSchedule(scheduleValue: String) {
+            if (schedule == null) {
                 schedule = mutableListOf()
-            schedule?.add(scheduleValue)
+                return
+            }
+            if (schedule!!.contains(scheduleValue)) {
+                schedule!!.remove(scheduleValue)
+            } else
+                schedule!!.add(scheduleValue)
+
+            if (schedule!!.isEmpty()) {
+                schedule = null
+            }
         }
 
         fun setArea(areaValue: String) = apply { this.area = areaValue }
 
         fun setSalary(salary: Int) = apply { this.salary = salary }
 
-        fun setOnlyWithSalary(onlyWithSalary: Boolean) = apply { this.onlyWithSalary = onlyWithSalary }
+        fun setOnlyWithSalary(onlyWithSalary: Boolean) =
+            apply { this.onlyWithSalary = onlyWithSalary }
 
         fun build() = VacanciesSearchParams(
-            searchText, vacancySearchField, experience, employment, schedule, area, salary, onlyWithSalary
+            searchText,
+            vacancySearchField,
+            experience,
+            employment,
+            schedule,
+            area,
+            salary,
+            onlyWithSalary
         )
 
     }

@@ -46,7 +46,8 @@ class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
                 loadVacanciesViewModel: LoadVacanciesViewModel,
                 liveDataWrapper: VacanciesLiveDataWrapper
             ) {
-                binding.recyclerView.initSearchFragment(loadVacanciesViewModel, liveDataWrapper)
+                //binding.recyclerView.initSearchFragment(loadVacanciesViewModel, liveDataWrapper)
+               // binding.recyclerView.init(loadVacanciesViewModel, liveDataWrapper)
             }
         })
 

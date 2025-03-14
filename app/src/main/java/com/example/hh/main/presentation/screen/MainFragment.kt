@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.example.hh.core.AbstractFragment
 import com.example.hh.core.ProvideViewModel
 import com.example.hh.databinding.FragmentMainBinding
+import com.example.hh.filters.presentation.screen.NavigateToFilters
 import com.example.hh.main.presentation.VacanciesLiveDataWrapper
 import com.example.hh.main.presentation.VacanciesViewModel
 import com.example.hh.search.presentation.screen.SearchFragment
@@ -37,9 +38,13 @@ class MainFragment : AbstractFragment<FragmentMainBinding>() {
 
         binding.filterButton.setOnClickListener {
             val dialogFragment = SearchFragment()
-            dialogFragment.show(parentFragmentManager, SearchFragment.TAG)
+           // dialogFragment.show(parentFragmentManager, SearchFragment.TAG)
+            navigate(requireActivity() as NavigateToFilters)
+
         }
     }
+
+    private fun navigate(navigate: NavigateToFilters) = navigate.navigateToFilters()
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)

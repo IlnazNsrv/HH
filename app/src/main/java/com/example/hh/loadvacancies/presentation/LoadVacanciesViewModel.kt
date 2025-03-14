@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.hh.core.LiveDataWrapper
 import com.example.hh.core.RunAsync
+import com.example.hh.filters.data.cache.ChosenFiltersCache
 import com.example.hh.main.data.LoadVacanciesResult
 import com.example.hh.main.presentation.ClickActions
 import com.example.hh.main.presentation.VacanciesLiveDataWrapper
@@ -16,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 
 class LoadVacanciesViewModel(
+    private val filtersCache: ChosenFiltersCache,
     private val liveDataWrapper: VacanciesLiveDataWrapper,
     private val runAsync: RunAsync,
     private val repository: VacanciesRepository,
@@ -38,7 +40,13 @@ class LoadVacanciesViewModel(
         )
     }
 
+    fun searchWithFilters() {
+        val cacheFilters = filtersCache.read()
+        loadVacanciesWithQuery(cacheFilters)
+    }
+
     fun inputSearch(text: String) {
+        val cacheFilters = filtersCache.read()
         searchParams.setSearchText(text)
         loadVacanciesWithQuery(searchParams.build())
     }
@@ -46,7 +54,7 @@ class LoadVacanciesViewModel(
     fun chooseFilterButton(text: String) {
     }
 
-    val searchParams = VacanciesSearchParams.Builder()
+   private var searchParams = VacanciesSearchParams.Builder()
 
     private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 

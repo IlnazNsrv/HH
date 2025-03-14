@@ -8,7 +8,7 @@ import com.example.hh.main.data.cloud.Experience
 import com.example.hh.main.data.cloud.Salary
 import com.example.hh.main.data.cloud.VacancyCloud
 
-interface VacancyUi {
+interface VacancyUi : ItemsUi {
 
     fun type(): VacancyUiType
 
@@ -154,5 +154,6 @@ interface VacancyUi {
         override fun favoriteChosen(): Boolean = false
 
     }
-
 }
+
+interface ItemsUi

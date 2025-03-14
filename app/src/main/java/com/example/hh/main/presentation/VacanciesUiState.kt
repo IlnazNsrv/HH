@@ -4,7 +4,7 @@ import com.example.hh.core.UiState
 
 interface VacanciesUiState : UiState {
     fun handle(viewModel: LoadVacancies) = Unit
-    fun show(updateVacanciesRecyclerView: UpdateVacanciesRecyclerView) = Unit
+    fun show(updateItemsRecyclerView: UpdateItemsRecyclerView<VacancyUi>) = Unit
 
     fun chooseFavorite(vacancyUi: VacancyUi) : VacanciesUiState = this
 
@@ -16,21 +16,21 @@ interface VacanciesUiState : UiState {
     }
 
     data class Error(private val value: List<VacancyUi.Error>) : VacanciesUiState {
-        override fun show(updateVacanciesRecyclerView: UpdateVacanciesRecyclerView) {
-            updateVacanciesRecyclerView.update(value)
+        override fun show(updateItemsRecyclerView: UpdateItemsRecyclerView<VacancyUi>) {
+            updateItemsRecyclerView.update(value)
         }
     }
 
     data class Progress(private val value: List<VacancyUi.Progress>) : VacanciesUiState {
-        override fun show(updateVacanciesRecyclerView: UpdateVacanciesRecyclerView) {
-            updateVacanciesRecyclerView.update(value)
+        override fun show(updateItemsRecyclerView: UpdateItemsRecyclerView<VacancyUi>) {
+            updateItemsRecyclerView.update(value)
         }
     }
 
     data class Show(private val list: List<VacancyUi>) : VacanciesUiState {
 
-        override fun show(updateVacanciesRecyclerView: UpdateVacanciesRecyclerView) {
-            updateVacanciesRecyclerView.update(list)
+        override fun show(updateItemsRecyclerView: UpdateItemsRecyclerView<VacancyUi>) {
+            updateItemsRecyclerView.update(list)
         }
 
         override fun chooseFavorite(vacancyUi: VacancyUi): VacanciesUiState {
@@ -44,8 +44,8 @@ interface VacanciesUiState : UiState {
 
     object Hide : VacanciesUiState {
 
-        override fun show(updateVacanciesRecyclerView: UpdateVacanciesRecyclerView) {
-            updateVacanciesRecyclerView.update(emptyList())
+        override fun show(updateItemsRecyclerView: UpdateItemsRecyclerView<VacancyUi>) {
+            updateItemsRecyclerView.update(emptyList())
         }
     }
 }
