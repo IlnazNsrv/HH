@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.FragmentManager
-import com.example.hh.core.AbstractFragment
 import com.example.hh.core.ProvideViewModel
+import com.example.hh.core.presentation.AbstractFragment
 import com.example.hh.databinding.FragmentLoadVacanciesBinding
 import com.example.hh.loadvacancies.presentation.LoadVacanciesViewModel
 import com.example.hh.main.presentation.VacanciesLiveDataWrapper

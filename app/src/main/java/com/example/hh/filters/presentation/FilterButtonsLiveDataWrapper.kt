@@ -1,19 +1,19 @@
 package com.example.hh.filters.presentation
 
 import com.example.hh.core.LiveDataWrapper
+import com.example.hh.main.presentation.ItemsUi
 
-interface FilterButtonsLiveDataWrapper : LiveDataWrapper.Mutable<ButtonsUiState> {
+interface FilterButtonsLiveDataWrapper<T: ItemsUi> : LiveDataWrapper.Mutable<ButtonsUiState<T>> {
 
-    fun clickButton(buttonUi: FilterButtonUi)
+    fun clickButton(buttonUi: T)
 
-    class Base : LiveDataWrapper.Abstract<ButtonsUiState>(), FilterButtonsLiveDataWrapper {
+    class Base<T: ItemsUi> : LiveDataWrapper.Abstract<ButtonsUiState<T>>(), FilterButtonsLiveDataWrapper<T> {
 
-        override fun clickButton(buttonUi: FilterButtonUi) {
+        override fun clickButton(buttonUi: T) {
             liveData.value?.let {
                 val newUiState = it.click(buttonUi)
                 update(newUiState)
             }
         }
-
     }
 }

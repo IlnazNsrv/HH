@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.hh.core.AbstractFragment
 import com.example.hh.core.ProvideViewModel
+import com.example.hh.core.presentation.AbstractFragment
 import com.example.hh.databinding.FragmentMainBinding
 import com.example.hh.filters.presentation.screen.NavigateToFilters
 import com.example.hh.main.presentation.VacanciesLiveDataWrapper

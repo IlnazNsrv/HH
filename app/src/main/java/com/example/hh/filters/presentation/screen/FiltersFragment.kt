@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.hh.core.AbstractFragment
 import com.example.hh.core.ProvideViewModel
+import com.example.hh.core.presentation.AbstractFragment
 import com.example.hh.databinding.FragmentFiltersBinding
 import com.example.hh.filters.presentation.CreateFilters
+import com.example.hh.filters.presentation.FilterButtonUi
 import com.example.hh.filters.presentation.FilterButtonsLiveDataWrapper
 import com.example.hh.filters.presentation.FiltersViewModel
 import com.example.hh.loadvacancies.presentation.screen.NavigateToLoadVacancies
@@ -29,10 +30,10 @@ class FiltersFragment : AbstractFragment<FragmentFiltersBinding>() {
         viewModel.init(object : FiltersViewModel.Mapper {
             override fun map(
                 filtersViewModel: FiltersViewModel,
-                experienceButtonsLiveDataWrapper: FilterButtonsLiveDataWrapper,
-                scheduleButtonsLiveDataWrapper: FilterButtonsLiveDataWrapper,
-                employmentButtonLiveDataWrapper: FilterButtonsLiveDataWrapper,
-                searchFieldButtonLiveDataWrapper: FilterButtonsLiveDataWrapper
+                experienceButtonsLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
+                scheduleButtonsLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
+                employmentButtonLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
+                searchFieldButtonLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>
             ) {
                 binding.nameRecyclerView.initButtons(
                     viewModel,
