@@ -45,9 +45,7 @@ interface FilterButtonUi : ItemsUi {
         }
 
         override fun changeChose(): FilterButtonUi {
-            //chosen = !chosen
             return Base(textResId, queryForFilter, listId, !chosen)
-            // return this
         }
 
         override fun chosen(): Boolean {

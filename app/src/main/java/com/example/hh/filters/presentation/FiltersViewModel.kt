@@ -8,26 +8,25 @@ import com.example.hh.loadvacancies.presentation.screen.NavigateToLoadVacancies
 import com.example.hh.search.presentation.VacanciesSearchParams
 
 class FiltersViewModel(
-    private val experienceButtonsLiveDataWrapper: FilterButtonsLiveDataWrapper,
-    private val scheduleButtonsLiveDataWrapper: FilterButtonsLiveDataWrapper,
-    private val employmentButtonLiveDataWrapper: FilterButtonsLiveDataWrapper,
-    private val searchFieldButtonLiveDataWrapper: FilterButtonsLiveDataWrapper,
+    private val experienceButtonsLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
+    private val scheduleButtonsLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
+    private val employmentButtonLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
+    private val searchFieldButtonLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
     private val filtersRepository: FiltersRepository,
     private val filtersCreate: CreateFilters
-) : ViewModel(), ChooseButton, LiveDataWrapper.GetLiveDataWithTag<ButtonsUiState> {
+) : ViewModel(), ChooseButton, LiveDataWrapper.GetLiveDataWithTag<ButtonsUiState<FilterButtonUi>> {
 
     interface Mapper {
         fun map(
             filtersViewModel: FiltersViewModel,
-            experienceButtonsLiveDataWrapper: FilterButtonsLiveDataWrapper,
-            scheduleButtonsLiveDataWrapper: FilterButtonsLiveDataWrapper,
-            employmentButtonLiveDataWrapper: FilterButtonsLiveDataWrapper,
-            searchFieldButtonLiveDataWrapper: FilterButtonsLiveDataWrapper,
+            experienceButtonsLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
+            scheduleButtonsLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
+            employmentButtonLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
+            searchFieldButtonLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
         )
     }
 
     fun init() {
-        experienceFilters = filtersCreate.initExperience()
         experienceButtonsLiveDataWrapper.update(ButtonsUiState.Show(filtersCreate.initExperience()))
         scheduleButtonsLiveDataWrapper.update(ButtonsUiState.Show(filtersCreate.initSchedule()))
         employmentButtonLiveDataWrapper.update(ButtonsUiState.Show(filtersCreate.initEmployment()))
@@ -44,37 +43,31 @@ class FiltersViewModel(
         )
     }
 
-    private var experienceFilters = listOf<FilterButtonUi>()
-
     private val searchParams = VacanciesSearchParams.Builder()
-
-    fun clickExperienceButton(text: String) {
-        searchParams.setSearchText(text)
-    }
 
     fun clickSearchVacanciesButton(navigate: NavigateToLoadVacancies) {
         filtersRepository.saveParams(searchParams.build())
         navigate(navigate)
     }
 
-    override fun choose(buttonUi: FilterButtonUi) {
+    override fun choose(buttonUi: FilterButtonUi) = with(CreateFilters) {
         when (buttonUi.listId()) {
-            CreateFilters.EXPERIENCE_TAG -> {
+            EXPERIENCE_TAG -> {
                 experienceButtonsLiveDataWrapper.clickButton(buttonUi)
                 searchParams.setExperience(buttonUi.query())
             }
 
-            CreateFilters.SCHEDULE_TAG -> {
+            SCHEDULE_TAG -> {
                 scheduleButtonsLiveDataWrapper.clickButton(buttonUi)
                 searchParams.setSchedule(buttonUi.query())
             }
 
-            CreateFilters.SEARCH_FIELD_TAG -> {
+            SEARCH_FIELD_TAG -> {
                 searchFieldButtonLiveDataWrapper.clickButton(buttonUi)
                 searchParams.setVacancySearchField(buttonUi.query())
             }
 
-            CreateFilters.EMPLOYMENT_TAG -> {
+            EMPLOYMENT_TAG -> {
                 employmentButtonLiveDataWrapper.clickButton(buttonUi)
                 searchParams.setEmployment(buttonUi.query())
             }
@@ -85,23 +78,7 @@ class FiltersViewModel(
 
     private fun navigate(navigate: NavigateToLoadVacancies) = navigate.navigateToLoadVacancies()
 
-    fun liveDataExperience(): LiveData<ButtonsUiState> {
-        return experienceButtonsLiveDataWrapper.liveData()
-    }
-
-    fun liveDataSchedule(): LiveData<ButtonsUiState> {
-        return scheduleButtonsLiveDataWrapper.liveData()
-    }
-
-    fun liveDataSearchField(): LiveData<ButtonsUiState> {
-        return searchFieldButtonLiveDataWrapper.liveData()
-    }
-
-    fun liveDataEmployment(): LiveData<ButtonsUiState> {
-        return employmentButtonLiveDataWrapper.liveData()
-    }
-
-    override fun liveData(tag: String): LiveData<ButtonsUiState> {
+    override fun liveData(tag: String): LiveData<ButtonsUiState<FilterButtonUi>> {
         return when (tag) {
             CreateFilters.EXPERIENCE_TAG -> experienceButtonsLiveDataWrapper.liveData()
             CreateFilters.SCHEDULE_TAG -> scheduleButtonsLiveDataWrapper.liveData()

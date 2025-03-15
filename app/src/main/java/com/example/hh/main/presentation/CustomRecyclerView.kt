@@ -54,7 +54,7 @@ class CustomRecyclerView<T : ItemsUi, V : UiState, U : AbstractViewModel<UiState
 
     fun initButtons(
         viewModel: FiltersViewModel,
-        liveDataWrapper: FilterButtonsLiveDataWrapper,
+        liveDataWrapper: FilterButtonsLiveDataWrapper<T>,
         type: String
     ) {
         adapter = FiltersAdapter(clickListener = viewModel)
