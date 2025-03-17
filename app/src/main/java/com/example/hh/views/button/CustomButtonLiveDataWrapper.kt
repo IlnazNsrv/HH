@@ -1,8 +1,9 @@
 package com.example.hh.views.button
 
 import com.example.hh.core.LiveDataWrapper
+import com.example.hh.core.UiState
 
-interface CustomButtonLiveDataWrapper : LiveDataWrapper.Mutable<CustomButtonUiState> {
+interface CustomButtonLiveDataWrapper<T: UiState> : LiveDataWrapper.Mutable<T> {
 
-    class Base : LiveDataWrapper.Abstract<CustomButtonUiState>(), CustomButtonLiveDataWrapper
+    class Base<T : UiState> : LiveDataWrapper.Abstract<T>(), CustomButtonLiveDataWrapper<T>
 }

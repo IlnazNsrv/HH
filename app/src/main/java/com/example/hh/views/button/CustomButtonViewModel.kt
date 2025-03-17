@@ -9,7 +9,7 @@ import kotlinx.coroutines.SupervisorJob
 
 class CustomButtonViewModel(
     private val handleButtonAction: HandleButtonAction,
-    private val customButtonLiveDataWrapper: CustomButtonLiveDataWrapper
+    private val customButtonLiveDataWrapper: CustomButtonLiveDataWrapper<CustomButtonUiState>
 ) : ViewModel(), LiveDataWrapper.GetLiveData<CustomButtonUiState> {
 
     private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)

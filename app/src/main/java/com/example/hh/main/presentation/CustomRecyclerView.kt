@@ -4,15 +4,12 @@ import android.content.Context
 import android.os.Bundle
 import android.util.AttributeSet
 import androidx.lifecycle.findViewTreeLifecycleOwner
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hh.core.UiState
 import com.example.hh.core.presentation.AbstractViewModel
-import com.example.hh.filters.presentation.FilterButtonUi
+import com.example.hh.filters.presentation.ButtonsUiState
 import com.example.hh.filters.presentation.FilterButtonsLiveDataWrapper
 import com.example.hh.filters.presentation.FiltersAdapter
-import com.example.hh.filters.presentation.FiltersViewModel
-import com.example.hh.loadvacancies.presentation.LoadVacanciesViewModel
 import com.example.hh.main.data.BundleWrapper
 
 class CustomRecyclerView<T : ItemsUi, V : UiState, U : AbstractViewModel<UiState>> : RecyclerView, UpdateItemsRecyclerView<T> {
@@ -28,52 +25,53 @@ class CustomRecyclerView<T : ItemsUi, V : UiState, U : AbstractViewModel<UiState
     private lateinit var adapter: Adapter<out ViewHolder>
 
 
-    fun init(viewModel: U, liveDataWrapper: VacanciesLiveDataWrapper) {
+    fun init(viewModel: U, liveDataWrapper: VacanciesLiveDataWrapper, tag: String = "") {
 
         adapter = VacanciesAdapter(clickActions = viewModel, liveDataWrapper = liveDataWrapper)
         setAdapter(adapter)
 
-        viewModel.liveData().observe(findViewTreeLifecycleOwner()!!) {
+        viewModel.liveData(tag).observe(findViewTreeLifecycleOwner()!!) {
             (it as VacanciesUiState).handle(viewModel as LoadVacancies)
             it.show(this as UpdateItemsRecyclerView<VacancyUi>)
+
         }
     }
 
-    fun initSearchFragment(
-        viewModel: LoadVacanciesViewModel,
-        liveDataWrapper: VacanciesLiveDataWrapper
-    ) {
-        adapter = VacanciesAdapter(clickActions = viewModel, liveDataWrapper = liveDataWrapper)
-        setAdapter(adapter)
-
-        viewModel.liveData().observe(findViewTreeLifecycleOwner()!!) {
-            // it.handle(viewModel)
-            it.show(this as UpdateItemsRecyclerView<VacancyUi>)
-        }
-    }
+//    fun initSearchFragment(
+//        viewModel: LoadVacanciesViewModel,
+//        liveDataWrapper: VacanciesLiveDataWrapper
+//    ) {
+//        adapter = VacanciesAdapter(clickActions = viewModel, liveDataWrapper = liveDataWrapper)
+//        setAdapter(adapter)
+//
+//        viewModel.liveData().observe(findViewTreeLifecycleOwner()!!) {
+//            // it.handle(viewModel)
+//            it.show(this as UpdateItemsRecyclerView<VacancyUi>)
+//        }
+//    }
 
     fun initButtons(
-        viewModel: FiltersViewModel,
+        viewModel: U,
         liveDataWrapper: FilterButtonsLiveDataWrapper<T>,
         type: String
     ) {
         adapter = FiltersAdapter(clickListener = viewModel)
         setAdapter(adapter)
 
-        val animator: ItemAnimator = object : DefaultItemAnimator() {
-            override fun animateRemove(holder: ViewHolder): Boolean {
-                return false // Отключаем анимацию удаления
-            }
-
-            override fun animateAdd(holder: ViewHolder): Boolean {
-                return false // Отключаем анимацию добавления
-            }
-        }
-
-        this.itemAnimator = animator
+//        val animator: ItemAnimator = object : DefaultItemAnimator() {
+//            override fun animateRemove(holder: ViewHolder): Boolean {
+//                return false // Отключаем анимацию удаления
+//            }
+//
+//            override fun animateAdd(holder: ViewHolder): Boolean {
+//                return false // Отключаем анимацию добавления
+//            }
+//        }
+//
+//        this.itemAnimator = animator
 
         viewModel.liveData(type).observe(findViewTreeLifecycleOwner()!!) {
-            it.show(this as UpdateItemsRecyclerView<FilterButtonUi>)
+            (it as ButtonsUiState<T>).show(this)
         }
     }
 

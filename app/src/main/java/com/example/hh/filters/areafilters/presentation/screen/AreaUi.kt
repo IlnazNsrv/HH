@@ -16,9 +16,6 @@ interface AreaUi : ItemsUi {
         private val chosen: Boolean = false
     ) : AreaUi {
         override fun show(binding: ItemAreasButtonBinding) = with(binding.areaButton) {
-            textOn = value
-            textOff = value
-            isChecked = chosen
         }
 
         override fun id() = id

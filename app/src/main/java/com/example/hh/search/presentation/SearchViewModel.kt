@@ -47,7 +47,7 @@ class VacanciesSearchParams private constructor(
     val experience: List<String>?,
     val employment: List<String>?,
     val schedule: List<String>?,
-    val area: String,
+    val area: String?,
     val salary: Int?,
     val onlyWithSalary: Boolean
 ) : Serializable {
@@ -57,7 +57,7 @@ class VacanciesSearchParams private constructor(
         private var experience: MutableList<String>? = null
         private var employment: MutableList<String>? = null
         private var schedule: MutableList<String>? = null
-        private var area: String = "1"
+        private var area: String? = null
         private var salary: Int? = null
         private var onlyWithSalary: Boolean = false
 
@@ -132,7 +132,7 @@ class VacanciesSearchParams private constructor(
             }
         }
 
-        fun setArea(areaValue: String) = apply { this.area = areaValue }
+        fun setArea(areaValue: String?) = apply { this.area = areaValue }
 
         fun setSalary(salary: Int) = apply { this.salary = salary }
 

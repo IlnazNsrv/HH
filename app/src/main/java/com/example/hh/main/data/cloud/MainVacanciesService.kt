@@ -41,7 +41,7 @@ interface MainVacanciesService {
             "remote",
             "flyInFlyOut",
         ),
-        @Query("area") area: String = "1",
+        @Query("area") area: String? = "1",
         @Query("salary") salary: Int? = null,
         @Query("only_with_salary") onlyWithSalary: Boolean = false
     ): Call<VacanciesCloud>

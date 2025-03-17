@@ -2,22 +2,36 @@ package com.example.hh.filters.areafilters.data
 
 import com.example.hh.filters.areafilters.data.cache.AreasCacheDataSource
 import com.example.hh.filters.data.cache.ChosenFiltersCache
+import com.example.hh.search.presentation.VacanciesSearchParams
 
 interface AreasRepository {
 
-    suspend fun areas(): LoadAreasResult
+    suspend fun areas(text: String): LoadAreasResult
+    fun saveArea(vacanciesSearchParams: VacanciesSearchParams)
 
     class Base(
         private val cacheDataSource: AreasCacheDataSource,
         private val chosenArea: ChosenFiltersCache
     ) : AreasRepository {
 
-        override suspend fun areas(): LoadAreasResult {
+
+        override suspend fun areas(text: String): LoadAreasResult {
             val chosenId = chosenArea.read().area
-            val data = cacheDataSource.areas()
-            return LoadAreasResult.Success(data.map {
-                AreaChoice(it.areaId, it.city, chosen = it.areaId == chosenId)
-            })
+            if (text.isEmpty()) {
+                val data = cacheDataSource.areas()
+                return LoadAreasResult.Success(data.map {
+                    AreaChoice(it.areaId, it.city, chosen = it.areaId == chosenId)
+                })
+            } else {
+                val data = cacheDataSource.searchAreas(text)
+                return LoadAreasResult.Success(data.map {
+                    AreaChoice(it.areaId, it.city, chosen = it.areaId == chosenId)
+                })
+            }
+        }
+
+        override fun saveArea(vacanciesSearchParams: VacanciesSearchParams) {
+           chosenArea.save(vacanciesSearchParams)
         }
     }
 }

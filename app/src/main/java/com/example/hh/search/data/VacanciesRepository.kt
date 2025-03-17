@@ -29,13 +29,13 @@ interface VacanciesRepository {
     }
 }
 
-data class VacanciesSearchParams(
-    val searchText: String = "",
-    val vacancySearchField: List<String> = emptyList(),
-    val experience: List<String> = emptyList(),
-    val employment: List<String> = emptyList(),
-    val schedule: List<String> = emptyList(),
-    val area: String = "",
-    val salary: String = "",
-    val onlyWithSalary: Boolean = false
-)
+//data class VacanciesSearchParams(
+//    val searchText: String = "",
+//    val vacancySearchField: List<String> = emptyList(),
+//    val experience: List<String> = emptyList(),
+//    val employment: List<String> = emptyList(),
+//    val schedule: List<String> = emptyList(),
+//    val area: String = "",
+//    val salary: String = "",
+//    val onlyWithSalary: Boolean = false
+//)

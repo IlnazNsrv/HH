@@ -8,17 +8,28 @@ import com.example.hh.filters.presentation.CreateFilters
 import com.example.hh.filters.presentation.FilterButtonUi
 import com.example.hh.filters.presentation.FilterButtonsLiveDataWrapper
 import com.example.hh.filters.presentation.FiltersViewModel
+import com.example.hh.search.presentation.VacanciesSearchParams
 
 class FiltersViewModule(private val core: Core) : Module<FiltersViewModel> {
 
+    private val searchParams = VacanciesSearchParams.Builder()
+    private val filtersRepository =
+        FiltersRepository.Base(ChosenFiltersCache.Base(core.sharedPreferences))
+
     override fun viewModel(): FiltersViewModel {
+
         return FiltersViewModel(
+            searchParams,
             FilterButtonsLiveDataWrapper.Base<FilterButtonUi>(),
             FilterButtonsLiveDataWrapper.Base<FilterButtonUi>(),
             FilterButtonsLiveDataWrapper.Base<FilterButtonUi>(),
             FilterButtonsLiveDataWrapper.Base<FilterButtonUi>(),
-            FiltersRepository.Base(ChosenFiltersCache.Base(core.sharedPreferences)),
-            CreateFilters.Base()
+            filtersRepository,
+            CreateFilters.Base(),
+            CustomAreaButtonModule(
+                searchParams,
+                filtersRepository
+            ).viewModel()
         )
     }
 }

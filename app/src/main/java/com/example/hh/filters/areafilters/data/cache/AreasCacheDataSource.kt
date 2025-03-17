@@ -5,6 +5,7 @@ interface AreasCacheDataSource {
     suspend fun areas() : List<AreaCache>
     suspend fun saveAreasList(areasList: List<AreaCache>)
     suspend fun saveArea(area: AreaCache)
+    suspend fun searchAreas(query: String) : List<AreaCache>
 
     class Base(
         private val dao: AreasDao
@@ -20,6 +21,10 @@ interface AreasCacheDataSource {
 
         override suspend fun saveArea(area: AreaCache) {
             dao.insert(area)
+        }
+
+        override suspend fun searchAreas(query: String): List<AreaCache> {
+           return dao.searchAreas(query)
         }
 
     }

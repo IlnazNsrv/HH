@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent"/> <!-- Цвет фона при нажатии -->
+            <stroke
+                android:width="4dp"
+                android:color="@color/DodgerBlue"/> <!-- Цвет и ширина края -->
+            <corners android:radius="8dp"/> <!-- Радиус скругления, если нужно -->
+        </shape>
+    </item>
+</selector>
+

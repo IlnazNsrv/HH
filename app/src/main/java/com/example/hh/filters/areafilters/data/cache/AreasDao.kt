@@ -16,4 +16,7 @@ interface AreasDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(area: AreaCache)
+
+    @Query("SELECT * FROM areas_table WHERE LOWER(city) LIKE LOWER('%' || :query || '%') ORDER BY city ASC")
+    suspend fun searchAreas(query: String) : List<AreaCache>
 }
