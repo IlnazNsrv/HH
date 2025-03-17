@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "areas_table")
 data class AreaCache(
     @PrimaryKey
-    @ColumnInfo(name = "")
+    @ColumnInfo(name = "area")
     val areaId: String,
     @ColumnInfo("city")
     val city: String

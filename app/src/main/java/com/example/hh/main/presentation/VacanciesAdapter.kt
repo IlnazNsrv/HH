@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.hh.core.UiState
 import com.example.hh.databinding.ItemErrorBinding
 import com.example.hh.databinding.ItemVacancyBinding
+import com.example.hh.filters.presentation.ChooseButton
 import com.example.hh.main.data.BundleWrapper
 
 class VacanciesAdapter(
@@ -147,7 +148,7 @@ private class Diff(
     }
 }
 
-interface ClickActions {
+interface ClickActions : ChooseButton {
 
     fun clickFavorite(vacancyUi: VacancyUi) = Unit
     fun retry() = Unit

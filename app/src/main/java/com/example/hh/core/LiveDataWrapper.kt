@@ -35,4 +35,6 @@ interface LiveDataWrapper {
 
 }
 
-interface UiState : Serializable
+interface UiState : Serializable {
+    //fun<T : ItemsUi> show(updateItemsRecyclerView: UpdateItemsRecyclerView<T>) = Unit
+}

@@ -3,6 +3,8 @@ package com.example.hh.core
 //import com.example.hh.loadvacancies.di.LoadVacanciesModule
 import androidx.lifecycle.ViewModel
 import com.example.hh.MainViewModel
+import com.example.hh.filters.areafilters.di.AreaViewModule
+import com.example.hh.filters.areafilters.presentation.screen.AreaViewModel
 import com.example.hh.filters.di.FiltersViewModule
 import com.example.hh.filters.presentation.FiltersViewModel
 import com.example.hh.main.di.VacanciesModule
@@ -42,6 +44,8 @@ interface ProvideViewModel {
             //LoadVacanciesViewModel::class.java.simpleName -> LoadVacanciesModule(core).viewModel()
 
             FiltersViewModel::class.java.simpleName -> FiltersViewModule(core).viewModel()
+
+            AreaViewModel::class.java.simpleName -> AreaViewModule(core).viewModel()
 
             //SearchViewModel::class.java.simpleName -> SearchViewModule(core, VacanciesLiveDataWrapper.Base(), CustomInputLiveDataWrapper.Base()).viewModel()
 

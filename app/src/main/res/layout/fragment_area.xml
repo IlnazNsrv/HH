@@ -84,12 +84,12 @@
             android:layout_height="wrap_content"
             android:text="История поиска" />
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.example.hh.main.presentation.CustomRecyclerView
             android:id="@+id/areaRecyclerView"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:minHeight="700dp"/>
+            android:minHeight="700dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     </LinearLayout>
 
@@ -101,7 +101,7 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/searchButton"
+            android:id="@+id/saveArea"
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

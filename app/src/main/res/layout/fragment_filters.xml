@@ -143,39 +143,17 @@
         android:text="Регион"
         android:textColor="@color/white" />
 
+    <com.example.hh.views.button.areabutton.CustomAreaButton
+        android:id="@+id/customAreaButton"
+        android:layout_width="wrap_content"
+        android:visibility="visible"
+        android:layout_height="wrap_content"/>
+
     <Button
+        android:id="@+id/cityFragmentButton"
         android:backgroundTint="@color/dimGray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dp">
-
-        <!-- Текст города -->
-        <Button
-            android:id="@+id/cityName"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="Город"
-            android:backgroundTint="@color/dimGray"
-            android:textSize="16sp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true" />
-
-        <!-- Крестик для удаления -->
-        <ImageView
-            android:id="@+id/removeCity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/cityName"
-            android:layout_marginEnd="-1dp"
-            android:contentDescription="Удалить город"
-            android:padding="8dp"
-            android:src="@android:drawable/ic_menu_close_clear_cancel" />
-
-    </RelativeLayout>
 
     <TextView
         android:paddingTop="26dp"

@@ -8,6 +8,7 @@ import com.example.hh.main.presentation.VacanciesLiveDataWrapper
 import com.example.hh.main.presentation.VacanciesResultMapper
 import com.example.hh.main.presentation.VacanciesViewModel
 import com.example.hh.views.button.CustomButtonLiveDataWrapper
+import com.example.hh.views.button.CustomButtonUiState
 import com.example.hh.views.text.CustomTextLiveDataWrapper
 
 class VacanciesModule(private val core: Core) : Module<VacanciesViewModel> {
@@ -15,7 +16,7 @@ class VacanciesModule(private val core: Core) : Module<VacanciesViewModel> {
     override fun viewModel(): VacanciesViewModel {
         val errorTextLiveDataWrapper: CustomTextLiveDataWrapper =
             CustomTextLiveDataWrapper.Base()
-        val retryButtonLiveDataWrapper = CustomButtonLiveDataWrapper.Base()
+        val retryButtonLiveDataWrapper = CustomButtonLiveDataWrapper.Base<CustomButtonUiState>()
         val vacanciesLiveDataWrapper = VacanciesLiveDataWrapper.Base()
         val vacancyTitleLiveDataWrapper: CustomTextLiveDataWrapper =
             CustomTextLiveDataWrapper.Base()
@@ -27,10 +28,10 @@ class VacanciesModule(private val core: Core) : Module<VacanciesViewModel> {
             CustomTextLiveDataWrapper.Base()
         val vacancyExperienceDataWrapper: CustomTextLiveDataWrapper =
             CustomTextLiveDataWrapper.Base()
-        val favoriteButtonLiveDataWrapper: CustomButtonLiveDataWrapper =
-            CustomButtonLiveDataWrapper.Base()
-        val respondButtonLiveDataWrapper: CustomButtonLiveDataWrapper =
-            CustomButtonLiveDataWrapper.Base()
+        val favoriteButtonLiveDataWrapper: CustomButtonLiveDataWrapper<CustomButtonUiState> =
+            CustomButtonLiveDataWrapper.Base<CustomButtonUiState>()
+        val respondButtonLiveDataWrapper: CustomButtonLiveDataWrapper<CustomButtonUiState> =
+            CustomButtonLiveDataWrapper.Base<CustomButtonUiState>()
 
         return VacanciesViewModel(
 //            CustomTextViewModel(

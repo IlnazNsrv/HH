@@ -1,16 +1,23 @@
 package com.example.hh.filters.presentation
 
-import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.hh.databinding.ItemAreasButtonBinding
 import com.example.hh.databinding.ItemSearchFilterButtonBinding
 import com.example.hh.main.presentation.UpdateItems
 
 class FiltersAdapter(
+    private val typeList: List<FiltersButtonUiType> = listOf(
+        FiltersButtonUiType.FiltersButton,
+        FiltersButtonUiType.AreasButton
+    ),
     private val clickListener: ChooseButton
-) : RecyclerView.Adapter<ButtonViewHolder>(), UpdateItems<FilterButtonUi> {
+
+) : RecyclerView.Adapter<ButtonViewHolder>(),
+    UpdateItems<FilterButtonUi> {
 
     private val list = mutableListOf<FilterButtonUi>()
 
@@ -26,13 +33,28 @@ class FiltersAdapter(
         result.dispatchUpdatesTo(this)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ButtonViewHolder(
-        ItemSearchFilterButtonBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-        clickListener
-    )
+//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ButtonViewHolder(
+//        ItemSearchFilterButtonBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+//        clickListener
+//    )
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ButtonViewHolder {
+//        return typeList[viewType].viewHolder(parent, clickListener)
+        return typeList[viewType].viewHolder(parent, clickListener)
+    }
+
 
     override fun onBindViewHolder(holder: ButtonViewHolder, position: Int) {
-        holder.binding(list[position])
+        holder.bind(list[position])
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        val item = list[position]
+        val type = item.type()
+        val index = typeList.indexOf(type)
+        if (index == -1)
+            throw IllegalStateException("add type $type to typeList")
+        return index
     }
 
     override fun getItemCount(): Int = list.size
@@ -49,29 +71,25 @@ class FiltersAdapter(
     }
 }
 
-class ButtonViewHolder(
-    private val binding: ItemSearchFilterButtonBinding,
-    private val clickListener: ChooseButton
-) : ViewHolder(binding.root) {
-
-    fun binding(button: FilterButtonUi) {
-        binding.nameFilterButton.setOnClickListener {
-            clickListener.choose(button)
-        }
-        button.show(binding)
-    }
-}
-
+//class ButtonViewHolder(
+//    private val binding: ItemSearchFilterButtonBinding,
+//    private val clickListener: ChooseButton
+//) : ViewHolder(binding.root) {
+//
+//    fun binding(button: FilterButtonUi<ItemSearchFilterButtonBinding>) {
+//        binding.nameFilterButton.setOnClickListener {
+//            clickListener.choose(button)
+//        }
+//        button.show(binding)
+//    }
+//}
+//interface ChooseButton{
+//
+//    fun choose(buttonUi: FilterButtonUi) = Unit
+//}
 interface ChooseButton {
 
-    companion object {
-        const val EXPERIENCE_TAG: String = "experience"
-        const val SCHEDULE_TAG = "schedule"
-        const val SEARCH_FIELD_TAG = "searchField"
-        const val EMPLOYMENT_TAG = "employment"
-    }
-
-    fun choose(buttonUi: FilterButtonUi)
+    fun choose(buttonUi: FilterButtonUi) = Unit
 }
 
 private class Diff(
@@ -89,5 +107,39 @@ private class Diff(
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return old[oldItemPosition] == new[newItemPosition]
+    }
+}
+
+abstract class ButtonViewHolder(
+    view: View
+) : ViewHolder(view) {
+
+    open fun bind(button: FilterButtonUi) = Unit
+
+    class FiltersButton(
+        private val binding: ItemSearchFilterButtonBinding,
+        private val chooseButton: ChooseButton
+    ) :
+        ButtonViewHolder(binding.root) {
+
+        override fun bind(button: FilterButtonUi) {
+            binding.nameFilterButton.setOnClickListener {
+                chooseButton.choose(button)
+            }
+            button.show(binding)
+        }
+    }
+
+    class AreaButton(
+        private val binding: ItemAreasButtonBinding,
+        private val chooseButton: ChooseButton
+    ) : ButtonViewHolder(binding.root) {
+
+        override fun bind(button: FilterButtonUi) {
+            binding.areaButton.setOnClickListener {
+                chooseButton.choose(button)
+            }
+            button.showAreaButton(binding)
+        }
     }
 }

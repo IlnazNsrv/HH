@@ -67,7 +67,7 @@ class VacanciesViewModel(
         }
     }
 
-    override fun liveData(): LiveData<VacanciesUiState> = liveDataWrapper.liveData()
+    override fun liveData(tag: String): LiveData<VacanciesUiState> = liveDataWrapper.liveData()
 }
 
 interface LoadVacancies {
