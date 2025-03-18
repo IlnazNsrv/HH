@@ -8,11 +8,13 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.hh.R
 import com.example.hh.core.ProvideViewModel
 import com.example.hh.core.presentation.AbstractBottomDialogFragment
 import com.example.hh.databinding.FragmentAreaBinding
 import com.example.hh.filters.presentation.FilterButtonUi
 import com.example.hh.filters.presentation.FilterButtonsLiveDataWrapper
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class AreaFragment() : AbstractBottomDialogFragment<FragmentAreaBinding>() {
 
@@ -38,15 +40,29 @@ class AreaFragment() : AbstractBottomDialogFragment<FragmentAreaBinding>() {
              //text для проверки дошли мы до нужного количества букв или нет
             handler.postDelayed(searchRunnable!!, 300)
         }
-
     }
 
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentAreaBinding.inflate(inflater, container, false)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.ModalBottomSheetDialog)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val bottomSheet = dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+        bottomSheet?.let { sheet ->
+            val behavior = BottomSheetBehavior.from(sheet)
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            val displayMetrics = resources.displayMetrics
+            val maxHeight = (displayMetrics.heightPixels * 0.9).toInt()
+            sheet.layoutParams.height = maxHeight
+            sheet.requestLayout()
+
+        }
 
         viewModel =
             (requireActivity().application as ProvideViewModel).viewModel(AreaViewModel::class.java.simpleName)
@@ -64,6 +80,7 @@ class AreaFragment() : AbstractBottomDialogFragment<FragmentAreaBinding>() {
 
         binding.saveArea.setOnClickListener {
             viewModel.saveArea()
+            dismiss()
         }
     }
 
@@ -76,6 +93,4 @@ class AreaFragment() : AbstractBottomDialogFragment<FragmentAreaBinding>() {
         super.onPause()
         binding.inputEditText.removeTextChangedListener(textWatcher)
     }
-
-
 }

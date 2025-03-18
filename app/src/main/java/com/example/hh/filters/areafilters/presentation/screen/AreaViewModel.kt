@@ -9,11 +9,14 @@ import com.example.hh.filters.presentation.ButtonsUiState
 import com.example.hh.filters.presentation.FilterButtonUi
 import com.example.hh.filters.presentation.FilterButtonsLiveDataWrapper
 import com.example.hh.search.presentation.VacanciesSearchParams
+import com.example.hh.views.button.CustomButtonLiveDataWrapper
+import com.example.hh.views.button.areabutton.CustomAreaButtonUiState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 
 class AreaViewModel(
+    private val customAreaButtonLiveDataWrapper: CustomButtonLiveDataWrapper<CustomAreaButtonUiState>,
     private val buttonLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
     private val runAsync: RunAsync,
     private val repository: AreasRepository,
@@ -50,11 +53,12 @@ class AreaViewModel(
 
     fun saveArea() {
         repository.saveArea(searchParams.build())
+        customAreaButtonLiveDataWrapper.update(CustomAreaButtonUiState.Show(repository.readArea()))
     }
 
     override fun choose(buttonUi: FilterButtonUi) {
         buttonLiveDataWrapper.clickButton(buttonUi)
-        searchParams.setArea(buttonUi.id())
+        searchParams.setArea(areaValue = Pair(buttonUi.id(), buttonUi.query()))
     }
 
     override fun liveData(tag: String): LiveData<ButtonsUiState<FilterButtonUi>> {

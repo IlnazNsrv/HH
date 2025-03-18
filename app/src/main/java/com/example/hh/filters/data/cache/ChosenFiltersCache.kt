@@ -17,7 +17,7 @@ interface ChosenFiltersCache {
             private const val KEY = "paramsKey"
         }
 
-        val gson = Gson()
+        private val gson = Gson()
 
         override fun read(): VacanciesSearchParams {
             val paramsJson = sharedPreferences.getString(KEY, null)
@@ -28,14 +28,6 @@ interface ChosenFiltersCache {
                 val defaultSearchParams = VacanciesSearchParams.Builder()
                 return defaultSearchParams.build()
             }
-
-//            val paramsBytes = android.util.Base64.decode(paramsBase64, android.util.Base64.DEFAULT)
-//
-//            val byteArrayInputStream = ByteArrayInputStream(paramsBytes)
-//            val objectInputStream = ObjectInputStream(byteArrayInputStream)
-//            val params = objectInputStream.readObject() as VacanciesSearchParams
-//            objectInputStream.close()
-
         }
 
         override fun save(vacanciesSearchParams: VacanciesSearchParams) {
@@ -43,18 +35,6 @@ interface ChosenFiltersCache {
 
             val json = gson.toJson(vacanciesSearchParams)
             editor.putString(KEY, json).apply()
-
-
-//            val byteArrayOutputStream = ByteArrayOutputStream()
-//            val objectOutputStream = ObjectOutputStream(byteArrayOutputStream)
-//            objectOutputStream.writeObject(vacanciesSearchParams)
-//            objectOutputStream.close()
-//            val paramsBytes = byteArrayOutputStream.toByteArray()
-//
-//            val paramsBase64 =
-//                android.util.Base64.encodeToString(paramsBytes, android.util.Base64.DEFAULT)
-//            editor.putString(KEY, paramsBase64)
-//            editor.apply()
         }
     }
 }

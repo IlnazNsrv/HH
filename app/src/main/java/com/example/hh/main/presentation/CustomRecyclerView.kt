@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hh.core.UiState
 import com.example.hh.core.presentation.AbstractViewModel
 import com.example.hh.filters.presentation.ButtonsUiState
+import com.example.hh.filters.presentation.FilterButtonUi
 import com.example.hh.filters.presentation.FilterButtonsLiveDataWrapper
 import com.example.hh.filters.presentation.FiltersAdapter
 import com.example.hh.main.data.BundleWrapper
@@ -37,38 +38,14 @@ class CustomRecyclerView<T : ItemsUi, V : UiState, U : AbstractViewModel<UiState
         }
     }
 
-//    fun initSearchFragment(
-//        viewModel: LoadVacanciesViewModel,
-//        liveDataWrapper: VacanciesLiveDataWrapper
-//    ) {
-//        adapter = VacanciesAdapter(clickActions = viewModel, liveDataWrapper = liveDataWrapper)
-//        setAdapter(adapter)
-//
-//        viewModel.liveData().observe(findViewTreeLifecycleOwner()!!) {
-//            // it.handle(viewModel)
-//            it.show(this as UpdateItemsRecyclerView<VacancyUi>)
-//        }
-//    }
-
     fun initButtons(
         viewModel: U,
-        liveDataWrapper: FilterButtonsLiveDataWrapper<T>,
+        liveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
         type: String
     ) {
-        adapter = FiltersAdapter(clickListener = viewModel)
-        setAdapter(adapter)
 
-//        val animator: ItemAnimator = object : DefaultItemAnimator() {
-//            override fun animateRemove(holder: ViewHolder): Boolean {
-//                return false // Отключаем анимацию удаления
-//            }
-//
-//            override fun animateAdd(holder: ViewHolder): Boolean {
-//                return false // Отключаем анимацию добавления
-//            }
-//        }
-//
-//        this.itemAnimator = animator
+        adapter = FiltersAdapter(clickListener = viewModel, liveDataWrapper = liveDataWrapper)
+        setAdapter(adapter)
 
         viewModel.liveData(type).observe(findViewTreeLifecycleOwner()!!) {
             (it as ButtonsUiState<T>).show(this)

@@ -8,6 +8,7 @@ interface AreasRepository {
 
     suspend fun areas(text: String): LoadAreasResult
     fun saveArea(vacanciesSearchParams: VacanciesSearchParams)
+    fun readArea() : Pair<String, String>?
 
     class Base(
         private val cacheDataSource: AreasCacheDataSource,
@@ -16,7 +17,7 @@ interface AreasRepository {
 
 
         override suspend fun areas(text: String): LoadAreasResult {
-            val chosenId = chosenArea.read().area
+            val chosenId = chosenArea.read().area?.first
             if (text.isEmpty()) {
                 val data = cacheDataSource.areas()
                 return LoadAreasResult.Success(data.map {
@@ -28,6 +29,10 @@ interface AreasRepository {
                     AreaChoice(it.areaId, it.city, chosen = it.areaId == chosenId)
                 })
             }
+        }
+
+        override fun readArea() : Pair<String, String>? {
+            return chosenArea.read().area
         }
 
         override fun saveArea(vacanciesSearchParams: VacanciesSearchParams) {

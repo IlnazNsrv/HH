@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="ModalBottomSheet" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="behavior_peekHeight">0dp</item>
         <!-- Apply attributes here -->
 
         <item name="android:backgroundDimEnabled">false</item>

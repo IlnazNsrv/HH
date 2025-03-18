@@ -35,6 +35,7 @@ interface ProvideViewModel {
 
     class Make(private val core: Core) : ProvideViewModel {
 
+
         override fun <T : ViewModel> viewModel(tag: String): T = when (tag) {
 
             MainViewModel::class.java.simpleName -> MainViewModel(core.clearViewModel)
@@ -45,7 +46,7 @@ interface ProvideViewModel {
 
             FiltersViewModel::class.java.simpleName -> FiltersViewModule(core).viewModel()
 
-            AreaViewModel::class.java.simpleName -> AreaViewModule(core).viewModel()
+            AreaViewModel::class.java.simpleName -> AreaViewModule(core, FiltersViewModule.coreFilters).viewModel()
 
             //SearchViewModel::class.java.simpleName -> SearchViewModule(core, VacanciesLiveDataWrapper.Base(), CustomInputLiveDataWrapper.Base()).viewModel()
 

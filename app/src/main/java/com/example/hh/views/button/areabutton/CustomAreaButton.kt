@@ -29,6 +29,8 @@ class CustomAreaButton : RelativeLayout, UpdateCustomAreaButton {
         viewModel.liveData().observe(findViewTreeLifecycleOwner()!!) {
             it.show(this)
         }
+        
+        viewModel.updateState()
 
         binding.cityName.setOnClickListener {
             viewModel.handleClickArea(fragmentManager)
@@ -58,17 +60,18 @@ class CustomAreaButton : RelativeLayout, UpdateCustomAreaButton {
         // update(restoredState.restore().text, restoredState.restore().visibility)
     }
 
-    override fun update(text: String?) {
-        if (text == null) {
+    override fun update(areaPair: Pair<String, String>?) {
+        if (areaPair == null) {
             this.visibility = View.GONE
             binding.cityName.text = ""
         } else {
-            binding.cityName.text = text
-            this.visibility = visibility
+            binding.cityName.text = areaPair.second
+            this.visibility = View.VISIBLE
         }
     }
 }
 
 interface UpdateCustomAreaButton {
-    fun update(text: String?)
+    //fun update(text: String?)
+    fun update(areaPair: Pair<String, String>?)
 }

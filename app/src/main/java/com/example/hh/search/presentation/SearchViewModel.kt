@@ -40,6 +40,8 @@ data class VacanciesSearchParams1(
     val salary: Int? = null,
     val onlyWithSalary: Boolean? = null
 )
+typealias AreaId = String
+typealias AreaValue = String
 
 class VacanciesSearchParams private constructor(
     val searchText: String,
@@ -47,7 +49,7 @@ class VacanciesSearchParams private constructor(
     val experience: List<String>?,
     val employment: List<String>?,
     val schedule: List<String>?,
-    val area: String?,
+    val area: Pair<AreaId, AreaValue>?,
     val salary: Int?,
     val onlyWithSalary: Boolean
 ) : Serializable {
@@ -57,7 +59,9 @@ class VacanciesSearchParams private constructor(
         private var experience: MutableList<String>? = null
         private var employment: MutableList<String>? = null
         private var schedule: MutableList<String>? = null
-        private var area: String? = null
+
+        // private var area: String? = null
+        private var area: Pair<AreaId, AreaValue>? = null
         private var salary: Int? = null
         private var onlyWithSalary: Boolean = false
 
@@ -132,7 +136,8 @@ class VacanciesSearchParams private constructor(
             }
         }
 
-        fun setArea(areaValue: String?) = apply { this.area = areaValue }
+       // fun setArea(areaValue: String?) = apply { this.area = areaValue }
+        fun setArea(areaValue: Pair<AreaId, AreaValue>?) = apply { this.area = areaValue }
 
         fun setSalary(salary: Int) = apply { this.salary = salary }
 
