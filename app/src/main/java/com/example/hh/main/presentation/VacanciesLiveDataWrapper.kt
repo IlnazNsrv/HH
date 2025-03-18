@@ -6,7 +6,7 @@ import com.example.hh.main.data.BundleWrapper
 interface VacanciesLiveDataWrapper : LiveDataWrapper.Mutable<VacanciesUiState> {
 
     fun clickFavorite(vacancyUi: VacancyUi)
-    fun save(bundle: BundleWrapper.Save<VacanciesUiState>)
+    override fun save(bundle: BundleWrapper.Save<VacanciesUiState>)
     fun clickRespondTest(vacancyUi: VacancyUi)
 
     class Base : LiveDataWrapper.Abstract<VacanciesUiState>(), VacanciesLiveDataWrapper {

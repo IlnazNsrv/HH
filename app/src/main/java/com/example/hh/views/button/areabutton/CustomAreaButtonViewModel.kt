@@ -20,14 +20,17 @@ class CustomAreaButtonViewModel(
     }
 
     fun handleClickArea(fragmentManager: FragmentManager) {
-        customButtonLiveDataWrapper.update(CustomAreaButtonUiState.Show(repository.restoreArea()))
         val dialogFragment = AreaFragment()
         dialogFragment.show(fragmentManager, AreaFragment.AREA_FRAGMENT_TAG)
     }
 
     fun handleCloseAction() {
+        updateState()
         repository.saveParams(areaNameCache.setArea(null).build())
       //  chosenFiltersCache.save(areaNameCache.setArea(null).build())
+    }
 
+    fun updateState() {
+        customButtonLiveDataWrapper.update(CustomAreaButtonUiState.Show(repository.restoreArea()))
     }
 }

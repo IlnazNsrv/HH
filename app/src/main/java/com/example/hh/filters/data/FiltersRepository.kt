@@ -6,7 +6,7 @@ import com.example.hh.search.presentation.VacanciesSearchParams
 interface FiltersRepository {
 
     fun saveParams(vacanciesSearchParams: VacanciesSearchParams)
-    fun restoreArea(): String?
+    fun restoreArea(): Pair<String, String>?
 
     class Base(
         private val chosenFiltersCache: ChosenFiltersCache
@@ -16,7 +16,7 @@ interface FiltersRepository {
             chosenFiltersCache.save(vacanciesSearchParams)
         }
 
-        override fun restoreArea(): String? {
+        override fun restoreArea(): Pair<String, String>? {
             return chosenFiltersCache.read().area
         }
     }

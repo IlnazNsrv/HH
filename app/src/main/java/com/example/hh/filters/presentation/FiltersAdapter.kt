@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.hh.databinding.ItemAreasButtonBinding
 import com.example.hh.databinding.ItemSearchFilterButtonBinding
+import com.example.hh.main.data.BundleWrapper
+import com.example.hh.main.presentation.SaveItems
 import com.example.hh.main.presentation.UpdateItems
 
 class FiltersAdapter(
@@ -14,10 +16,11 @@ class FiltersAdapter(
         FiltersButtonUiType.FiltersButton,
         FiltersButtonUiType.AreasButton
     ),
-    private val clickListener: ChooseButton
+    private val clickListener: ChooseButton,
+    private val liveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>
 
 ) : RecyclerView.Adapter<ButtonViewHolder>(),
-    UpdateItems<FilterButtonUi> {
+    UpdateItems<FilterButtonUi>, SaveItems<ButtonsUiState<FilterButtonUi>> {
 
     private val list = mutableListOf<FilterButtonUi>()
 
@@ -68,6 +71,15 @@ class FiltersAdapter(
         list.clear()
         list.addAll(newList)
         result.dispatchUpdatesTo(this)
+    }
+
+    override fun save(bundle: BundleWrapper.Save<ButtonsUiState<FilterButtonUi>>) {
+        liveDataWrapper.save(bundle)
+    }
+
+    override fun restore(bundleWrapper: BundleWrapper.Restore<ButtonsUiState<FilterButtonUi>>) {
+        val uiState = bundleWrapper.restore()
+        liveDataWrapper.update(uiState)
     }
 }
 

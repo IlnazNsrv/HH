@@ -146,7 +146,6 @@
     <com.example.hh.views.button.areabutton.CustomAreaButton
         android:id="@+id/customAreaButton"
         android:layout_width="wrap_content"
-        android:visibility="visible"
         android:layout_height="wrap_content"/>
 
     <Button

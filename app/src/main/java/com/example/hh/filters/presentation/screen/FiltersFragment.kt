@@ -1,9 +1,11 @@
 package com.example.hh.filters.presentation.screen
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import com.example.hh.core.ProvideViewModel
 import com.example.hh.core.presentation.AbstractFragment
 import com.example.hh.databinding.FragmentFiltersBinding
@@ -13,6 +15,7 @@ import com.example.hh.filters.presentation.FilterButtonUi
 import com.example.hh.filters.presentation.FilterButtonsLiveDataWrapper
 import com.example.hh.filters.presentation.FiltersViewModel
 import com.example.hh.loadvacancies.presentation.screen.NavigateToLoadVacancies
+import com.example.hh.main.data.BundleWrapper
 import com.example.hh.views.button.areabutton.CustomAreaButtonViewModel
 
 class FiltersFragment : AbstractFragment<FragmentFiltersBinding>() {
@@ -67,22 +70,33 @@ class FiltersFragment : AbstractFragment<FragmentFiltersBinding>() {
             dialogFragment.show(parentFragmentManager, AreaFragment.AREA_FRAGMENT_TAG)
         }
 
+        binding.backButton.setOnClickListener {
+            navigateToHome()
+        }
 
         binding.searchButton.setOnClickListener {
             viewModel.clickSearchVacanciesButton(requireActivity() as NavigateToLoadVacancies)
         }
+    }
 
-//        binding.cityName.setOnClickListener {
-//            binding.cityName.text = "Текст появился"
-//
-//        }
-//
-//        binding.removeCity.setOnClickListener {
-//            binding.cityName.text = ""
-//            binding.cityLayout.visibility = View.GONE
-//
-//        }
-//        val adapter = FiltersAdapter()
-//        binding.nameRecyclerView.adapter =
+    private fun navigateToHome() {
+        parentFragmentManager.popBackStack("home", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        viewModel.save(BundleWrapper.Base(outState))
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        if (savedInstanceState != null) {
+            viewModel.restore(BundleWrapper.Base(savedInstanceState))
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d("inz", "filters fragment was destroyed")
     }
 }

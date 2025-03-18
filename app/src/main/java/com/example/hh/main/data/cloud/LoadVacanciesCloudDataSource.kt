@@ -41,7 +41,7 @@ interface LoadVacanciesCloudDataSource {
                     experience = searchParams.experience,
                     employment = searchParams.employment,
                     schedule = searchParams.schedule,
-                    area = searchParams.area,
+                    area = searchParams.area?.first,
                     salary = searchParams.salary,
                     onlyWithSalary = searchParams.onlyWithSalary
                 ).execute()

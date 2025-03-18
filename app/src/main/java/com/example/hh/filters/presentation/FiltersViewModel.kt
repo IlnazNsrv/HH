@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.example.hh.core.presentation.AbstractViewModel
 import com.example.hh.filters.data.FiltersRepository
 import com.example.hh.loadvacancies.presentation.screen.NavigateToLoadVacancies
+import com.example.hh.main.data.BundleWrapper
 import com.example.hh.search.presentation.VacanciesSearchParams
 import com.example.hh.views.button.areabutton.CustomAreaButtonViewModel
 
@@ -81,32 +82,6 @@ class FiltersViewModel(
 
     }
 
-//    override fun choose(buttonUi: FilterButtonUi<ItemSearchFilterButtonBinding>) = with(CreateFilters) {
-//        when (buttonUi.listId()) {
-//            EXPERIENCE_TAG -> {
-//                experienceButtonsLiveDataWrapper.clickButton(buttonUi)
-//                searchParams.setExperience(buttonUi.query())
-//            }
-//
-//            SCHEDULE_TAG -> {
-//                scheduleButtonsLiveDataWrapper.clickButton(buttonUi)
-//                searchParams.setSchedule(buttonUi.query())
-//            }
-//
-//            SEARCH_FIELD_TAG -> {
-//                searchFieldButtonLiveDataWrapper.clickButton(buttonUi)
-//                searchParams.setVacancySearchField(buttonUi.query())
-//            }
-//
-//            EMPLOYMENT_TAG -> {
-//                employmentButtonLiveDataWrapper.clickButton(buttonUi)
-//                searchParams.setEmployment(buttonUi.query())
-//            }
-//
-//            else -> throw IllegalArgumentException("Unknown list ID: ${buttonUi.listId()}")
-//        }
-//    }
-
     private fun navigate(navigate: NavigateToLoadVacancies) = navigate.navigateToLoadVacancies()
 
     override fun liveData(tag: String): LiveData<ButtonsUiState<FilterButtonUi>> {
@@ -120,5 +95,17 @@ class FiltersViewModel(
         }
     }
 
+    fun save(bundleWrapper: BundleWrapper.Save<ButtonsUiState<FilterButtonUi>>) {
+        experienceButtonsLiveDataWrapper.save(bundleWrapper.saveWithKey(CreateFilters.EXPERIENCE_TAG))
+        employmentButtonLiveDataWrapper.save(bundleWrapper.saveWithKey(CreateFilters.EMPLOYMENT_TAG))
+        scheduleButtonsLiveDataWrapper.save(bundleWrapper.saveWithKey(CreateFilters.SCHEDULE_TAG))
+        searchFieldButtonLiveDataWrapper.save(bundleWrapper.saveWithKey(CreateFilters.SEARCH_FIELD_TAG))
+    }
 
+    fun restore(bundleWrapper: BundleWrapper.Restore<ButtonsUiState<FilterButtonUi>>) {
+        employmentButtonLiveDataWrapper.update(bundleWrapper.restoreWithKey(CreateFilters.EMPLOYMENT_TAG).restore())
+        experienceButtonsLiveDataWrapper.update(bundleWrapper.restoreWithKey(CreateFilters.EXPERIENCE_TAG).restore())
+        scheduleButtonsLiveDataWrapper.update(bundleWrapper.restoreWithKey(CreateFilters.SCHEDULE_TAG).restore())
+        searchFieldButtonLiveDataWrapper.update(bundleWrapper.restoreWithKey(CreateFilters.SEARCH_FIELD_TAG).restore())
+    }
 }

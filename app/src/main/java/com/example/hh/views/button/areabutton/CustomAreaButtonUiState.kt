@@ -6,10 +6,9 @@ interface CustomAreaButtonUiState : UiState {
 
     fun show(updateCustomAreaButton: UpdateCustomAreaButton)
 
-    data class Show(private val chosenArea: String?) : CustomAreaButtonUiState {
+    data class Show(private val chosenArea: Pair<String, String>?) : CustomAreaButtonUiState {
         override fun show(updateCustomAreaButton: UpdateCustomAreaButton) {
             updateCustomAreaButton.update(chosenArea)
         }
-
     }
 }
