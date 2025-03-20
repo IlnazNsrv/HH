@@ -32,6 +32,7 @@ class FiltersFragment : AbstractFragment<FragmentFiltersBinding>() {
             (requireActivity().application as ProvideViewModel).viewModel(FiltersViewModel::class.java.simpleName)
         viewModel.init()
 
+
         viewModel.init(object : FiltersViewModel.Mapper {
             override fun map(
                 filtersViewModel: FiltersViewModel,
@@ -39,7 +40,8 @@ class FiltersFragment : AbstractFragment<FragmentFiltersBinding>() {
                 scheduleButtonsLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
                 employmentButtonLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
                 searchFieldButtonLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
-                customAreaButtonViewModel: CustomAreaButtonViewModel
+                customAreaButtonViewModel: CustomAreaButtonViewModel,
+
             ) {
                 binding.nameRecyclerView.initButtons(
                     viewModel,
@@ -62,6 +64,7 @@ class FiltersFragment : AbstractFragment<FragmentFiltersBinding>() {
                     CreateFilters.EXPERIENCE_TAG
                 )
                 binding.customAreaButton.init(customAreaButtonViewModel, parentFragmentManager)
+
             }
         })
 
@@ -75,8 +78,17 @@ class FiltersFragment : AbstractFragment<FragmentFiltersBinding>() {
         }
 
         binding.searchButton.setOnClickListener {
-            viewModel.clickSearchVacanciesButton(requireActivity() as NavigateToLoadVacancies)
+            val inputNumber = binding.inputSalary.text.toString()
+            val inputString = binding.inputVacancyEditText.text.toString()
+            viewModel.searchVacancies(inputString, inputNumber.toIntOrNull(), requireActivity() as NavigateToLoadVacancies)
+            Log.d("inz", "text is: ${inputString}, number is ${inputNumber.toIntOrNull()}")
+          //  viewModel.clickSearchVacanciesButton(requireActivity() as NavigateToLoadVacancies)
         }
+
+        binding.onlyWithSalarySwitchButton.setOnCheckedChangeListener { _, isChecked ->
+           viewModel.switchSalaryParams(isChecked)
+        }
+
     }
 
     private fun navigateToHome() {

@@ -1,12 +1,9 @@
 package com.example.hh.loadvacancies.presentation
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import com.example.hh.core.LiveDataWrapper
 import com.example.hh.core.RunAsync
+import com.example.hh.core.presentation.AbstractViewModel
 import com.example.hh.filters.data.cache.ChosenFiltersCache
 import com.example.hh.main.data.LoadVacanciesResult
-import com.example.hh.main.presentation.ClickActions
 import com.example.hh.main.presentation.VacanciesLiveDataWrapper
 import com.example.hh.main.presentation.VacanciesUiState
 import com.example.hh.main.presentation.VacancyUi
@@ -22,7 +19,7 @@ class LoadVacanciesViewModel(
     private val runAsync: RunAsync,
     private val repository: VacanciesRepository,
     private val mapper: LoadVacanciesResult.Mapper
-) : ViewModel(), LiveDataWrapper.GetLiveData<VacanciesUiState>, ClickActions {
+) : AbstractViewModel<VacanciesUiState>(){
 
     interface Mapper {
         fun map(
@@ -67,7 +64,8 @@ class LoadVacanciesViewModel(
         }
     }
 
-    override fun liveData(): LiveData<VacanciesUiState> = liveDataWrapper.liveData()
+    //override fun liveData(): LiveData<VacanciesUiState> = liveDataWrapper.liveData()
+    override fun liveData(tag: String) = liveDataWrapper.liveData()
 
     override fun clickFavorite(vacancyUi: VacancyUi) {
         liveDataWrapper.clickFavorite(vacancyUi)

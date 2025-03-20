@@ -7,6 +7,7 @@ import com.example.hh.databinding.ItemVacancyBinding
 import com.example.hh.main.data.cloud.Experience
 import com.example.hh.main.data.cloud.Salary
 import com.example.hh.main.data.cloud.VacancyCloud
+import java.io.Serializable
 
 interface VacancyUi : ItemsUi {
 
@@ -34,7 +35,7 @@ interface VacancyUi : ItemsUi {
                     visibility = View.GONE
                 else {
                     visibility = View.VISIBLE
-                    setSalary(vacancyCloud.salary)
+                    text = setSalary(vacancyCloud.salary)
                 }
             }
             binding.city.text = vacancyCloud.area.name
@@ -156,4 +157,4 @@ interface VacancyUi : ItemsUi {
     }
 }
 
-interface ItemsUi
+interface ItemsUi : Serializable

@@ -35,7 +35,13 @@ class FiltersViewModule(private val core: Core) : Module<FiltersViewModel> {
                 coreFilters,
                 searchParams,
                 filtersRepository
-            ).viewModel()
+            ).viewModel(),
+//            CustomInputViewModel(
+//                CustomInputLiveDataWrapper.Base()
+//            ),
+//            CustomInputViewModel(
+//                CustomInputLiveDataWrapper.Base()
+//            )
         )
     }
 }

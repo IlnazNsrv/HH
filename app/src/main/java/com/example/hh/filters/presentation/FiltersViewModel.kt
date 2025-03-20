@@ -16,8 +16,13 @@ class FiltersViewModel(
     private val searchFieldButtonLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
     private val filtersRepository: FiltersRepository,
     private val filtersCreate: CreateFilters,
-    private val customAreaButtonViewModel: CustomAreaButtonViewModel
+    private val customAreaButtonViewModel: CustomAreaButtonViewModel,
+
 ) : AbstractViewModel<ButtonsUiState<FilterButtonUi>>() {
+
+    private var cachedQuery: String = ""
+    private var cachedSalary: Int? = null
+
 
     interface Mapper {
         fun map(
@@ -26,7 +31,8 @@ class FiltersViewModel(
             scheduleButtonsLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
             employmentButtonLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
             searchFieldButtonLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
-            customAreaButtonViewModel: CustomAreaButtonViewModel
+            customAreaButtonViewModel: CustomAreaButtonViewModel,
+
         )
     }
 
@@ -44,15 +50,36 @@ class FiltersViewModel(
             scheduleButtonsLiveDataWrapper,
             employmentButtonLiveDataWrapper,
             searchFieldButtonLiveDataWrapper,
-            customAreaButtonViewModel
+            customAreaButtonViewModel,
+
         )
     }
 
-    //private val searchParams = VacanciesSearchParams.Builder()
+    private fun buildSearchParams() {
+        searchParams.setSearchText(cachedQuery)
+        searchParams.setSalary(cachedSalary)
+        searchParams.setArea(filtersRepository.restoreArea())
+        filtersRepository.saveParams(searchParams.build())
+    }
+
+    fun searchVacancies(text: String, number: Int?, navigate: NavigateToLoadVacancies) {
+        cachedQuery = text
+        cachedSalary = number
+        buildSearchParams()
+        navigate(navigate)
+    }
+
+    fun salaryInput(value: Int?) {
+       searchParams.setSalary(value)
+    }
 
     fun clickSearchVacanciesButton(navigate: NavigateToLoadVacancies) {
         filtersRepository.saveParams(searchParams.build())
         navigate(navigate)
+    }
+
+    fun switchSalaryParams(isChecked: Boolean) {
+        searchParams.setOnlyWithSalary(isChecked)
     }
 
     override fun choose(buttonUi: FilterButtonUi) = with(CreateFilters) {

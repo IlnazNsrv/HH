@@ -46,7 +46,7 @@ class VacanciesViewModel(
     }
 
     override fun retry() {
-        //retryButtonViewModel.handleClick()
+        loadVacancies()
     }
 
     fun save(bundleWrapper: BundleWrapper.Save<VacanciesUiState>) {

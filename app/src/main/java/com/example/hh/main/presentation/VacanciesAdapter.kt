@@ -1,6 +1,5 @@
 package com.example.hh.main.presentation
 
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -23,18 +22,6 @@ class VacanciesAdapter(
 ) : RecyclerView.Adapter<VacancyViewHolder>(), UpdateItems<VacancyUi>, SaveItems<VacanciesUiState> {
 
     private val list = mutableListOf<VacancyUi>()
-
-    fun updateVacancies(newList: List<VacancyUi>) {
-        Log.d("Inz", "updateVacancies pinged with list $list and newList $newList")
-        val callback = Diff(
-            list,
-            newList
-        )
-        val result = DiffUtil.calculateDiff(callback)
-        list.clear()
-        list.addAll(newList)
-        result.dispatchUpdatesTo(this)
-    }
 
     override fun updateItems(newList: List<VacancyUi>) {
         val callback = Diff(
