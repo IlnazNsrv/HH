@@ -139,7 +139,7 @@ class VacanciesSearchParams private constructor(
        // fun setArea(areaValue: String?) = apply { this.area = areaValue }
         fun setArea(areaValue: Pair<AreaId, AreaValue>?) = apply { this.area = areaValue }
 
-        fun setSalary(salary: Int) = apply { this.salary = salary }
+        fun setSalary(salary: Int?) = apply { this.salary = salary }
 
         fun setOnlyWithSalary(onlyWithSalary: Boolean) =
             apply { this.onlyWithSalary = onlyWithSalary }

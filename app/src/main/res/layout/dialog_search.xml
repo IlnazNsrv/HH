@@ -36,11 +36,10 @@
 
     </LinearLayout>
 
-
     <com.example.hh.views.input.CustomInputView
         android:id="@+id/inputView"
         android:layout_width="match_parent"
-        android:layout_height="64dp" />
+        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/cityButton"

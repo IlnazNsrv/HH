@@ -11,8 +11,8 @@ class VacanciesResultMapper(
     }
 
     override fun mapError(message: String) {
-        val list = message.map { VacancyUi.Error(message) }
-        vacanciesLiveDataWrapper.update(VacanciesUiState.Error(list))
+        val error = VacancyUi.Error(message)
+        vacanciesLiveDataWrapper.update(VacanciesUiState.Error(listOf(error)))
     }
 
     override fun mapProgress() {

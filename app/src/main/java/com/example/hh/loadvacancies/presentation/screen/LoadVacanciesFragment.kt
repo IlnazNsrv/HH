@@ -41,13 +41,15 @@ class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
         viewModel =
             (requireActivity().application as ProvideViewModel).viewModel(LoadVacanciesViewModel::class.java.simpleName)
 
+        viewModel.searchWithFilters()
+
         viewModel.init(object : LoadVacanciesViewModel.Mapper {
             override fun map(
                 loadVacanciesViewModel: LoadVacanciesViewModel,
                 liveDataWrapper: VacanciesLiveDataWrapper
             ) {
-                //binding.recyclerView.initSearchFragment(loadVacanciesViewModel, liveDataWrapper)
-               // binding.recyclerView.init(loadVacanciesViewModel, liveDataWrapper)
+              //  binding.recyclerView.initSearchFragment(loadVacanciesViewModel, liveDataWrapper)
+               binding.recyclerView.init(loadVacanciesViewModel, liveDataWrapper)
             }
         })
 

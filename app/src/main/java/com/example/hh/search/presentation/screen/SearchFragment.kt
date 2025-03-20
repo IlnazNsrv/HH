@@ -53,16 +53,6 @@ class SearchFragment() : BottomSheetDialogFragment() {
             dismiss()
         }
 
-//        binding.inputEditText.setOnKeyListener { v, keyCode, event ->
-//            if (keyCode == KeyEvent.KEYCODE_SEARCH || keyCode == EditorInfo.IME_ACTION_DONE || keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.ACTION_DOWN || event.action == KeyEvent.ACTION_DOWN)  {
-//                viewModel.inputSearch(binding.inputEditText.text.toString())
-//                navigate(requireActivity() as NavigateToLoadVacancies)
-//                dismiss()
-//                true
-//            } else
-//                false
-//        }
-
         binding.inputEditText.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH)  {
                 viewModel.inputSearch(binding.inputEditText.text.toString())
@@ -72,12 +62,6 @@ class SearchFragment() : BottomSheetDialogFragment() {
             } else
                 false
         }
-
-//        viewModel.map(object: SearchViewModel.Mapper {
-//            override fun map(inputViewModel: CustomInputViewModel) {
-//                binding.inputView.init(inputViewModel, requireActivity() as NavigateToLoadVacancies)
-//            }
-//        })
 
     }
 

@@ -7,6 +7,8 @@ import com.example.hh.filters.areafilters.di.AreaViewModule
 import com.example.hh.filters.areafilters.presentation.screen.AreaViewModel
 import com.example.hh.filters.di.FiltersViewModule
 import com.example.hh.filters.presentation.FiltersViewModel
+import com.example.hh.loadvacancies.di.LoadVacanciesModule
+import com.example.hh.loadvacancies.presentation.LoadVacanciesViewModel
 import com.example.hh.main.di.VacanciesModule
 import com.example.hh.main.presentation.VacanciesViewModel
 
@@ -42,7 +44,7 @@ interface ProvideViewModel {
 
             VacanciesViewModel::class.java.simpleName -> VacanciesModule(core).viewModel()
 
-            //LoadVacanciesViewModel::class.java.simpleName -> LoadVacanciesModule(core).viewModel()
+            LoadVacanciesViewModel::class.java.simpleName -> LoadVacanciesModule(core).viewModel()
 
             FiltersViewModel::class.java.simpleName -> FiltersViewModule(core).viewModel()
 
