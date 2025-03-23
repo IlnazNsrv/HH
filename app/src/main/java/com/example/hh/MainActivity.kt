@@ -10,11 +10,14 @@ import androidx.lifecycle.ViewModel
 import com.example.hh.core.ClearViewModel
 import com.example.hh.core.ProvideViewModel
 import com.example.hh.core.presentation.Screen
+import com.example.hh.filters.presentation.FiltersViewModel
 import com.example.hh.filters.presentation.screen.FiltersScreen
 import com.example.hh.filters.presentation.screen.NavigateToFilters
+import com.example.hh.loadvacancies.presentation.LoadVacanciesViewModel
 import com.example.hh.loadvacancies.presentation.screen.LoadVacanciesScreen
 import com.example.hh.loadvacancies.presentation.screen.NavigateToLoadVacancies
 import com.example.hh.main.presentation.screen.MainFragment
+import com.example.hh.search.presentation.SearchViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), Navigate {
@@ -36,6 +39,9 @@ class MainActivity : AppCompatActivity(), Navigate {
         bottomNavigationView.setOnItemSelectedListener {
             val fragment: Fragment = when (it.itemId) {
                 R.id.main -> {
+                    viewModel.clearSearch()
+                    viewModel.clearLoadVacancies()
+                    viewModel.clearFilters()
                     MainFragment()
                 }
 
@@ -62,6 +68,18 @@ class MainViewModel(
 
     fun clearHome() = with(clearViewModel) {
         clear(MainViewModel::class.java.simpleName)
+    }
+
+    fun clearFilters() = with(clearViewModel) {
+        clear(FiltersViewModel::class.java.simpleName)
+    }
+
+    fun clearLoadVacancies() {
+        clearViewModel.clear(LoadVacanciesViewModel::class.java.simpleName)
+    }
+
+    fun clearSearch() {
+        clearViewModel.clear(SearchViewModel::class.java.simpleName)
     }
 }
 

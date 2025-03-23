@@ -1,6 +1,7 @@
 package com.example.hh.filters.presentation
 
 import androidx.lifecycle.LiveData
+import com.example.hh.core.ClearViewModel
 import com.example.hh.core.presentation.AbstractViewModel
 import com.example.hh.filters.data.FiltersRepository
 import com.example.hh.loadvacancies.presentation.screen.NavigateToLoadVacancies
@@ -9,6 +10,7 @@ import com.example.hh.search.presentation.VacanciesSearchParams
 import com.example.hh.views.button.areabutton.CustomAreaButtonViewModel
 
 class FiltersViewModel(
+    private val clearViewModel: ClearViewModel,
     private val searchParams: VacanciesSearchParams.Builder,
     private val experienceButtonsLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
     private val scheduleButtonsLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,

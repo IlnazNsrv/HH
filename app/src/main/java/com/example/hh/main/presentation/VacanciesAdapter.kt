@@ -19,7 +19,6 @@ class VacanciesAdapter(
     ),
     private val clickActions: ClickActions,
     private val liveDataWrapper: VacanciesLiveDataWrapper,
-    private val onLoadMore: () -> Unit
 ) : RecyclerView.Adapter<VacancyViewHolder>(), UpdateItems<VacancyUi>, SaveItems<VacanciesUiState> {
 
     private val list = mutableListOf<VacancyUi>()
@@ -56,9 +55,6 @@ class VacanciesAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VacancyViewHolder {
         return typeList[viewType].viewHolder(parent, clickActions)
     }
-//        VacancyViewHolder(
-//            ItemVacancyBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-//        )
 
     override fun onBindViewHolder(holder: VacancyViewHolder, position: Int) {
         holder.bind(list[position])
