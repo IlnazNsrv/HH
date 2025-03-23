@@ -1,5 +1,6 @@
 package com.example.hh.loadvacancies.presentation.screen
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,6 +19,11 @@ class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
 
     private lateinit var onBackPressedCallback: OnBackPressedCallback
     private lateinit var viewModel: LoadVacanciesViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.d("inz", "load fragment attached")
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

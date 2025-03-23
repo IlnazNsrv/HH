@@ -1,6 +1,7 @@
 package com.example.hh.loadvacancies.presentation
 
 import android.util.Log
+import com.example.hh.core.ClearViewModel
 import com.example.hh.core.RunAsync
 import com.example.hh.core.presentation.AbstractViewModel
 import com.example.hh.filters.data.cache.ChosenFiltersCache
@@ -16,6 +17,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
 class LoadVacanciesViewModel(
+    private val clearViewModel: ClearViewModel,
     private val filtersCache: ChosenFiltersCache,
     private val liveDataWrapper: VacanciesLiveDataWrapper,
     private val runAsync: RunAsync,
@@ -50,6 +52,7 @@ class LoadVacanciesViewModel(
         viewModelScope.launch {
             repository.clearVacancies()
         }
+        clearViewModel.clear(LoadVacanciesViewModel::class.java.simpleName)
         Log.d("inz", "repository cleared")
     }
 
@@ -72,9 +75,6 @@ class LoadVacanciesViewModel(
         loadVacanciesWithQuery(searchParams.build())
     }
 
-    fun chooseFilterButton(text: String) {
-    }
-
     private var searchParams = VacanciesSearchParams.Builder()
 
     private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
@@ -90,7 +90,11 @@ class LoadVacanciesViewModel(
         }
     }
 
-    //override fun liveData(): LiveData<VacanciesUiState> = liveDataWrapper.liveData()
+    override fun onCleared() {
+        super.onCleared()
+        Log.d("inz", "Load Vacancies VM cleared")
+    }
+
     override fun liveData(tag: String) = liveDataWrapper.liveData()
 
     override fun clickFavorite(vacancyUi: VacancyUi) {
