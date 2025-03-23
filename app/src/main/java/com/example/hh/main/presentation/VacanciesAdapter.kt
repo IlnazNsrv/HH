@@ -18,7 +18,8 @@ class VacanciesAdapter(
         VacancyUiType.Vacancy
     ),
     private val clickActions: ClickActions,
-    private val liveDataWrapper: VacanciesLiveDataWrapper
+    private val liveDataWrapper: VacanciesLiveDataWrapper,
+    private val onLoadMore: () -> Unit
 ) : RecyclerView.Adapter<VacancyViewHolder>(), UpdateItems<VacancyUi>, SaveItems<VacanciesUiState> {
 
     private val list = mutableListOf<VacancyUi>()

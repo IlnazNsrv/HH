@@ -36,6 +36,7 @@ data class VacancyCloud(
     @SerializedName("type")
     val type: Type
 ) : Serializable
+
 data class Type(
     @SerializedName("id")
     val id: String,

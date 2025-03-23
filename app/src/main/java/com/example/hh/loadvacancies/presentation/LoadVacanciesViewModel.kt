@@ -1,5 +1,6 @@
 package com.example.hh.loadvacancies.presentation
 
+import android.util.Log
 import com.example.hh.core.RunAsync
 import com.example.hh.core.presentation.AbstractViewModel
 import com.example.hh.filters.data.cache.ChosenFiltersCache
@@ -12,6 +13,7 @@ import com.example.hh.search.presentation.VacanciesSearchParams
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 class LoadVacanciesViewModel(
     private val filtersCache: ChosenFiltersCache,
@@ -19,7 +21,7 @@ class LoadVacanciesViewModel(
     private val runAsync: RunAsync,
     private val repository: VacanciesRepository,
     private val mapper: LoadVacanciesResult.Mapper
-) : AbstractViewModel<VacanciesUiState>(){
+) : AbstractViewModel<VacanciesUiState>() {
 
     interface Mapper {
         fun map(
@@ -37,7 +39,29 @@ class LoadVacanciesViewModel(
         )
     }
 
-    fun searchWithFilters() {
+    fun init(isFirstRun: Boolean) {
+        if (isFirstRun)
+            searchWithFilters()
+        else
+            vacanciesFromDatabase()
+    }
+
+    fun clearVacancies() {
+        viewModelScope.launch {
+            repository.clearVacancies()
+        }
+        Log.d("inz", "repository cleared")
+    }
+
+    private fun vacanciesFromDatabase() {
+        runAsync.runAsync(viewModelScope, {
+            repository.vacanciesFromCache()
+        }) {
+            it.map(mapper)
+        }
+    }
+
+    private fun searchWithFilters() {
         val cacheFilters = filtersCache.read()
         loadVacanciesWithQuery(cacheFilters)
     }
@@ -51,14 +75,16 @@ class LoadVacanciesViewModel(
     fun chooseFilterButton(text: String) {
     }
 
-   private var searchParams = VacanciesSearchParams.Builder()
+    private var searchParams = VacanciesSearchParams.Builder()
 
     private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+
 
     private fun loadVacanciesWithQuery(vacanciesSearchParams: VacanciesSearchParams) {
         mapper.mapProgress()
         runAsync.runAsync(viewModelScope, {
-            repository.vacancies(vacanciesSearchParams)
+            //repository.vacancies(vacanciesSearchParams)
+           repository.vacanciesWithCache(vacanciesSearchParams)
         }) {
             it.map(mapper)
         }
