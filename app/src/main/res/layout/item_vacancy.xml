@@ -88,6 +88,15 @@
         android:layout_gravity="start"
         tools:text="experience" />
 
+    <TextView
+        android:id="@+id/testTextForCheck"
+        tools:text="test text"
+        android:visibility="gone"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"/>
+
     <Button
         android:id="@+id/respondButton"
         android:textColor="@color/white"

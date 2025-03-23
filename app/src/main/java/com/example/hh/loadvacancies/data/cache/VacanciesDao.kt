@@ -1,0 +1,88 @@
+package com.example.hh.loadvacancies.data.cache
+
+import androidx.room.Dao
+import androidx.room.Embedded
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Relation
+import androidx.room.Transaction
+
+@Dao
+interface VacanciesDao {
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun saveVacancies(vacancies: List<VacancyCache>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun saveWorkFormat(workFormat: List<WorkFormatEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun saveWorkingHours(workingHours: List<WorkingHoursEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun saveWorkScheduleByDays(workScheduleByDays: List<WorkScheduleByDaysEntity>)
+
+//    @Query("SELECT * FROM vacancies_table WHERE id=:vacancyId")
+//    suspend fun vacancy(vacancyId: String) : VacancyCache
+
+    @Query("SELECT * FROM vacancies_table")
+    suspend fun vacancy() : List<VacancyCache>
+
+    @Query("SELECT * FROM work_format where vacancyId=:vacancyId")
+    suspend fun workFormat(vacancyId: Int) : List<WorkFormatEntity>
+
+    @Query("SELECT * FROM work_schedule_by_days WHERE vacancyId=:vacancyId")
+    suspend fun workScheduleByDays(vacancyId: Int) : List<WorkScheduleByDaysEntity>
+
+    @Query("SELECT * FROM working_hours WHERE vacancyId=:vacancyId")
+    suspend fun workingHoursEntity(vacancyId: Int) : List<WorkingHoursEntity>
+
+    @Query("UPDATE vacancies_table SET isFavorite=:isFavorite WHERE id=:id")
+    suspend fun updateFavoriteState(id: String, isFavorite: Boolean)
+
+    @Query("SELECT * FROM vacancies_table WHERE isFavorite = 1")
+    suspend fun getFavoriteVacancies() : List<VacancyCache>
+
+    @Query("DELETE FROM vacancies_table WHERE isFavorite=0")
+    suspend fun deleteNonFavoriteVacancies()
+
+    @Query("DELETE FROM work_format WHERE vacancyId NOT IN (SELECT id FROM vacancies_table WHERE isFavorite = 1)")
+    suspend fun deleteNonFavoriteWorkFormats()
+
+    @Query("DELETE FROM working_hours WHERE vacancyId NOT IN (SELECT id FROM vacancies_table WHERE isFavorite = 1)")
+    suspend fun deleteNonFavoriteWorkingHours()
+
+    @Query("DELETE FROM work_schedule_by_days WHERE vacancyId NOT IN (SELECT id FROM vacancies_table WHERE isFavorite = 1)")
+    suspend fun deleteNonFavoriteWorkSchedules()
+
+    suspend fun clearNonFavoriteData() {
+        deleteNonFavoriteVacancies()
+        deleteNonFavoriteWorkFormats()
+        deleteNonFavoriteWorkingHours()
+        deleteNonFavoriteWorkSchedules()
+    }
+
+    @Transaction
+    @Query("SELECT * FROM vacancies_table")
+    suspend fun getAllVacancies() : List<VacancyWithDetails>
+
+    data class VacancyWithDetails(
+        @Embedded val vacancy: VacancyCache,
+        @Relation(
+            parentColumn = "id",
+            entityColumn = "vacancyId"
+        )
+        val workFormats: List<WorkFormatEntity>?,
+        @Relation(
+            parentColumn = "id",
+            entityColumn = "vacancyId"
+        )
+        val workingHours: List<WorkingHoursEntity>?,
+        @Relation(
+            parentColumn = "id",
+            entityColumn = "vacancyId"
+        )
+        val workBySchedule: List<WorkScheduleByDaysEntity>?
+    )
+}

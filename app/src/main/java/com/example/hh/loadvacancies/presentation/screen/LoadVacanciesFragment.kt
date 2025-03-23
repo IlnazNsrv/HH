@@ -1,6 +1,7 @@
 package com.example.hh.loadvacancies.presentation.screen
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.FragmentManager
 import com.example.hh.core.ProvideViewModel
 import com.example.hh.core.presentation.AbstractFragment
+import com.example.hh.core.presentation.Screen
 import com.example.hh.databinding.FragmentLoadVacanciesBinding
 import com.example.hh.loadvacancies.presentation.LoadVacanciesViewModel
 import com.example.hh.main.presentation.VacanciesLiveDataWrapper
@@ -36,12 +38,14 @@ class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.backButton.setOnClickListener {
+            viewModel.clearVacancies()
             navigateToHome()
         }
+
         viewModel =
             (requireActivity().application as ProvideViewModel).viewModel(LoadVacanciesViewModel::class.java.simpleName)
 
-        viewModel.searchWithFilters()
+        viewModel.init(savedInstanceState == null)
 
         viewModel.init(object : LoadVacanciesViewModel.Mapper {
             override fun map(
@@ -59,9 +63,16 @@ class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
         super.onDestroy()
         // Отключаем колбэк при уничтожении фрагмента
         onBackPressedCallback.remove()
+        Log.d("inz", "LoadVacanciesFragment was destroyed")
+       // viewModel.clearVacancies()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Log.d("inz", "LoadFragment was detached")
     }
 
     private fun navigateToHome() {
-        parentFragmentManager.popBackStack("home", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        parentFragmentManager.popBackStack(Screen.FILTERS_SCREEN, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 }

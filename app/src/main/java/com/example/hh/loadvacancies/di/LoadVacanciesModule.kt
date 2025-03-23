@@ -28,7 +28,8 @@ class LoadVacanciesModule(private val core: Core) : Module<LoadVacanciesViewMode
                     core.provideRetrofitBuilder.provideRetrofitBuilder(),
                     core.handleDataError
                 ),
-                core.handleDomainError
+                core.handleDomainError,
+                core.vacanciesCacheModule.dao()
             ),
             VacanciesResultMapper(
                 vacanciesLiveDataWrapper
