@@ -17,6 +17,7 @@ import com.example.hh.loadvacancies.presentation.LoadVacanciesViewModel
 import com.example.hh.loadvacancies.presentation.screen.LoadVacanciesScreen
 import com.example.hh.loadvacancies.presentation.screen.NavigateToLoadVacancies
 import com.example.hh.main.presentation.screen.MainFragment
+import com.example.hh.main.presentation.screen.NavigateToHome
 import com.example.hh.search.presentation.SearchViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -42,13 +43,15 @@ class MainActivity : AppCompatActivity(), Navigate {
                     viewModel.clearSearch()
                     viewModel.clearLoadVacancies()
                     viewModel.clearFilters()
-                    MainFragment()
+
+                    supportFragmentManager.findFragmentByTag(MainFragment::class.java.simpleName)
+                        ?: MainFragment()
                 }
 
                 else -> throw IllegalStateException()
             }
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container_view, fragment)
+                .replace(R.id.fragment_container_view, fragment, MainFragment::class.java.simpleName)
                 .commit()
             true
         }
@@ -59,6 +62,10 @@ class MainActivity : AppCompatActivity(), Navigate {
 
     override fun navigate(screen: Screen) {
         screen.show(R.id.fragment_container_view, supportFragmentManager)
+    }
+
+    override fun navigateToHome() {
+        TODO("Not yet implemented")
     }
 }
 
@@ -83,9 +90,10 @@ class MainViewModel(
     }
 }
 
-interface Navigate : NavigateToLoadVacancies, NavigateToFilters {
+interface Navigate : NavigateToLoadVacancies, NavigateToFilters, NavigateToHome {
     fun navigate(screen: Screen)
 
     override fun navigateToLoadVacancies() = navigate(LoadVacanciesScreen)
     override fun navigateToFilters() = navigate(FiltersScreen)
+    //override fun navigateToHome() = navigate(MainScreen)
 }

@@ -1,5 +1,7 @@
-package com.example.hh.search.data
+package com.example.hh.loadvacancies.data
 
+import com.example.hh.favorite.data.cache.FavoriteVacanciesDao
+import com.example.hh.favorite.data.cache.FavoriteVacancyCache
 import com.example.hh.loadvacancies.data.cache.AddressEntity
 import com.example.hh.loadvacancies.data.cache.AreaEntity
 import com.example.hh.loadvacancies.data.cache.EmployerEntity
@@ -29,11 +31,13 @@ interface VacanciesRepository {
     suspend fun vacanciesWithCache(searchParams: VacanciesSearchParams): LoadVacanciesResult
     suspend fun vacanciesFromCache(): LoadVacanciesResult
     suspend fun clearVacancies()
+    suspend fun updateFavoriteStatus(vacancyUi: VacancyUi)
 
     class Base(
         private val cloudDataSource: LoadVacanciesCloudDataSource,
         private val handleError: HandleError<String>,
-        private val dao: VacanciesDao
+        private val vacanciesDao: VacanciesDao,
+        private val favoriteVacanciesDao: FavoriteVacanciesDao
     ) : VacanciesRepository {
 
         override suspend fun vacancies(searchParams: VacanciesSearchParams): LoadVacanciesResult {
@@ -56,6 +60,9 @@ interface VacanciesRepository {
                 val workingHours: MutableList<WorkingHoursEntity> = mutableListOf()
                 val workScheduleByDays: MutableList<WorkScheduleByDaysEntity> = mutableListOf()
 
+                val favoriteVacancies = favoriteVacanciesDao.getFavoriteVacancies()
+                val favoriteIds = favoriteVacancies.map { it.id }
+
                 val vacancies = vacancyData.map { vacancyCloud ->
                     val temporaryWorkFormat = vacancyCloud.workFormat?.map {
                         WorkFormatEntity(vacancyId = vacancyCloud.id, id = it.id, name = it.name)
@@ -75,6 +82,26 @@ interface VacanciesRepository {
                     workingHours.addAll(temporaryWorkingHours ?: emptyList())
                     workScheduleByDays.addAll(temporaryWorkScheduleByDays ?: emptyList())
 
+                    val isFavorite = favoriteIds.contains(vacancyCloud.id)
+
+//                    if (favoriteVacancies != emptyList<FavoriteVacancyCache>()) {
+//
+//                        VacancyCache(
+//                            vacancyCloud.id,
+//                            vacancyCloud.name,
+//                            AreaEntity(vacancyCloud.area.id, vacancyCloud.area.name),
+//                            createSalaryEntity(vacancyCloud.salary),
+//                            createAddressEntity(vacancyCloud.address),
+//                            createEmployerEntity(vacancyCloud.employer),
+//                            createExperienceEntity(vacancyCloud.experience),
+//                            vacancyCloud.url,
+//                            TypeEntity(
+//                                vacancyCloud.type.id,
+//                                vacancyCloud.type.name
+//                            )
+//                        )
+//                    }
+
                     VacancyCache(
                         vacancyCloud.id,
                         vacancyCloud.name,
@@ -87,19 +114,32 @@ interface VacanciesRepository {
                         TypeEntity(
                             vacancyCloud.type.id,
                             vacancyCloud.type.name
-                        )
+                        ),
+                        isFavorite
                     )
                 }
-                dao.saveVacancies(vacancies)
-                dao.saveWorkFormat(workFormat)
-                dao.saveWorkingHours(workingHours)
-                dao.saveWorkScheduleByDays(workScheduleByDays)
+                vacanciesDao.saveVacancies(vacancies)
+                vacanciesDao.saveWorkFormat(workFormat)
+                vacanciesDao.saveWorkingHours(workingHours)
+                vacanciesDao.saveWorkScheduleByDays(workScheduleByDays)
 
+//                return LoadVacanciesResult.Success(
+//                    vacancyData.map {
+//                        VacancyUi.Base(
+//                            it,
+//                            false
+//                        )
+//                    })
                 return LoadVacanciesResult.Success(
-                    vacancyData.map {
-                        VacancyUi.Base(
-                            it,
-                            false
+                    vacancies.map {
+                        VacancyCachedUi(
+                            VacanciesDao.VacancyWithDetails(
+                                it,
+                                workFormat,
+                                workingHours,
+                                workScheduleByDays
+                            ),
+                            it.isFavorite
                         )
                     })
             } catch (e: Exception) {
@@ -108,16 +148,34 @@ interface VacanciesRepository {
         }
 
         override suspend fun vacanciesFromCache(): LoadVacanciesResult {
-            val dataCache = dao.getAllVacancies()
+            val dataCache = vacanciesDao.getAllVacancies()
             return LoadVacanciesResult.Success(
                 dataCache.map {
-                    VacancyCachedUi(it, false)
+                    VacancyCachedUi(it, it.vacancy.isFavorite)
                 }
             )
         }
 
         override suspend fun clearVacancies() {
-            dao.clearNonFavoriteData()
+            vacanciesDao.clearNonFavoriteData()
+        }
+
+        override suspend fun updateFavoriteStatus(vacancyUi: VacancyUi) {
+            val getVacancy = vacanciesDao.getVacancy(vacancyUi.id())
+            val favoriteVacancy = FavoriteVacancyCache(
+                getVacancy.id,
+                getVacancy.name,
+                getVacancy.area,
+                getVacancy.salary,
+                getVacancy.address,
+                getVacancy.employer,
+                getVacancy.experience,
+                getVacancy.url,
+                getVacancy.type,
+                vacancyUi.favoriteChosen()
+            )
+            vacanciesDao.updateFavoriteState(vacancyUi.id(), vacancyUi.favoriteChosen())
+            favoriteVacanciesDao.addVacancy(favoriteVacancy)
         }
 
         private fun createSalaryEntity(salary: Salary?): SalaryEntity? {

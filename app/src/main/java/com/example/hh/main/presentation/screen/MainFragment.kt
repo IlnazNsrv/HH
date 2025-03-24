@@ -1,6 +1,7 @@
 package com.example.hh.main.presentation.screen
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,11 @@ class MainFragment : AbstractFragment<FragmentMainBinding>() {
     private lateinit var viewModel: VacanciesViewModel
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentMainBinding.inflate(inflater, container, false)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d("inz", "MainFragment onCreate pinged")
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

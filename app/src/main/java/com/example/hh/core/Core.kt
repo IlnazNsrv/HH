@@ -1,6 +1,7 @@
 package com.example.hh.core
 
 import android.content.Context
+import com.example.hh.favorite.data.cache.FavoriteVacanciesCacheModule
 import com.example.hh.filters.areafilters.data.cache.AreasCacheModule
 import com.example.hh.loadvacancies.data.cache.VacanciesCacheModule
 import com.example.hh.main.data.HandleError
@@ -22,4 +23,6 @@ class Core(val clearViewModel: ClearViewModel, private val context: Context) {
     val areasCacheModule = AreasCacheModule(context)
 
     val vacanciesCacheModule = VacanciesCacheModule(context)
+
+    val favoriteVacanciesCacheModule = FavoriteVacanciesCacheModule(context)
 }

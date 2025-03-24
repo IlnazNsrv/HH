@@ -2,9 +2,9 @@ package com.example.hh.search.presentation
 
 import androidx.lifecycle.ViewModel
 import com.example.hh.core.RunAsync
+import com.example.hh.loadvacancies.data.VacanciesRepository
 import com.example.hh.loadvacancies.presentation.screen.NavigateToLoadVacancies
 import com.example.hh.main.presentation.VacanciesResultMapper
-import com.example.hh.search.data.VacanciesRepository
 import java.io.Serializable
 
 class SearchViewModel(
