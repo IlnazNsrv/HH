@@ -24,6 +24,7 @@ class FiltersViewModule(private val core: Core) : Module<FiltersViewModel> {
     override fun viewModel(): FiltersViewModel {
 
         return FiltersViewModel(
+            core.clearViewModel,
             searchParams,
             FilterButtonsLiveDataWrapper.Base<FilterButtonUi>(),
             FilterButtonsLiveDataWrapper.Base<FilterButtonUi>(),

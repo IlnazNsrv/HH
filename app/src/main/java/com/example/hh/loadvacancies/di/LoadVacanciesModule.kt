@@ -3,11 +3,11 @@ package com.example.hh.loadvacancies.di
 import com.example.hh.core.Core
 import com.example.hh.core.Module
 import com.example.hh.filters.data.cache.ChosenFiltersCache
+import com.example.hh.loadvacancies.data.VacanciesRepository
 import com.example.hh.loadvacancies.presentation.LoadVacanciesViewModel
 import com.example.hh.main.data.cloud.LoadVacanciesCloudDataSource
 import com.example.hh.main.presentation.VacanciesLiveDataWrapper
 import com.example.hh.main.presentation.VacanciesResultMapper
-import com.example.hh.search.data.VacanciesRepository
 import com.example.hh.views.input.CustomInputLiveDataWrapper
 
 class LoadVacanciesModule(private val core: Core) : Module<LoadVacanciesViewModel> {
@@ -30,7 +30,8 @@ class LoadVacanciesModule(private val core: Core) : Module<LoadVacanciesViewMode
                     core.handleDataError
                 ),
                 core.handleDomainError,
-                core.vacanciesCacheModule.dao()
+                core.vacanciesCacheModule.dao(),
+                core.favoriteVacanciesCacheModule.favoriteVacanciesDao()
             ),
             VacanciesResultMapper(
                 vacanciesLiveDataWrapper

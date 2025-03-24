@@ -5,11 +5,11 @@ import com.example.hh.core.ClearViewModel
 import com.example.hh.core.RunAsync
 import com.example.hh.core.presentation.AbstractViewModel
 import com.example.hh.filters.data.cache.ChosenFiltersCache
+import com.example.hh.loadvacancies.data.VacanciesRepository
 import com.example.hh.main.data.LoadVacanciesResult
 import com.example.hh.main.presentation.VacanciesLiveDataWrapper
 import com.example.hh.main.presentation.VacanciesUiState
 import com.example.hh.main.presentation.VacancyUi
-import com.example.hh.search.data.VacanciesRepository
 import com.example.hh.search.presentation.VacanciesSearchParams
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -98,8 +98,8 @@ class LoadVacanciesViewModel(
     override fun liveData(tag: String) = liveDataWrapper.liveData()
 
     override fun clickFavorite(vacancyUi: VacancyUi) {
+        viewModelScope.launch { repository.updateFavoriteStatus(vacancyUi) }
         liveDataWrapper.clickFavorite(vacancyUi)
     }
-
 
 }
