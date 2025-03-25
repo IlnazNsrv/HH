@@ -16,4 +16,8 @@ class VacanciesCacheModule(context: Context) {
     fun dao() : VacanciesDao {
         return dataBase.vacanciesDao()
     }
+
+     fun clearVacancies() : ClearDataBase {
+        return dataBase
+    }
 }

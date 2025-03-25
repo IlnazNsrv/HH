@@ -40,9 +40,9 @@ class MainActivity : AppCompatActivity(), Navigate {
         bottomNavigationView.setOnItemSelectedListener {
             val fragment: Fragment = when (it.itemId) {
                 R.id.main -> {
-                    viewModel.clearSearch()
-                    viewModel.clearLoadVacancies()
-                    viewModel.clearFilters()
+//                    viewModel.clearSearch()
+//                    viewModel.clearLoadVacancies()
+//                    viewModel.clearFilters()
 
                     supportFragmentManager.findFragmentByTag(MainFragment::class.java.simpleName)
                         ?: MainFragment()

@@ -20,7 +20,7 @@ data class VacancyCache(
     @Embedded
     val address: AddressEntity?,
     @Embedded
-    val employer: EmployerEntity?,
+    val employer: EmployerEntity,
     @Embedded
     val experience: ExperienceEntity?,
     val url: String,

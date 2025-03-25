@@ -10,13 +10,17 @@ import androidx.room.RoomDatabase
         WorkScheduleByDaysEntity::class],
     version = 1
 )
-abstract class VacanciesDatabase : RoomDatabase() {
+abstract class VacanciesDatabase : RoomDatabase(), ClearDataBase {
 
     abstract fun vacanciesDao(): VacanciesDao
+
+    override suspend fun clearAllVacancies() {
+        clearAllTables()
+    }
 
 }
 
 interface ClearDataBase {
 
-    suspend fun clearWithoutIsFavorite()
+    suspend fun clearAllVacancies()
 }

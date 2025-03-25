@@ -79,16 +79,16 @@ interface VacanciesDao {
             parentColumn = "id",
             entityColumn = "vacancyId"
         )
-        val workFormats: List<WorkFormatEntity>?,
+        val workFormats: List<WorkFormatEntity>,
         @Relation(
             parentColumn = "id",
             entityColumn = "vacancyId"
         )
-        val workingHours: List<WorkingHoursEntity>?,
+        val workingHours: List<WorkingHoursEntity>,
         @Relation(
             parentColumn = "id",
             entityColumn = "vacancyId"
         )
-        val workBySchedule: List<WorkScheduleByDaysEntity>?
+        val workBySchedule: List<WorkScheduleByDaysEntity>
     )
 }

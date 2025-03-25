@@ -4,6 +4,7 @@ import com.example.hh.favorite.data.cache.FavoriteVacanciesDao
 import com.example.hh.favorite.data.cache.FavoriteVacancyCache
 import com.example.hh.loadvacancies.data.cache.AddressEntity
 import com.example.hh.loadvacancies.data.cache.AreaEntity
+import com.example.hh.loadvacancies.data.cache.ClearDataBase
 import com.example.hh.loadvacancies.data.cache.EmployerEntity
 import com.example.hh.loadvacancies.data.cache.ExperienceEntity
 import com.example.hh.loadvacancies.data.cache.LogoUrlsEntity
@@ -18,10 +19,13 @@ import com.example.hh.loadvacancies.presentation.VacancyCachedUi
 import com.example.hh.main.data.HandleError
 import com.example.hh.main.data.LoadVacanciesResult
 import com.example.hh.main.data.cloud.Address
+import com.example.hh.main.data.cloud.Area
 import com.example.hh.main.data.cloud.Employer
 import com.example.hh.main.data.cloud.Experience
 import com.example.hh.main.data.cloud.LoadVacanciesCloudDataSource
 import com.example.hh.main.data.cloud.Salary
+import com.example.hh.main.data.cloud.Type
+import com.example.hh.main.data.cloud.VacancyCloud
 import com.example.hh.main.presentation.VacancyUi
 import com.example.hh.search.presentation.VacanciesSearchParams
 
@@ -34,10 +38,12 @@ interface VacanciesRepository {
     suspend fun updateFavoriteStatus(vacancyUi: VacancyUi)
 
     class Base(
+        private val createProperties: CreatePropertiesForVacancyUi,
         private val cloudDataSource: LoadVacanciesCloudDataSource,
         private val handleError: HandleError<String>,
         private val vacanciesDao: VacanciesDao,
-        private val favoriteVacanciesDao: FavoriteVacanciesDao
+        private val favoriteVacanciesDao: FavoriteVacanciesDao,
+        private val clearVacancies: ClearDataBase
     ) : VacanciesRepository {
 
         override suspend fun vacancies(searchParams: VacanciesSearchParams): LoadVacanciesResult {
@@ -84,23 +90,6 @@ interface VacanciesRepository {
 
                     val isFavorite = favoriteIds.contains(vacancyCloud.id)
 
-//                    if (favoriteVacancies != emptyList<FavoriteVacancyCache>()) {
-//
-//                        VacancyCache(
-//                            vacancyCloud.id,
-//                            vacancyCloud.name,
-//                            AreaEntity(vacancyCloud.area.id, vacancyCloud.area.name),
-//                            createSalaryEntity(vacancyCloud.salary),
-//                            createAddressEntity(vacancyCloud.address),
-//                            createEmployerEntity(vacancyCloud.employer),
-//                            createExperienceEntity(vacancyCloud.experience),
-//                            vacancyCloud.url,
-//                            TypeEntity(
-//                                vacancyCloud.type.id,
-//                                vacancyCloud.type.name
-//                            )
-//                        )
-//                    }
 
                     VacancyCache(
                         vacancyCloud.id,
@@ -130,16 +119,36 @@ interface VacanciesRepository {
 //                            false
 //                        )
 //                    })
+
+                val vacanciesFromCache = vacanciesDao.getAllVacancies()
+
                 return LoadVacanciesResult.Success(
-                    vacancies.map {
-                        VacancyCachedUi(
-                            VacanciesDao.VacancyWithDetails(
-                                it,
-                                workFormat,
-                                workingHours,
-                                workScheduleByDays
+                    vacanciesFromCache.map {
+//                        VacancyCachedUi(
+//                            VacanciesDao.VacancyWithDetails(
+//                                it,
+//                                workFormat,
+//                                workingHours,
+//                                workScheduleByDays
+//                            ),
+//                            it.isFavorite
+//                        )
+                        VacancyUi.Base(
+                            VacancyCloud(
+                                it.vacancy.id,
+                                it.vacancy.name,
+                                Area(it.vacancy.id, it.vacancy.name),
+                                createProperties.createSalary(it.vacancy.salary),
+                                createProperties.createAddress(it.vacancy.address),
+                                createProperties.createEmployer(it.vacancy.employer),
+                                createProperties.createWorkFormatList(it.workFormats),
+                                createProperties.createWorkingHours(it.workingHours),
+                                createProperties.createWorkScheduleByDays(it.workBySchedule),
+                                createProperties.createExperience(it.vacancy.experience),
+                                it.vacancy.url,
+                                Type(it.vacancy.type.id, it.vacancy.type.name)
                             ),
-                            it.isFavorite
+                            it.vacancy.isFavorite
                         )
                     })
             } catch (e: Exception) {
@@ -157,7 +166,7 @@ interface VacanciesRepository {
         }
 
         override suspend fun clearVacancies() {
-            vacanciesDao.clearNonFavoriteData()
+            clearVacancies.clearAllVacancies()
         }
 
         override suspend fun updateFavoriteStatus(vacancyUi: VacancyUi) {

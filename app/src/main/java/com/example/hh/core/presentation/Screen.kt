@@ -19,6 +19,7 @@ interface Screen {
         protected open fun newFragment() : Fragment = fragment.getConstructor().newInstance()
 
         override fun show(containerId: Int, fragmentManager: FragmentManager) {
+
             fragmentManager.beginTransaction()
                 .add(containerId, newFragment())
                 .addToBackStack(backStackName)
