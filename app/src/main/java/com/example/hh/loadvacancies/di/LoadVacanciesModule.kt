@@ -3,6 +3,7 @@ package com.example.hh.loadvacancies.di
 import com.example.hh.core.Core
 import com.example.hh.core.Module
 import com.example.hh.filters.data.cache.ChosenFiltersCache
+import com.example.hh.loadvacancies.data.CreatePropertiesForVacancyUi
 import com.example.hh.loadvacancies.data.VacanciesRepository
 import com.example.hh.loadvacancies.presentation.LoadVacanciesViewModel
 import com.example.hh.main.data.cloud.LoadVacanciesCloudDataSource
@@ -25,13 +26,15 @@ class LoadVacanciesModule(private val core: Core) : Module<LoadVacanciesViewMode
             vacanciesLiveDataWrapper,
             core.runAsync,
             VacanciesRepository.Base(
+                CreatePropertiesForVacancyUi.Base(),
                 LoadVacanciesCloudDataSource.Base(
                     core.provideRetrofitBuilder.provideRetrofitBuilder(),
                     core.handleDataError
                 ),
                 core.handleDomainError,
                 core.vacanciesCacheModule.dao(),
-                core.favoriteVacanciesCacheModule.favoriteVacanciesDao()
+                core.favoriteVacanciesCacheModule.favoriteVacanciesDao(),
+                core.vacanciesCacheModule.clearVacancies()
             ),
             VacanciesResultMapper(
                 vacanciesLiveDataWrapper

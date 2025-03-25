@@ -70,9 +70,6 @@ interface VacancyUi : ItemsUi {
                     text = vacancyCloud.type.name
                 }
             }
-//            vacancyCloud.employer.logoUrls?.ninety?.let {
-//                loadImage(it, binding)
-//            }
         }
 
         override fun id(): String {
@@ -109,10 +106,6 @@ interface VacancyUi : ItemsUi {
         override fun favoriteChosen(): Boolean {
             return favoriteChosen
         }
-
-//        private fun loadImage(imageUrl: String, binding: ItemVacancyBinding) {
-//            Picasso.get().load(imageUrl).into(binding.companyImageView)
-//        }
 
         private fun setSalary(salary: Salary?): String {
             return when {

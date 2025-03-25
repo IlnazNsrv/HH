@@ -1,5 +1,6 @@
 package com.example.hh.main.presentation
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.hh.core.RunAsync
 import com.example.hh.core.presentation.AbstractViewModel
@@ -16,6 +17,8 @@ class VacanciesViewModel(
     private val mapper: LoadVacanciesResult.Mapper,
     private val liveDataWrapper: VacanciesLiveDataWrapper,
 ) : AbstractViewModel<VacanciesUiState>(), LoadVacancies {
+
+    private val KEY_FOR_BUNDLE = "key"
 
     interface Mapper {
         fun map(
@@ -38,6 +41,11 @@ class VacanciesViewModel(
         )
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        Log.d("inz", "CLEARED VacanciesVM")
+    }
+
     override fun clickFavorite(vacancyUi: VacancyUi) {
         liveDataWrapper.clickFavorite(vacancyUi)
     }
@@ -50,11 +58,11 @@ class VacanciesViewModel(
     }
 
     fun save(bundleWrapper: BundleWrapper.Save<VacanciesUiState>) {
-        liveDataWrapper.save(bundleWrapper)
+        liveDataWrapper.save(bundleWrapper.saveWithKey(KEY_FOR_BUNDLE))
     }
 
     fun restore(bundleWrapper: BundleWrapper.Restore<VacanciesUiState>) {
-        val vacancyState = bundleWrapper.restore()
+        val vacancyState = bundleWrapper.restoreWithKey(KEY_FOR_BUNDLE).restore()
         liveDataWrapper.update(vacancyState)
     }
 

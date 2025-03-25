@@ -46,16 +46,16 @@ interface FavoriteVacanciesDao {
             parentColumn = "id",
             entityColumn = "vacancyId"
         )
-        val workFormats: List<FavoriteWorkFormatEntity>?,
+        val workFormats: List<FavoriteWorkFormatEntity>,
         @Relation(
             parentColumn = "id",
             entityColumn = "vacancyId"
         )
-        val workingHours: List<FavoriteWorkingHoursEntity>?,
+        val workingHours: List<FavoriteWorkingHoursEntity>,
         @Relation(
             parentColumn = "id",
             entityColumn = "vacancyId"
         )
-        val workBySchedule: List<FavoriteWorkScheduleByDaysEntity>?
+        val workBySchedule: List<FavoriteWorkScheduleByDaysEntity>
     )
 }

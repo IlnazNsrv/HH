@@ -9,6 +9,7 @@ import com.example.hh.loadvacancies.data.cache.VacanciesDao
 import com.example.hh.main.presentation.VacancyUi
 import com.example.hh.main.presentation.VacancyUiType
 
+
 class VacancyCachedUi(
     private val vacancyCloud: VacanciesDao.VacancyWithDetails,
     private var favoriteChosen: Boolean

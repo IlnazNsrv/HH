@@ -34,42 +34,6 @@ class VacanciesModule(private val core: Core) : Module<VacanciesViewModel> {
             CustomButtonLiveDataWrapper.Base<CustomButtonUiState>()
 
         return VacanciesViewModel(
-//            CustomTextViewModel(
-//                HandleTextAction.Empty,
-//                errorTextLiveDataWrapper
-//            ),
-//            CustomButtonViewModel(
-//                RetryButtonAction(vacanciesLiveDataWrapper),
-//                retryButtonLiveDataWrapper
-//            ),
-//            CustomTextViewModel(
-//                HandleTextAction.Empty,
-//                vacancyTitleLiveDataWrapper
-//            ),
-//            CustomTextViewModel(
-//                HandleTextAction.Empty,
-//                vacancySalaryLiveDataWrapper
-//            ),
-//            CustomTextViewModel(
-//                HandleTextAction.Empty,
-//                vacancyCityLiveDataWrapper
-//            ),
-//            CustomTextViewModel(
-//                HandleTextAction.Empty,
-//                vacancyCompanyNameLiveDataWrapper
-//            ),
-//            CustomTextViewModel(
-//                HandleTextAction.Empty,
-//                vacancyExperienceDataWrapper
-//            ),
-//            CustomButtonViewModel(
-//                HandleButtonAction.Empty,
-//                favoriteButtonLiveDataWrapper
-//            ),
-//            CustomButtonViewModel(
-//                HandleButtonAction.Empty,
-//                respondButtonLiveDataWrapper
-//            ),
             MainVacanciesRepository.Base(
                 LoadVacanciesCloudDataSource.Base(
                     core.provideRetrofitBuilder.provideRetrofitBuilder(),

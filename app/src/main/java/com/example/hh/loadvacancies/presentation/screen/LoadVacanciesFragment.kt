@@ -30,6 +30,7 @@ class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
 
         onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
+                viewModel.clearVacancies()
                 navigateToHome()
             }
         }

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import com.example.hh.core.ProvideViewModel
 import com.example.hh.core.presentation.AbstractFragment
+import com.example.hh.core.presentation.Screen
 import com.example.hh.databinding.FragmentFiltersBinding
 import com.example.hh.filters.areafilters.presentation.screen.AreaFragment
 import com.example.hh.filters.presentation.CreateFilters
@@ -42,7 +43,7 @@ class FiltersFragment : AbstractFragment<FragmentFiltersBinding>() {
                 searchFieldButtonLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
                 customAreaButtonViewModel: CustomAreaButtonViewModel,
 
-            ) {
+                ) {
                 binding.nameRecyclerView.initButtons(
                     viewModel,
                     searchFieldButtonLiveDataWrapper,
@@ -74,35 +75,45 @@ class FiltersFragment : AbstractFragment<FragmentFiltersBinding>() {
         }
 
         binding.backButton.setOnClickListener {
+            savedInstanceState?.clear()
             navigateToHome()
         }
 
         binding.searchButton.setOnClickListener {
             val inputNumber = binding.inputSalary.text.toString()
             val inputString = binding.inputVacancyEditText.text.toString()
-            viewModel.searchVacancies(inputString, inputNumber.toIntOrNull(), requireActivity() as NavigateToLoadVacancies)
+            viewModel.searchVacancies(
+                inputString,
+                inputNumber.toIntOrNull(),
+                requireActivity() as NavigateToLoadVacancies
+            )
             Log.d("inz", "text is: ${inputString}, number is ${inputNumber.toIntOrNull()}")
-          //  viewModel.clickSearchVacanciesButton(requireActivity() as NavigateToLoadVacancies)
+            //  viewModel.clickSearchVacanciesButton(requireActivity() as NavigateToLoadVacancies)
         }
 
         binding.onlyWithSalarySwitchButton.setOnCheckedChangeListener { _, isChecked ->
-           viewModel.switchSalaryParams(isChecked)
+            viewModel.switchSalaryParams(isChecked)
         }
 
     }
 
     private fun navigateToHome() {
-        parentFragmentManager.popBackStack("home", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        parentFragmentManager.popBackStack(
+            Screen.HOME_SCREEN,
+            FragmentManager.POP_BACK_STACK_INCLUSIVE
+        )
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        viewModel.save(BundleWrapper.Base(outState))
+        if (isAdded && !requireActivity().isFinishing)
+            viewModel.save(BundleWrapper.Base(outState))
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null && isAdded && !requireActivity().isFinishing) {
+            Log.d("inz", "SavedInstance in filtersFragment is $savedInstanceState")
             viewModel.restore(BundleWrapper.Base(savedInstanceState))
         }
     }

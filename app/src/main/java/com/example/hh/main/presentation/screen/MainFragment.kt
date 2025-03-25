@@ -29,13 +29,15 @@ class MainFragment : AbstractFragment<FragmentMainBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         viewModel =
             (requireActivity().application as ProvideViewModel).viewModel(VacanciesViewModel::class.java.simpleName)
 
         viewModel.init(savedInstanceState == null)
 
-        val adapter = VacanciesAdapter(clickActions = viewModel, liveDataWrapper = VacanciesLiveDataWrapper.Base())
+        val adapter = VacanciesAdapter(
+            clickActions = viewModel,
+            liveDataWrapper = VacanciesLiveDataWrapper.Base()
+        )
         binding.recyclerView.setAdapter(adapter)
 
 
@@ -52,6 +54,7 @@ class MainFragment : AbstractFragment<FragmentMainBinding>() {
         binding.filterButton.setOnClickListener {
             val dialogFragment = SearchFragment()
             // dialogFragment.show(parentFragmentManager, SearchFragment.TAG)
+            savedInstanceState?.clear()
             navigate(requireActivity() as NavigateToFilters)
 
         }
@@ -62,15 +65,26 @@ class MainFragment : AbstractFragment<FragmentMainBinding>() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         //viewModel.save(BundleWrapper.Base(outState))
-        viewModel.save(BundleWrapper.Base(outState))
+        if (isAdded && !requireActivity().isFinishing) {
+            Log.d("bdl", "saved instance in MainFragment is $outState")
+            viewModel.save(BundleWrapper.Base(outState))
+        }
         //  binding.recyclerView.save(outState)
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        if (savedInstanceState != null) {
-            viewModel.restore(BundleWrapper.Base(savedInstanceState))
-            // binding.recyclerView.restore(savedInstanceState)
+        Log.d(
+            "bdl",
+            "saveInstance is null? ${savedInstanceState == null}, is empty? ${savedInstanceState?.isEmpty}"
+        )
+        if (savedInstanceState != null && savedInstanceState.isEmpty) {
+//            Log.d("bdl", "restore instance in MainFragment is $savedInstanceState")
+            viewModel.init(true)
+//            // binding.recyclerView.restore(savedInstanceState)
+        } else {
+            if (savedInstanceState != null)
+                viewModel.restore(BundleWrapper.Base(savedInstanceState))
         }
     }
 }

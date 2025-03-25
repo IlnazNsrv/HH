@@ -49,8 +49,9 @@ class LoadVacanciesViewModel(
     }
 
     fun clearVacancies() {
-        viewModelScope.launch {
+        runAsync.runAsync(viewModelScope, {
             repository.clearVacancies()
+        }) {
         }
         clearViewModel.clear(LoadVacanciesViewModel::class.java.simpleName)
         Log.d("inz", "repository cleared")
