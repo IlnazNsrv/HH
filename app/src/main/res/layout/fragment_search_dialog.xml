@@ -11,7 +11,7 @@
         style="@style/ModalBottomSheetDialog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/rounded_background"
+        android:background="@drawable/rounded_black_background"
         android:orientation="vertical">
 
 
@@ -59,23 +59,33 @@
                 android:id="@+id/inputEditText"
                 android:layout_width="match_parent"
                 android:imeOptions="actionSearch"
+                android:backgroundTint="@color/white"
                 android:singleLine="true"
                 android:paddingStart="40dp"
                 android:theme="@style/MyEditTextTheme"
                 android:hint="Должность, ключевые слова"
                 android:background="@drawable/input_background"
-                android:textColor="@android:color/white"
+                android:textColor="@android:color/black"
                 android:layout_margin="8dp"
                 android:layout_height="wrap_content"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <com.example.hh.views.button.areabutton.CustomAreaButton
             android:id="@+id/cityButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="москва" />
+
+        <TextView
+            android:id="@+id/addAreaButton"
+            android:textColor="@color/DodgerBlue"
+            android:text="+ Добавить город"
+            android:textSize="16sp"
+            android:paddingStart="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <View
             android:layout_width="match_parent"

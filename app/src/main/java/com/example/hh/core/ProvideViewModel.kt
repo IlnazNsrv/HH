@@ -60,7 +60,7 @@ interface ProvideViewModel {
 
             FavoriteVacanciesViewModel::class.java.simpleName -> FavoriteVacanciesViewModule(core).viewModel()
 
-            SearchViewModel::class.java.simpleName -> SearchViewModule(core).viewModel()
+            SearchViewModel::class.java.simpleName -> SearchViewModule(core, FiltersViewModule.coreFilters).viewModel()
 
             else -> throw IllegalStateException("unknown class: $tag")
 

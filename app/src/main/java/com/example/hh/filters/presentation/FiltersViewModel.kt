@@ -38,7 +38,6 @@ class FiltersViewModel(
             employmentButtonLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
             searchFieldButtonLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
             customAreaButtonViewModel: CustomAreaButtonViewModel,
-
             )
     }
 
@@ -59,7 +58,6 @@ class FiltersViewModel(
             employmentButtonLiveDataWrapper,
             searchFieldButtonLiveDataWrapper,
             customAreaButtonViewModel,
-
             )
     }
 

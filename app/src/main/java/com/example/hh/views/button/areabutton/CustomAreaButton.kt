@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.RelativeLayout
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.findViewTreeLifecycleOwner
+import com.example.hh.R
 import com.example.hh.databinding.AreaButtonBinding
 
 class CustomAreaButton : RelativeLayout, UpdateCustomAreaButton {
@@ -65,6 +66,7 @@ class CustomAreaButton : RelativeLayout, UpdateCustomAreaButton {
             this.visibility = View.GONE
             binding.cityName.text = ""
         } else {
+            binding.cityName.setTextColor(resources.getColor(R.color.white))
             binding.cityName.text = areaPair.second
             this.visibility = View.VISIBLE
         }
