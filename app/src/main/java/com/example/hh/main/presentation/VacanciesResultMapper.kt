@@ -15,6 +15,10 @@ class VacanciesResultMapper(
         vacanciesLiveDataWrapper.update(VacanciesUiState.Error(listOf(error)))
     }
 
+    override fun mapEmptyFavoriteCache() {
+        vacanciesLiveDataWrapper.update(VacanciesUiState.EmptyVacancyCache(listOf(VacancyUi.EmptyFavoriteCache)))
+    }
+
     override fun mapProgress() {
         vacanciesLiveDataWrapper.update(VacanciesUiState.Progress(listOf(VacancyUi.Progress)))
     }

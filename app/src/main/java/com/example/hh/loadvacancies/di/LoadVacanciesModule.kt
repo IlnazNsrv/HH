@@ -26,6 +26,7 @@ class LoadVacanciesModule(private val core: Core) : Module<LoadVacanciesViewMode
             vacanciesLiveDataWrapper,
             core.runAsync,
             VacanciesRepository.Base(
+                core.provideResource,
                 CreatePropertiesForVacancyUi.Base(),
                 LoadVacanciesCloudDataSource.Base(
                     core.provideRetrofitBuilder.provideRetrofitBuilder(),

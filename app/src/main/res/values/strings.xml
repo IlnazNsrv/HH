@@ -23,4 +23,5 @@
     <string name="name">Названии вакансии</string>
     <string name="company_name">Названии компании</string>
     <string name="description">Описании вакансии</string>
+    <string name="empty_vacancy_cache">Упс, здесь явно какя-то ошибка. Попробуйте снова.</string>
 </resources>

@@ -21,6 +21,6 @@
         android:gravity="center"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        tools:text="retry"/>
+        android:text="retry"/>
 
 </LinearLayout>

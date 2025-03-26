@@ -14,7 +14,6 @@ import com.example.hh.search.presentation.VacanciesSearchParams
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
 
 class LoadVacanciesViewModel(
     private val clearViewModel: ClearViewModel,
@@ -27,7 +26,6 @@ class LoadVacanciesViewModel(
 
     interface Mapper {
         fun map(
-            //customInputViewModel: CustomInputViewModel,
             loadVacanciesViewModel: LoadVacanciesViewModel,
             liveDataWrapper: VacanciesLiveDataWrapper
         )
@@ -36,7 +34,6 @@ class LoadVacanciesViewModel(
     fun init(mapper: Mapper) {
         mapper.map(
             this,
-            //searchViewModule.inputViewModel,
             liveDataWrapper
         )
     }
@@ -55,6 +52,10 @@ class LoadVacanciesViewModel(
         }
         clearViewModel.clear(LoadVacanciesViewModel::class.java.simpleName)
         Log.d("inz", "repository cleared")
+    }
+
+    override fun retry() {
+        searchWithFilters()
     }
 
     private fun vacanciesFromDatabase() {
@@ -84,7 +85,6 @@ class LoadVacanciesViewModel(
     private fun loadVacanciesWithQuery(vacanciesSearchParams: VacanciesSearchParams) {
         mapper.mapProgress()
         runAsync.runAsync(viewModelScope, {
-            //repository.vacancies(vacanciesSearchParams)
            repository.vacanciesWithCache(vacanciesSearchParams)
         }) {
             it.map(mapper)
@@ -99,8 +99,12 @@ class LoadVacanciesViewModel(
     override fun liveData(tag: String) = liveDataWrapper.liveData()
 
     override fun clickFavorite(vacancyUi: VacancyUi) {
-        viewModelScope.launch { repository.updateFavoriteStatus(vacancyUi) }
-        liveDataWrapper.clickFavorite(vacancyUi)
+        runAsync.runAsync(viewModelScope, {
+            repository.updateFavoriteStatus(vacancyUi)
+        }, {
+            liveDataWrapper.clickFavorite(vacancyUi)
+        })
+
     }
 
 }

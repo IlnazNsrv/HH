@@ -27,6 +27,9 @@ interface FavoriteVacanciesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveWorkScheduleByDays(workScheduleByDays: List<FavoriteWorkScheduleByDaysEntity>)
 
+    @Query("UPDATE favorite_table SET isFavorite=:isFavorite WHERE id=:id")
+    suspend fun updateFavoriteState(id: String, isFavorite: Boolean)
+
     @Query("SELECT * FROM favorite_table WHERE isFavorite = 1")
     suspend fun getFavoriteVacancies() : List<FavoriteVacancyCache>
 

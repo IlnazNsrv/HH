@@ -2,6 +2,7 @@ package com.example.hh.main.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.example.hh.databinding.ItemEmptyFavoriteDatabaseBinding
 import com.example.hh.databinding.ItemErrorBinding
 import com.example.hh.databinding.ItemProgressBinding
 import com.example.hh.databinding.ItemVacancyBinding
@@ -19,6 +20,19 @@ interface VacancyUiType {
             return VacancyViewHolder.Progress(
                 ItemProgressBinding.inflate(
                     LayoutInflater.from(parent.context), parent,
+                    false
+                ).root
+            )
+        }
+    }
+
+    object EmptyFavoriteCache : VacancyUiType {
+
+        override fun viewHolder(parent: ViewGroup, clickActions: ClickActions): VacancyViewHolder {
+            return VacancyViewHolder.EmptyFavoriteCache(
+                ItemEmptyFavoriteDatabaseBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
                     false
                 ).root
             )
