@@ -15,7 +15,8 @@ class VacanciesAdapter(
     private val typeList: List<VacancyUiType> = listOf(
         VacancyUiType.Error,
         VacancyUiType.Progress,
-        VacancyUiType.Vacancy
+        VacancyUiType.Vacancy,
+        VacancyUiType.EmptyFavoriteCache
     ),
     private val clickActions: ClickActions,
     private val liveDataWrapper: VacanciesLiveDataWrapper,
@@ -93,6 +94,10 @@ abstract class VacancyViewHolder(
             }
         }
     }
+
+    class EmptyFavoriteCache(
+        view: View
+    ) : VacancyViewHolder(view)
 
     class Vacancy(
         private val binding: ItemVacancyBinding,

@@ -4,6 +4,8 @@ package com.example.hh.core
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.hh.MainViewModel
+import com.example.hh.favorite.di.FavoriteVacanciesViewModule
+import com.example.hh.favorite.presentation.FavoriteVacanciesViewModel
 import com.example.hh.filters.areafilters.di.AreaViewModule
 import com.example.hh.filters.areafilters.presentation.screen.AreaViewModel
 import com.example.hh.filters.di.FiltersViewModule
@@ -53,6 +55,8 @@ interface ProvideViewModel {
             FiltersViewModel::class.java.simpleName -> FiltersViewModule(core).viewModel()
 
             AreaViewModel::class.java.simpleName -> AreaViewModule(core, FiltersViewModule.coreFilters).viewModel()
+
+            FavoriteVacanciesViewModel::class.java.simpleName -> FavoriteVacanciesViewModule(core).viewModel()
 
             //SearchViewModel::class.java.simpleName -> SearchViewModule(core, VacanciesLiveDataWrapper.Base(), CustomInputLiveDataWrapper.Base()).viewModel()
 

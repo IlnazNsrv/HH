@@ -18,6 +18,7 @@ import com.example.hh.search.presentation.screen.SearchFragment
 class MainFragment : AbstractFragment<FragmentMainBinding>() {
 
     private lateinit var viewModel: VacanciesViewModel
+
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentMainBinding.inflate(inflater, container, false)
 

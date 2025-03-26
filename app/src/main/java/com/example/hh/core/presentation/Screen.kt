@@ -12,7 +12,7 @@ interface Screen {
 
     fun show(containerId: Int, fragmentManager: FragmentManager) = Unit
 
-    abstract class ReplaceWithBackstack(private val fragment: Class<out Fragment>) : Screen {
+    abstract class AddWithBackstack(private val fragment: Class<out Fragment>) : Screen {
 
         protected open val backStackName: String = ""
 

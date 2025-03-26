@@ -1,5 +1,7 @@
 package com.example.hh.loadvacancies.data
 
+import com.example.hh.R
+import com.example.hh.core.ProvideResource
 import com.example.hh.favorite.data.cache.FavoriteVacanciesDao
 import com.example.hh.favorite.data.cache.FavoriteVacancyCache
 import com.example.hh.loadvacancies.data.cache.AddressEntity
@@ -38,6 +40,7 @@ interface VacanciesRepository {
     suspend fun updateFavoriteStatus(vacancyUi: VacancyUi)
 
     class Base(
+        private val provideResource: ProvideResource,
         private val createProperties: CreatePropertiesForVacancyUi,
         private val cloudDataSource: LoadVacanciesCloudDataSource,
         private val handleError: HandleError<String>,
@@ -60,6 +63,7 @@ interface VacanciesRepository {
 
         override suspend fun vacanciesWithCache(searchParams: VacanciesSearchParams): LoadVacanciesResult {
             try {
+                clearVacancies.clearAllVacancies()
                 val vacancyData = cloudDataSource.loadVacancies(searchParams)
 
                 val workFormat: MutableList<WorkFormatEntity> = mutableListOf()
@@ -112,27 +116,11 @@ interface VacanciesRepository {
                 vacanciesDao.saveWorkingHours(workingHours)
                 vacanciesDao.saveWorkScheduleByDays(workScheduleByDays)
 
-//                return LoadVacanciesResult.Success(
-//                    vacancyData.map {
-//                        VacancyUi.Base(
-//                            it,
-//                            false
-//                        )
-//                    })
 
                 val vacanciesFromCache = vacanciesDao.getAllVacancies()
 
                 return LoadVacanciesResult.Success(
                     vacanciesFromCache.map {
-//                        VacancyCachedUi(
-//                            VacanciesDao.VacancyWithDetails(
-//                                it,
-//                                workFormat,
-//                                workingHours,
-//                                workScheduleByDays
-//                            ),
-//                            it.isFavorite
-//                        )
                         VacancyUi.Base(
                             VacancyCloud(
                                 it.vacancy.id,
@@ -158,11 +146,15 @@ interface VacanciesRepository {
 
         override suspend fun vacanciesFromCache(): LoadVacanciesResult {
             val dataCache = vacanciesDao.getAllVacancies()
-            return LoadVacanciesResult.Success(
-                dataCache.map {
-                    VacancyCachedUi(it, it.vacancy.isFavorite)
-                }
-            )
+            return if (dataCache.isEmpty()) {
+                LoadVacanciesResult.Error(provideResource.string(R.string.empty_vacancy_cache))
+            } else {
+                 LoadVacanciesResult.Success(
+                    dataCache.map {
+                        VacancyCachedUi(it, it.vacancy.isFavorite)
+                    }
+                )
+            }
         }
 
         override suspend fun clearVacancies() {
@@ -181,9 +173,9 @@ interface VacanciesRepository {
                 getVacancy.experience,
                 getVacancy.url,
                 getVacancy.type,
-                vacancyUi.favoriteChosen()
+                !vacancyUi.favoriteChosen()
             )
-            vacanciesDao.updateFavoriteState(vacancyUi.id(), vacancyUi.favoriteChosen())
+            vacanciesDao.updateFavoriteState(vacancyUi.id(), !vacancyUi.favoriteChosen())
             favoriteVacanciesDao.addVacancy(favoriteVacancy)
         }
 

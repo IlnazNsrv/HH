@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import com.example.hh.core.ClearViewModel
 import com.example.hh.core.ProvideViewModel
 import com.example.hh.core.presentation.Screen
+import com.example.hh.favorite.presentation.screen.FavoriteVacanciesFragment
 import com.example.hh.filters.presentation.FiltersViewModel
 import com.example.hh.filters.presentation.screen.FiltersScreen
 import com.example.hh.filters.presentation.screen.NavigateToFilters
@@ -43,15 +44,29 @@ class MainActivity : AppCompatActivity(), Navigate {
 //                    viewModel.clearSearch()
 //                    viewModel.clearLoadVacancies()
 //                    viewModel.clearFilters()
+                    MainFragment()
 
-                    supportFragmentManager.findFragmentByTag(MainFragment::class.java.simpleName)
-                        ?: MainFragment()
+//                    supportFragmentManager.findFragmentByTag(MainFragment::class.java.simpleName)
+//                        ?: MainFragment()
+                }
+
+                R.id.favorite -> {
+                    viewModel.clearSearch()
+                    viewModel.clearLoadVacancies()
+                    viewModel.clearFilters()
+                    FavoriteVacanciesFragment()
+//                    supportFragmentManager.findFragmentByTag(FavoriteVacanciesFragment::class.java.simpleName)
+//                        ?: FavoriteVacanciesFragment()
                 }
 
                 else -> throw IllegalStateException()
             }
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container_view, fragment, MainFragment::class.java.simpleName)
+                .replace(
+                    R.id.fragment_container_view,
+                    fragment,
+                    MainFragment::class.java.simpleName
+                )
                 .commit()
             true
         }

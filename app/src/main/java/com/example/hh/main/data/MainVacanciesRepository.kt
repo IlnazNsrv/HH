@@ -38,6 +38,7 @@ interface LoadVacanciesResult {
         fun mapSuccess(list: List<VacancyUi>)
         fun mapError(message: String)
         fun mapProgress() = Unit
+        fun mapEmptyFavoriteCache() = Unit
     }
 
     data class Success(private val list: List<VacancyUi>) : LoadVacanciesResult {
@@ -50,6 +51,13 @@ interface LoadVacanciesResult {
         override fun map(mapper: Mapper) {
             mapper.mapError(message)
         }
+    }
+
+    object EmptyFavoriteCache : LoadVacanciesResult {
+        override fun map(mapper: Mapper) {
+            mapper.mapEmptyFavoriteCache()
+        }
+
     }
 
     object Progress : LoadVacanciesResult {

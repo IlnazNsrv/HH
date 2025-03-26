@@ -41,27 +41,7 @@ interface VacancyUi : ItemsUi {
             binding.city.text = vacancyCloud.area.name
             binding.companyName.text = vacancyCloud.employer.name
             binding.experience.text = setExperience(vacancyCloud.experience)
-            binding.favoriteButton.apply {
-                if (favoriteChosen) {
-                    startAnimation(
-                        android.view.animation.AnimationUtils.loadAnimation(
-                            this.context,
-                            R.anim.fill_animation
-                        )
-                    )
-                    setBackgroundResource(R.drawable.ic_favorite_clicked)
-                }
-                else {
-                    startAnimation(
-                        android.view.animation.AnimationUtils.loadAnimation(
-                            this.context,
-                            R.anim.fill_animation
-                        )
-                    )
-                    setBackgroundResource(R.drawable.ic_favorite)
-                }
-
-            }
+            setFavorite(binding)
 
 
             binding.respondButton.apply {
@@ -76,9 +56,9 @@ interface VacancyUi : ItemsUi {
             return vacancyCloud.id
         }
 
-        override fun changeFavoriteIcon(binding: ItemVacancyBinding) {
+        private fun setFavorite(binding: ItemVacancyBinding) {
             binding.favoriteButton.apply {
-                if (!favoriteChosen) {
+                if (favoriteChosen) {
                     startAnimation(
                         android.view.animation.AnimationUtils.loadAnimation(
                             this.context,
@@ -86,8 +66,7 @@ interface VacancyUi : ItemsUi {
                         )
                     )
                     setBackgroundResource(R.drawable.ic_favorite_clicked)
-                }
-                else {
+                } else {
                     startAnimation(
                         android.view.animation.AnimationUtils.loadAnimation(
                             this.context,
@@ -98,7 +77,30 @@ interface VacancyUi : ItemsUi {
                 }
             }
         }
-        override fun changeFavoriteChosen() : VacancyUi  {
+
+        override fun changeFavoriteIcon(binding: ItemVacancyBinding) {
+            binding.favoriteButton.apply {
+                if (!favoriteChosen) {
+                    startAnimation(
+                        android.view.animation.AnimationUtils.loadAnimation(
+                            this.context,
+                            R.anim.fill_animation
+                        )
+                    )
+                    setBackgroundResource(R.drawable.ic_favorite_clicked)
+                } else {
+                    startAnimation(
+                        android.view.animation.AnimationUtils.loadAnimation(
+                            this.context,
+                            R.anim.fill_animation
+                        )
+                    )
+                    setBackgroundResource(R.drawable.ic_favorite)
+                }
+            }
+        }
+
+        override fun changeFavoriteChosen(): VacancyUi {
             favoriteChosen = !favoriteChosen
             return this
         }
@@ -145,6 +147,17 @@ interface VacancyUi : ItemsUi {
         override fun id(): String = javaClass.simpleName + message
 
         override fun changeFavoriteChosen(): VacancyUi = Error(message)
+        override fun favoriteChosen(): Boolean = false
+    }
+
+    object EmptyFavoriteCache : VacancyUi {
+
+        override fun type() = VacancyUiType.EmptyFavoriteCache
+
+        override fun id(): String = javaClass.simpleName
+
+        override fun changeFavoriteChosen(): VacancyUi = EmptyFavoriteCache
+
         override fun favoriteChosen(): Boolean = false
 
     }

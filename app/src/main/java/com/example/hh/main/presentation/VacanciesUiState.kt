@@ -10,6 +10,8 @@ interface VacanciesUiState : UiState {
 
     object Load : VacanciesUiState {
 
+        private fun readResolve(): Any = Load
+
         override fun handle(viewModel: LoadVacancies) {
             viewModel.loadVacancies()
         }
@@ -22,6 +24,12 @@ interface VacanciesUiState : UiState {
     }
 
     data class Progress(private val value: List<VacancyUi.Progress>) : VacanciesUiState {
+        override fun show(updateItemsRecyclerView: UpdateItemsRecyclerView<VacancyUi>) {
+            updateItemsRecyclerView.update(value)
+        }
+    }
+
+    data class EmptyVacancyCache(private val value: List<VacancyUi.EmptyFavoriteCache>) : VacanciesUiState {
         override fun show(updateItemsRecyclerView: UpdateItemsRecyclerView<VacancyUi>) {
             updateItemsRecyclerView.update(value)
         }
@@ -43,6 +51,8 @@ interface VacanciesUiState : UiState {
     }
 
     object Hide : VacanciesUiState {
+
+        private fun readResolve(): Any = Hide
 
         override fun show(updateItemsRecyclerView: UpdateItemsRecyclerView<VacancyUi>) {
             updateItemsRecyclerView.update(emptyList())
