@@ -5,7 +5,7 @@ import com.example.hh.core.Module
 import com.example.hh.core.presentation.AreasResultMapper
 import com.example.hh.filters.areafilters.data.AreasRepository
 import com.example.hh.filters.areafilters.data.cache.AreasCacheDataSource
-import com.example.hh.filters.areafilters.presentation.screen.AreaViewModel
+import com.example.hh.filters.areafilters.presentation.AreaViewModel
 import com.example.hh.filters.core.FiltersCore
 import com.example.hh.filters.data.cache.ChosenFiltersCache
 import com.example.hh.filters.presentation.FilterButtonUi

@@ -7,13 +7,15 @@ import com.example.hh.MainViewModel
 import com.example.hh.favorite.di.FavoriteVacanciesViewModule
 import com.example.hh.favorite.presentation.FavoriteVacanciesViewModel
 import com.example.hh.filters.areafilters.di.AreaViewModule
-import com.example.hh.filters.areafilters.presentation.screen.AreaViewModel
+import com.example.hh.filters.areafilters.presentation.AreaViewModel
 import com.example.hh.filters.di.FiltersViewModule
 import com.example.hh.filters.presentation.FiltersViewModel
 import com.example.hh.loadvacancies.di.LoadVacanciesModule
 import com.example.hh.loadvacancies.presentation.LoadVacanciesViewModel
 import com.example.hh.main.di.VacanciesModule
 import com.example.hh.main.presentation.VacanciesViewModel
+import com.example.hh.search.di.SearchViewModule
+import com.example.hh.search.presentation.SearchViewModel
 
 interface ProvideViewModel {
 
@@ -58,7 +60,7 @@ interface ProvideViewModel {
 
             FavoriteVacanciesViewModel::class.java.simpleName -> FavoriteVacanciesViewModule(core).viewModel()
 
-            //SearchViewModel::class.java.simpleName -> SearchViewModule(core, VacanciesLiveDataWrapper.Base(), CustomInputLiveDataWrapper.Base()).viewModel()
+            SearchViewModel::class.java.simpleName -> SearchViewModule(core).viewModel()
 
             else -> throw IllegalStateException("unknown class: $tag")
 

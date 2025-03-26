@@ -30,14 +30,7 @@ interface VacancyUi : ItemsUi {
 
         override fun show(binding: ItemVacancyBinding) {
             binding.vacancyTitle.text = vacancyCloud.name
-            binding.salary.apply {
-                if (vacancyCloud.salary == null)
-                    visibility = View.GONE
-                else {
-                    visibility = View.VISIBLE
-                    text = setSalary(vacancyCloud.salary)
-                }
-            }
+            setSalary(binding)
             binding.city.text = vacancyCloud.area.name
             binding.companyName.text = vacancyCloud.employer.name
             binding.experience.text = setExperience(vacancyCloud.experience)
@@ -74,6 +67,17 @@ interface VacancyUi : ItemsUi {
                         )
                     )
                     setBackgroundResource(R.drawable.ic_favorite)
+                }
+            }
+        }
+
+        private fun setSalary(binding: ItemVacancyBinding) {
+            binding.salary.apply {
+                if (vacancyCloud.salary == null)
+                    visibility = View.GONE
+                else {
+                    visibility = View.VISIBLE
+                    text = setSalary(vacancyCloud.salary)
                 }
             }
         }
@@ -129,35 +133,31 @@ interface VacancyUi : ItemsUi {
     }
 
     object Progress : VacancyUi {
+
+        private fun readResolve(): Any = Progress
         override fun type(): VacancyUiType = VacancyUiType.Progress
-
         override fun id(): String = javaClass.simpleName
-
         override fun changeFavoriteChosen(): VacancyUi = Progress
         override fun favoriteChosen(): Boolean = false
     }
 
     data class Error(private val message: String) : VacancyUi {
-        override fun type(): VacancyUiType = VacancyUiType.Error
 
+        override fun type(): VacancyUiType = VacancyUiType.Error
         override fun showError(binding: ItemErrorBinding) {
             binding.errorText.text = message
         }
-
         override fun id(): String = javaClass.simpleName + message
-
         override fun changeFavoriteChosen(): VacancyUi = Error(message)
         override fun favoriteChosen(): Boolean = false
     }
 
     object EmptyFavoriteCache : VacancyUi {
 
+        private fun readResolve(): Any = EmptyFavoriteCache
         override fun type() = VacancyUiType.EmptyFavoriteCache
-
         override fun id(): String = javaClass.simpleName
-
         override fun changeFavoriteChosen(): VacancyUi = EmptyFavoriteCache
-
         override fun favoriteChosen(): Boolean = false
 
     }

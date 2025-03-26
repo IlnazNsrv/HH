@@ -2,6 +2,7 @@ package com.example.hh.loadvacancies.presentation
 
 import android.util.Log
 import com.example.hh.core.ClearViewModel
+import com.example.hh.core.LastTimeButtonClicked
 import com.example.hh.core.RunAsync
 import com.example.hh.core.presentation.AbstractViewModel
 import com.example.hh.filters.data.cache.ChosenFiltersCache
@@ -16,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 
 class LoadVacanciesViewModel(
+    private val lastTimeButtonClicked: LastTimeButtonClicked,
     private val clearViewModel: ClearViewModel,
     private val filtersCache: ChosenFiltersCache,
     private val liveDataWrapper: VacanciesLiveDataWrapper,
@@ -99,12 +101,12 @@ class LoadVacanciesViewModel(
     override fun liveData(tag: String) = liveDataWrapper.liveData()
 
     override fun clickFavorite(vacancyUi: VacancyUi) {
-        runAsync.runAsync(viewModelScope, {
-            repository.updateFavoriteStatus(vacancyUi)
-        }, {
-            liveDataWrapper.clickFavorite(vacancyUi)
-        })
-
+        if (lastTimeButtonClicked.timePassed()) {
+            runAsync.runAsync(viewModelScope, {
+                repository.updateFavoriteStatus(vacancyUi)
+            }, {
+                liveDataWrapper.clickFavorite(vacancyUi)
+            })
+        }
     }
-
 }

@@ -52,11 +52,16 @@ class MainFragment : AbstractFragment<FragmentMainBinding>() {
             }
         })
 
+        binding.textInputForSearch.setOnClickListener {
+            viewModel.openSearchDialogFragment(parentFragmentManager)
+        }
+
         binding.filterButton.setOnClickListener {
             val dialogFragment = SearchFragment()
             // dialogFragment.show(parentFragmentManager, SearchFragment.TAG)
             savedInstanceState?.clear()
-            navigate(requireActivity() as NavigateToFilters)
+ //           navigate(requireActivity() as NavigateToFilters)
+            viewModel.navigateToFilters(requireActivity() as NavigateToFilters)
 
         }
     }

@@ -1,4 +1,4 @@
-package com.example.hh.filters.areafilters.presentation.screen
+package com.example.hh.filters.areafilters.presentation
 
 import androidx.lifecycle.LiveData
 import com.example.hh.core.RunAsync

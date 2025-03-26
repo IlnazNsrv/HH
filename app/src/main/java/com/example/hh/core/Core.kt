@@ -18,11 +18,17 @@ class Core(val clearViewModel: ClearViewModel, private val context: Context) {
 
     val provideRetrofitBuilder = ProvideRetrofitBuilder.Base()
 
-    val sharedPreferences = context.getSharedPreferences("hhAppData", Context.MODE_PRIVATE)
+    val sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
 
     val areasCacheModule = AreasCacheModule(context)
 
     val vacanciesCacheModule = VacanciesCacheModule(context)
 
     val favoriteVacanciesCacheModule = FavoriteVacanciesCacheModule(context)
+
+    val lastTimeButtonClicked = LastTimeButtonClicked.Base(500)
+
+    companion object {
+        private const val SHARED_PREF_NAME = "hhAppData"
+    }
 }

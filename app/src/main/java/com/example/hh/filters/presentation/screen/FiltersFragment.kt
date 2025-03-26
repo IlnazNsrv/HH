@@ -10,7 +10,6 @@ import com.example.hh.core.ProvideViewModel
 import com.example.hh.core.presentation.AbstractFragment
 import com.example.hh.core.presentation.Screen
 import com.example.hh.databinding.FragmentFiltersBinding
-import com.example.hh.filters.areafilters.presentation.screen.AreaFragment
 import com.example.hh.filters.presentation.CreateFilters
 import com.example.hh.filters.presentation.FilterButtonUi
 import com.example.hh.filters.presentation.FilterButtonsLiveDataWrapper
@@ -31,7 +30,8 @@ class FiltersFragment : AbstractFragment<FragmentFiltersBinding>() {
 
         viewModel =
             (requireActivity().application as ProvideViewModel).viewModel(FiltersViewModel::class.java.simpleName)
-        viewModel.init()
+        viewModel.init(savedInstanceState == null)
+
 
 
         viewModel.init(object : FiltersViewModel.Mapper {
@@ -69,9 +69,13 @@ class FiltersFragment : AbstractFragment<FragmentFiltersBinding>() {
             }
         })
 
+        binding.resetFiltersButton.setOnClickListener {
+            binding.onlyWithSalarySwitchButton.isChecked = false
+            viewModel.resetAllParams()
+        }
+
         binding.cityFragmentButton.setOnClickListener {
-            val dialogFragment = AreaFragment()
-            dialogFragment.show(parentFragmentManager, AreaFragment.AREA_FRAGMENT_TAG)
+            viewModel.openAreaDialogFragment(parentFragmentManager)
         }
 
         binding.backButton.setOnClickListener {
@@ -88,7 +92,6 @@ class FiltersFragment : AbstractFragment<FragmentFiltersBinding>() {
                 requireActivity() as NavigateToLoadVacancies
             )
             Log.d("inz", "text is: ${inputString}, number is ${inputNumber.toIntOrNull()}")
-            //  viewModel.clickSearchVacanciesButton(requireActivity() as NavigateToLoadVacancies)
         }
 
         binding.onlyWithSalarySwitchButton.setOnCheckedChangeListener { _, isChecked ->
