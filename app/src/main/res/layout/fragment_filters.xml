@@ -39,20 +39,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
+            android:textColor="@color/white"
+            android:paddingEnd="25dp"
             android:text="Фильры"
             android:textSize="26sp" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
 
         <Button
             android:id="@+id/resetFiltersButton"
             android:layout_width="wrap_content"
+            android:textSize="18sp"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:enabled="false"
+            android:enabled="true"
             android:text="Сбросить"
             android:textColor="@color/reset_text_color" />
 

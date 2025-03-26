@@ -1,17 +1,22 @@
 package com.example.hh.main.presentation
 
 import android.util.Log
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
+import com.example.hh.core.LastTimeButtonClicked
 import com.example.hh.core.RunAsync
 import com.example.hh.core.presentation.AbstractViewModel
+import com.example.hh.filters.presentation.screen.NavigateToFilters
 import com.example.hh.main.data.BundleWrapper
 import com.example.hh.main.data.LoadVacanciesResult
 import com.example.hh.main.data.MainVacanciesRepository
+import com.example.hh.search.presentation.screen.SearchFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 
 class VacanciesViewModel(
+    private val lastTimeButtonClicked: LastTimeButtonClicked,
     private val mainVacanciesRepository: MainVacanciesRepository,
     private val runAsync: RunAsync,
     private val mapper: LoadVacanciesResult.Mapper,
@@ -32,6 +37,11 @@ class VacanciesViewModel(
     fun init(isFirstRun: Boolean) {
         if (isFirstRun)
             loadVacancies()
+    }
+
+    fun navigateToFilters(navigate: NavigateToFilters) {
+        if (lastTimeButtonClicked.timePassed())
+            navigate.navigateToFilters()
     }
 
     fun init(mapper: Mapper) {
@@ -72,6 +82,13 @@ class VacanciesViewModel(
             mainVacanciesRepository.vacancies()
         }) {
             it.map(mapper)
+        }
+    }
+
+    fun openSearchDialogFragment(fragmentManager: FragmentManager) {
+        if (lastTimeButtonClicked.timePassed()) {
+            val dialogFragment = SearchFragment()
+            dialogFragment.show(fragmentManager, SearchFragment.TAG)
         }
     }
 

@@ -15,6 +15,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout"
             app:startIconDrawable="@drawable/ic_search"
             android:layout_width="0dp"
             android:layout_weight="4"
@@ -25,10 +26,13 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inputView"
+                android:id="@+id/textInputForSearch"
                 tools:text="search"
                 android:layout_width="match_parent"
                 android:paddingStart="40dp"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:clickable="true"
                 android:textColor="@android:color/black"
                 android:layout_margin="8dp"
                 android:layout_height="wrap_content"/>

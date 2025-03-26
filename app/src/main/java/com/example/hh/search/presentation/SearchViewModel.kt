@@ -1,45 +1,26 @@
 package com.example.hh.search.presentation
 
 import androidx.lifecycle.ViewModel
-import com.example.hh.core.RunAsync
-import com.example.hh.loadvacancies.data.VacanciesRepository
+import com.example.hh.filters.data.cache.ChosenFiltersCache
 import com.example.hh.loadvacancies.presentation.screen.NavigateToLoadVacancies
-import com.example.hh.main.presentation.VacanciesResultMapper
 import java.io.Serializable
 
 class SearchViewModel(
-    private val runAsync: RunAsync,
-    private val repository: VacanciesRepository,
-    private val resultMapper: VacanciesResultMapper
+//    private val runAsync: RunAsync,
+//    private val repository: VacanciesRepository,
+//    private val resultMapper: VacanciesResultMapper,
+    private val chosenFiltersCache: ChosenFiltersCache
 ) : ViewModel() {
 
+    private var searchParams = VacanciesSearchParams.Builder()
 
-//    override fun loadVacanciesWithQuery(query: String) {
-//        resultMapper.mapProgress()
-//        runAsync.runAsync(viewModelScope, {
-//            repository.vacancies(query)
-//        }) {
-//            it.map(resultMapper)
-//        }
-//    }
-
-    private fun navigate(navigate: NavigateToLoadVacancies) = navigate.navigateToLoadVacancies()
-
-    fun clickSearch(text: String) {
-        // add fun for navigation and transport text
+    fun inputSearch(text: String, navigate: NavigateToLoadVacancies) {
+        searchParams.setSearchText(text)
+        chosenFiltersCache.save(searchParams.build())
+        navigate.navigateToLoadVacancies()
     }
 }
 
-data class VacanciesSearchParams1(
-    val searchText: String? = null,
-    val vacancySearchField: List<String>? = null,
-    val experience: List<String>? = null,
-    val employment: List<String>? = null,
-    val schedule: List<String>? = null,
-    val area: String? = null,
-    val salary: Int? = null,
-    val onlyWithSalary: Boolean? = null
-)
 typealias AreaId = String
 typealias AreaValue = String
 
@@ -76,67 +57,83 @@ class VacanciesSearchParams private constructor(
 
         fun setVacancySearchField(vacancySearchField: String) {
             if (this.vacancySearchField == null) {
-                this.vacancySearchField = mutableListOf(vacancySearchField)
-                return
+                if (vacancySearchField.isEmpty())
+                    return
+                else {
+                    this.vacancySearchField = mutableListOf(vacancySearchField)
+                    return
+                }
             }
 
             if (this.vacancySearchField!!.contains(vacancySearchField)) {
                 this.vacancySearchField!!.remove(vacancySearchField)
-            } else
+            } else if (vacancySearchField.isNotEmpty())
                 this.vacancySearchField!!.add(vacancySearchField)
 
-            if (this.vacancySearchField!!.isEmpty()) {
+            if (this.vacancySearchField!!.isEmpty() || vacancySearchField.isEmpty()) {
                 this.vacancySearchField = null
             }
         }
 
         fun setExperience(experienceValue: String) {
             if (experience == null) {
-                experience = mutableListOf(experienceValue)
-                return
+                if (experienceValue.isEmpty())
+                    return
+                else {
+                    experience = mutableListOf(experienceValue)
+                    return
+                }
             }
             if (experience!!.contains(experienceValue)) {
                 experience!!.remove(experienceValue)
-            } else
+            } else if (experienceValue.isNotEmpty())
                 experience!!.add(experienceValue)
 
-            if (experience!!.isEmpty()) {
+            if (experience!!.isEmpty() || experienceValue.isEmpty()) {
                 experience = null
             }
         }
 
         fun setEmployment(employmentValue: String) {
             if (employment == null) {
-                employment = mutableListOf(employmentValue)
-                return
+                if (employmentValue.isEmpty())
+                    return
+                else {
+                    employment = mutableListOf(employmentValue)
+                    return
+                }
             }
 
             if (employment!!.contains(employmentValue)) {
                 employment!!.remove(employmentValue)
-            } else
+            } else if (employmentValue.isNotEmpty())
                 employment!!.add(employmentValue)
 
-            if (employment!!.isEmpty()) {
+            if (employment!!.isEmpty() || employmentValue.isEmpty()) {
                 employment = null
             }
         }
 
         fun setSchedule(scheduleValue: String) {
             if (schedule == null) {
-                schedule = mutableListOf()
-                return
+                if (scheduleValue.isEmpty()) {
+                    return
+                } else {
+                    schedule = mutableListOf(scheduleValue)
+                    return
+                }
             }
             if (schedule!!.contains(scheduleValue)) {
                 schedule!!.remove(scheduleValue)
-            } else
+            } else if (scheduleValue.isNotEmpty()) {
                 schedule!!.add(scheduleValue)
+            }
 
-            if (schedule!!.isEmpty()) {
+            if (schedule!!.isEmpty() || scheduleValue.isEmpty()) {
                 schedule = null
             }
         }
 
-       // fun setArea(areaValue: String?) = apply { this.area = areaValue }
         fun setArea(areaValue: Pair<AreaId, AreaValue>?) = apply { this.area = areaValue }
 
         fun setSalary(salary: Int?) = apply { this.salary = salary }

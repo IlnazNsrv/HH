@@ -14,6 +14,7 @@ class CustomAreaButtonModule(
 
     override fun viewModel(): CustomAreaButtonViewModel {
         return CustomAreaButtonViewModel(
+            filtersCore.lastTimeButtonClicked,
             filtersCore.customAreaButtonLiveDataWrapper,
             searchParams,
             repository

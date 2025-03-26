@@ -1,8 +1,11 @@
 package com.example.hh.filters.presentation
 
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
 import com.example.hh.core.ClearViewModel
+import com.example.hh.core.LastTimeButtonClicked
 import com.example.hh.core.presentation.AbstractViewModel
+import com.example.hh.filters.areafilters.presentation.screen.AreaFragment
 import com.example.hh.filters.data.FiltersRepository
 import com.example.hh.loadvacancies.presentation.screen.NavigateToLoadVacancies
 import com.example.hh.main.data.BundleWrapper
@@ -10,6 +13,7 @@ import com.example.hh.search.presentation.VacanciesSearchParams
 import com.example.hh.views.button.areabutton.CustomAreaButtonViewModel
 
 class FiltersViewModel(
+    private val lastTimeButtonClicked: LastTimeButtonClicked,
     private val clearViewModel: ClearViewModel,
     private val searchParams: VacanciesSearchParams.Builder,
     private val experienceButtonsLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
@@ -20,7 +24,7 @@ class FiltersViewModel(
     private val filtersCreate: CreateFilters,
     private val customAreaButtonViewModel: CustomAreaButtonViewModel,
 
-) : AbstractViewModel<ButtonsUiState<FilterButtonUi>>() {
+    ) : AbstractViewModel<ButtonsUiState<FilterButtonUi>>() {
 
     private var cachedQuery: String = ""
     private var cachedSalary: Int? = null
@@ -35,14 +39,16 @@ class FiltersViewModel(
             searchFieldButtonLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
             customAreaButtonViewModel: CustomAreaButtonViewModel,
 
-        )
+            )
     }
 
-    fun init() {
-        experienceButtonsLiveDataWrapper.update(ButtonsUiState.Show(filtersCreate.initExperience()))
-        scheduleButtonsLiveDataWrapper.update(ButtonsUiState.Show(filtersCreate.initSchedule()))
-        employmentButtonLiveDataWrapper.update(ButtonsUiState.Show(filtersCreate.initEmployment()))
-        searchFieldButtonLiveDataWrapper.update(ButtonsUiState.Show(filtersCreate.initSearchField()))
+    fun init(isFirstRun: Boolean) {
+        if (isFirstRun) {
+            experienceButtonsLiveDataWrapper.update(ButtonsUiState.Show(filtersCreate.initExperience()))
+            scheduleButtonsLiveDataWrapper.update(ButtonsUiState.Show(filtersCreate.initSchedule()))
+            employmentButtonLiveDataWrapper.update(ButtonsUiState.Show(filtersCreate.initEmployment()))
+            searchFieldButtonLiveDataWrapper.update(ButtonsUiState.Show(filtersCreate.initSearchField()))
+        }
     }
 
     fun init(mapper: Mapper) {
@@ -54,7 +60,7 @@ class FiltersViewModel(
             searchFieldButtonLiveDataWrapper,
             customAreaButtonViewModel,
 
-        )
+            )
     }
 
     private fun buildSearchParams() {
@@ -68,15 +74,6 @@ class FiltersViewModel(
         cachedQuery = text
         cachedSalary = number
         buildSearchParams()
-        navigate(navigate)
-    }
-
-    fun salaryInput(value: Int?) {
-       searchParams.setSalary(value)
-    }
-
-    fun clickSearchVacanciesButton(navigate: NavigateToLoadVacancies) {
-        filtersRepository.saveParams(searchParams.build())
         navigate(navigate)
     }
 
@@ -124,6 +121,27 @@ class FiltersViewModel(
         }
     }
 
+    fun openAreaDialogFragment(fragmentManager: FragmentManager) {
+
+        if (lastTimeButtonClicked.timePassed()) {
+            val dialogFragment = AreaFragment()
+            dialogFragment.show(fragmentManager, AreaFragment.AREA_FRAGMENT_TAG)
+        }
+    }
+
+    fun resetAllParams() {
+        if (lastTimeButtonClicked.timePassed()) {
+            customAreaButtonViewModel.handleCloseAction()
+            searchParams.setExperience("")
+            searchParams.setOnlyWithSalary(false)
+            searchParams.setEmployment("")
+            searchParams.setSchedule("")
+            searchParams.setVacancySearchField("")
+            searchParams.setOnlyWithSalary(false)
+            init(true)
+        }
+    }
+
     fun save(bundleWrapper: BundleWrapper.Save<ButtonsUiState<FilterButtonUi>>) {
         experienceButtonsLiveDataWrapper.save(bundleWrapper.saveWithKey(CreateFilters.EXPERIENCE_TAG))
         employmentButtonLiveDataWrapper.save(bundleWrapper.saveWithKey(CreateFilters.EMPLOYMENT_TAG))
@@ -132,9 +150,17 @@ class FiltersViewModel(
     }
 
     fun restore(bundleWrapper: BundleWrapper.Restore<ButtonsUiState<FilterButtonUi>>) {
-        employmentButtonLiveDataWrapper.update(bundleWrapper.restoreWithKey(CreateFilters.EMPLOYMENT_TAG).restore())
-        experienceButtonsLiveDataWrapper.update(bundleWrapper.restoreWithKey(CreateFilters.EXPERIENCE_TAG).restore())
-        scheduleButtonsLiveDataWrapper.update(bundleWrapper.restoreWithKey(CreateFilters.SCHEDULE_TAG).restore())
-        searchFieldButtonLiveDataWrapper.update(bundleWrapper.restoreWithKey(CreateFilters.SEARCH_FIELD_TAG).restore())
+        employmentButtonLiveDataWrapper.update(
+            bundleWrapper.restoreWithKey(CreateFilters.EMPLOYMENT_TAG).restore()
+        )
+        experienceButtonsLiveDataWrapper.update(
+            bundleWrapper.restoreWithKey(CreateFilters.EXPERIENCE_TAG).restore()
+        )
+        scheduleButtonsLiveDataWrapper.update(
+            bundleWrapper.restoreWithKey(CreateFilters.SCHEDULE_TAG).restore()
+        )
+        searchFieldButtonLiveDataWrapper.update(
+            bundleWrapper.restoreWithKey(CreateFilters.SEARCH_FIELD_TAG).restore()
+        )
     }
 }
