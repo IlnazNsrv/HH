@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/rounded_background"
-
     android:orientation="vertical"
     tools:context=".search.presentation.screen.SearchFragment">
 
@@ -41,11 +40,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <Button
+    <com.example.hh.views.button.areabutton.CustomAreaButton
         android:id="@+id/cityButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="москва" />
+
+    <TextView
+        android:id="@+id/addAreaButton"
+        android:textColor="@color/DodgerBlue"
+        android:text="+ Добавить город"
+        android:textSize="16sp"
+        android:paddingStart="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <View
         android:layout_width="match_parent"
@@ -55,6 +63,7 @@
         android:background="@android:color/darker_gray" />
 
     <TextView
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="История поиска" />
