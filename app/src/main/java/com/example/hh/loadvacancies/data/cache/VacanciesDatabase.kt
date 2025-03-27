@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
         WorkFormatEntity::class,
         WorkingHoursEntity::class,
         WorkScheduleByDaysEntity::class],
-    version = 1
+    version = 2
 )
 abstract class VacanciesDatabase : RoomDatabase(), ClearDataBase {
 

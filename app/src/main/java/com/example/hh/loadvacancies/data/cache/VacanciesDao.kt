@@ -73,6 +73,23 @@ interface VacanciesDao {
     @Query("SELECT * FROM vacancies_table")
     suspend fun getAllVacancies() : List<VacancyWithDetails>
 
+    @Transaction
+    @Query("""
+    SELECT *
+    FROM vacancies_table
+    ORDER BY 
+        CASE 
+            WHEN salary_from IS NULL AND salary_to IS NULL THEN 1
+            ELSE 0
+        END,
+        CASE 
+            WHEN salary_from IS NOT NULL THEN salary_from
+            ELSE salary_to
+        END DESC
+""")
+    suspend fun getDecreaseSalaryVacancies(): List<VacancyWithDetails>
+
+
     data class VacancyWithDetails(
         @Embedded val vacancy: VacancyCache,
         @Relation(

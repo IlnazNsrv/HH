@@ -26,10 +26,15 @@ data class VacancyCache(
     val url: String,
     @Embedded
     val type: TypeEntity,
-    val isFavorite: Boolean = false
+    val isFavorite: Boolean = false,
+    @ColumnInfo(name = "salary_from")
+    val salaryFrom: String? = null,
+    @ColumnInfo(name = "salary_to")
+    val salaryTo: String? = null
 )
 
-@Entity(tableName = "work_format",
+@Entity(
+    tableName = "work_format",
     //primaryKeys = ["vacancyId", "id", "name"]
     foreignKeys = [ForeignKey(
         entity = VacancyCache::class,

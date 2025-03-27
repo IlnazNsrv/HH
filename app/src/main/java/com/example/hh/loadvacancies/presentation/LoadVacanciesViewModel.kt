@@ -1,8 +1,10 @@
 package com.example.hh.loadvacancies.presentation
 
 import android.util.Log
+import com.example.hh.R
 import com.example.hh.core.ClearViewModel
 import com.example.hh.core.LastTimeButtonClicked
+import com.example.hh.core.ProvideResource
 import com.example.hh.core.RunAsync
 import com.example.hh.core.presentation.AbstractViewModel
 import com.example.hh.filters.data.cache.ChosenFiltersCache
@@ -17,6 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 
 class LoadVacanciesViewModel(
+    private val provideResource: ProvideResource,
     private val lastTimeButtonClicked: LastTimeButtonClicked,
     private val clearViewModel: ClearViewModel,
     private val filtersCache: ChosenFiltersCache,
@@ -25,6 +28,9 @@ class LoadVacanciesViewModel(
     private val repository: VacanciesRepository,
     private val mapper: LoadVacanciesResult.Mapper
 ) : AbstractViewModel<VacanciesUiState>() {
+
+    private val filterItems = provideResource.array(R.array.simple_items)
+
 
     interface Mapper {
         fun map(
@@ -63,6 +69,14 @@ class LoadVacanciesViewModel(
     private fun vacanciesFromDatabase() {
         runAsync.runAsync(viewModelScope, {
             repository.vacanciesFromCache()
+        }) {
+            it.map(mapper)
+        }
+    }
+
+    private fun vacanciesWithDecreaseFilter() {
+        runAsync.runAsync(viewModelScope, {
+            repository.vacanciesWithDecreaseFilter()
         }) {
             it.map(mapper)
         }
@@ -107,6 +121,13 @@ class LoadVacanciesViewModel(
             }, {
                 liveDataWrapper.clickFavorite(vacancyUi)
             })
+        }
+    }
+
+    fun clickFilters(item: String) {
+        when(item) {
+            filterItems[0] -> vacanciesFromDatabase()
+            filterItems[1] -> vacanciesWithDecreaseFilter()
         }
     }
 }
