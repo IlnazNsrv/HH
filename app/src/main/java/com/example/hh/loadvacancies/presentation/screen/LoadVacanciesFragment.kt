@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.FragmentManager
+import com.example.hh.R
 import com.example.hh.core.ProvideViewModel
 import com.example.hh.core.presentation.AbstractFragment
 import com.example.hh.core.presentation.Screen
@@ -19,6 +20,7 @@ class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
 
     private lateinit var onBackPressedCallback: OnBackPressedCallback
     private lateinit var viewModel: LoadVacanciesViewModel
+    private lateinit var simpleItems: Array<String>
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -34,7 +36,10 @@ class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
                 navigateToHome()
             }
         }
-        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback = onBackPressedCallback)
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            onBackPressedCallback = onBackPressedCallback
+        )
     }
 
     override fun bind(
@@ -49,6 +54,8 @@ class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
             navigateToHome()
         }
 
+        simpleItems = resources.getStringArray(R.array.simple_items)
+
         viewModel =
             (requireActivity().application as ProvideViewModel).viewModel(LoadVacanciesViewModel::class.java.simpleName)
 
@@ -59,11 +66,18 @@ class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
                 loadVacanciesViewModel: LoadVacanciesViewModel,
                 liveDataWrapper: VacanciesLiveDataWrapper
             ) {
-              //  binding.recyclerView.initSearchFragment(loadVacanciesViewModel, liveDataWrapper)
-               binding.recyclerView.init(loadVacanciesViewModel, liveDataWrapper)
+                //  binding.recyclerView.initSearchFragment(loadVacanciesViewModel, liveDataWrapper)
+                binding.recyclerView.init(loadVacanciesViewModel, liveDataWrapper)
             }
         })
 
+        binding.filtersAutoCompleteTextView.setOnItemClickListener { parent, view, position, id ->
+            val selectedItem = parent.getItemAtPosition(position) as String
+            Log.d("inz", "selectedItem is $selectedItem")
+            compareSelectedItems(selectedItem)
+            viewModel.clickFilters(selectedItem)
+
+        }
     }
 
     override fun onDestroy() {
@@ -71,7 +85,7 @@ class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
         // Отключаем колбэк при уничтожении фрагмента
         onBackPressedCallback.remove()
         Log.d("inz", "LoadVacanciesFragment was destroyed")
-       // viewModel.clearVacancies()
+        // viewModel.clearVacancies()
     }
 
     override fun onDetach() {
@@ -80,6 +94,18 @@ class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
     }
 
     private fun navigateToHome() {
-        parentFragmentManager.popBackStack(Screen.FILTERS_SCREEN, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        parentFragmentManager.popBackStack(
+            Screen.FILTERS_SCREEN,
+            FragmentManager.POP_BACK_STACK_INCLUSIVE
+        )
+    }
+
+    private fun compareSelectedItems(selectedItem: String) {
+        when(selectedItem) {
+            simpleItems[0] -> Log.d("inz", "Default chosen")
+            simpleItems[1] -> Log.d("inz", "Decrease chosen")
+            simpleItems[2] -> Log.d("inz", "Increase chosen")
+        }
+
     }
 }

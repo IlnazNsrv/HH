@@ -21,6 +21,7 @@ class LoadVacanciesModule(private val core: Core) : Module<LoadVacanciesViewMode
     override fun viewModel(): LoadVacanciesViewModel {
 
         return LoadVacanciesViewModel(
+            core.provideResource,
             core.lastTimeButtonClicked,
             core.clearViewModel,
             ChosenFiltersCache.Base(core.sharedPreferences),

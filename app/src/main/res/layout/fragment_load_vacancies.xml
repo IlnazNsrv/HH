@@ -25,11 +25,25 @@
             android:layout_weight="2"
             android:layout_height="match_parent"/>
 
-        <Button
-            android:id="@+id/filterButton"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/filtersDropdownMenu"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp" />
+            android:textColorHint="@color/DodgerBlue"
+            android:hint="По возрастанию дохода">
+
+            <AutoCompleteTextView
+                android:id="@+id/filtersAutoCompleteTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:backgroundTint="@color/black"
+                android:textColor="@color/DodgerBlue"
+                app:simpleItems="@array/simple_items"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 

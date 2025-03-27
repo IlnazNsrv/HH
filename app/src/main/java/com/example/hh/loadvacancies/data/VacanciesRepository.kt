@@ -38,6 +38,7 @@ interface VacanciesRepository {
     suspend fun vacanciesFromCache(): LoadVacanciesResult
     suspend fun clearVacancies()
     suspend fun updateFavoriteStatus(vacancyUi: VacancyUi)
+    suspend fun vacanciesWithDecreaseFilter() : LoadVacanciesResult
 
     class Base(
         private val provideResource: ProvideResource,
@@ -108,7 +109,9 @@ interface VacanciesRepository {
                             vacancyCloud.type.id,
                             vacancyCloud.type.name
                         ),
-                        isFavorite
+                        isFavorite,
+                        vacancyCloud.salary?.from,
+                        vacancyCloud.salary?.to
                     )
                 }
                 vacanciesDao.saveVacancies(vacancies)
@@ -177,6 +180,19 @@ interface VacanciesRepository {
             )
             vacanciesDao.updateFavoriteState(vacancyUi.id(), !vacancyUi.favoriteChosen())
             favoriteVacanciesDao.addVacancy(favoriteVacancy)
+        }
+
+        override suspend fun vacanciesWithDecreaseFilter(): LoadVacanciesResult {
+            val dataCache = vacanciesDao.getDecreaseSalaryVacancies()
+            return if (dataCache.isEmpty()) {
+                LoadVacanciesResult.Error(provideResource.string(R.string.empty_vacancy_cache))
+            } else {
+                LoadVacanciesResult.Success(
+                    dataCache.map {
+                        VacancyCachedUi(it, it.vacancy.isFavorite)
+                    }
+                )
+            }
         }
 
         private fun createSalaryEntity(salary: Salary?): SalaryEntity? {
