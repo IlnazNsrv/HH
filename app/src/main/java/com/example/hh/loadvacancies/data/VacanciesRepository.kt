@@ -128,7 +128,7 @@ interface VacanciesRepository {
                             VacancyCloud(
                                 it.vacancy.id,
                                 it.vacancy.name,
-                                Area(it.vacancy.id, it.vacancy.name),
+                                Area(it.vacancy.area.id, it.vacancy.area.name),
                                 createProperties.createSalary(it.vacancy.salary),
                                 createProperties.createAddress(it.vacancy.address),
                                 createProperties.createEmployer(it.vacancy.employer),

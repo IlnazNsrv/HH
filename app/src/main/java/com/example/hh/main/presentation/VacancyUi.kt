@@ -31,11 +31,10 @@ interface VacancyUi : ItemsUi {
         override fun show(binding: ItemVacancyBinding) {
             binding.vacancyTitle.text = vacancyCloud.name
             setSalary(binding)
-            binding.city.text = vacancyCloud.area.name
             binding.companyName.text = vacancyCloud.employer.name
             binding.experience.text = setExperience(vacancyCloud.experience)
             setFavorite(binding)
-
+            binding.city.text = vacancyCloud.area.name
 
             binding.respondButton.apply {
                 if (vacancyCloud.type.id == "closed") {
