@@ -120,14 +120,12 @@ interface VacancyUi : ItemsUi {
 
                 (salary.from != null) -> "от ${salary.from}"
                 (salary.to != null) -> "до ${salary.to}"
-                else -> salary.currency!!
+                else -> salary.currency
             }
         }
 
         private fun setExperience(experience: Experience?): String {
-            return if (experience == null) {
-                "Без опыта"
-            } else experience.name
+            return experience?.name ?: "Без опыта"
         }
     }
 

@@ -1,13 +1,18 @@
 package com.example.hh.vacancydetails.data.cloud
 
 import com.example.hh.main.data.cloud.Area
+import com.example.hh.main.data.cloud.Employer
 import com.example.hh.main.data.cloud.Experience
+import com.example.hh.main.data.cloud.Salary
 import com.example.hh.main.data.cloud.WorkFormat
 import com.example.hh.main.data.cloud.WorkScheduleByDays
 import com.example.hh.main.data.cloud.WorkingHours
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class VacancyDetailsCloud(
+    @SerializedName("id")
+    val id: String,
     @SerializedName("name")
     val name: String,
     @SerializedName("premium")
@@ -18,12 +23,18 @@ data class VacancyDetailsCloud(
     val archived: Boolean,
     @SerializedName("area")
     val area: Area,
+    @SerializedName("salary_range")
+    val salary: Salary?,
     @SerializedName("contacts")
     val contacts: Contacts?,
     @SerializedName("description")
     val description: String,
     @SerializedName("experience")
     val experience: Experience?,
+    @SerializedName("employment_form")
+    val employment: Employment?,
+    @SerializedName("employer")
+    val employer: Employer?,
     @SerializedName("has_test")
     val hasTest: Boolean,
     @SerializedName("internship")
@@ -39,6 +50,14 @@ data class VacancyDetailsCloud(
     @SerializedName("work_schedule_by_days")
     val workScheduleByDays: List<WorkScheduleByDays>?,
 )
+
+
+data class Employment(
+    @SerializedName("id")
+    val id: String,
+    @SerializedName("name")
+    val name: String
+): Serializable
 
 data class ProfessionalRoles(
     @SerializedName("id")

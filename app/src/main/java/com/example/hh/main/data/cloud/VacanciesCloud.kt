@@ -17,7 +17,7 @@ data class VacancyCloud(
     val name: String,
     @SerializedName("area")
     val area: Area,
-    @SerializedName("salary")
+    @SerializedName("salary_range")
     val salary: Salary?,
     @SerializedName("address")
     val address: Address?,
@@ -44,6 +44,7 @@ data class Type(
     val name: String
 ): Serializable
 
+
 data class Area(
     @SerializedName("id")
     val id: String,
@@ -53,13 +54,13 @@ data class Area(
 
 data class Salary(
     @SerializedName("from")
-    val from: String?,
+    val from: Int?,
     @SerializedName("to")
-    val to: String?,
+    val to: Int?,
     @SerializedName("currency")
-    val currency: String?,
+    val currency: String,
     @SerializedName("gross")
-    val gross: Boolean?
+    val gross: Boolean
 ): Serializable
 
 data class Address(
