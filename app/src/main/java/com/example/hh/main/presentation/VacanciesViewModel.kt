@@ -23,7 +23,9 @@ class VacanciesViewModel(
     private val liveDataWrapper: VacanciesLiveDataWrapper,
 ) : AbstractViewModel<VacanciesUiState>(), LoadVacancies {
 
-    private val KEY_FOR_BUNDLE = "key"
+    companion object {
+        private const val KEY_FOR_BUNDLE = "key"
+    }
 
     interface Mapper {
         fun map(
@@ -58,6 +60,10 @@ class VacanciesViewModel(
 
     override fun clickFavorite(vacancyUi: VacancyUi) {
         liveDataWrapper.clickFavorite(vacancyUi)
+    }
+
+    override fun clickVacancy(vacancyId: String) {
+        super.clickVacancy(vacancyId)
     }
 
     override fun clickRespond(vacancyUi: VacancyUi) {
