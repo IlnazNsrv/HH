@@ -28,9 +28,9 @@ data class VacancyCache(
     val type: TypeEntity,
     val isFavorite: Boolean = false,
     @ColumnInfo(name = "salary_from")
-    val salaryFrom: String? = null,
+    val salaryFrom: Int? = null,
     @ColumnInfo(name = "salary_to")
-    val salaryTo: String? = null
+    val salaryTo: Int? = null
 )
 
 @Entity(
@@ -95,10 +95,10 @@ data class AreaEntity(
 )
 
 data class SalaryEntity(
-    val from: String?,
-    val to: String?,
-    val currency: String?,
-    val gross: Boolean?
+    val from: Int?,
+    val to: Int?,
+    val currency: String,
+    val gross: Boolean
 )
 
 data class AddressEntity(

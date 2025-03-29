@@ -31,11 +31,10 @@ interface VacancyUi : ItemsUi {
         override fun show(binding: ItemVacancyBinding) {
             binding.vacancyTitle.text = vacancyCloud.name
             setSalary(binding)
-            binding.city.text = vacancyCloud.area.name
             binding.companyName.text = vacancyCloud.employer.name
             binding.experience.text = setExperience(vacancyCloud.experience)
             setFavorite(binding)
-
+            binding.city.text = vacancyCloud.area.name
 
             binding.respondButton.apply {
                 if (vacancyCloud.type.id == "closed") {
@@ -121,14 +120,12 @@ interface VacancyUi : ItemsUi {
 
                 (salary.from != null) -> "от ${salary.from}"
                 (salary.to != null) -> "до ${salary.to}"
-                else -> salary.currency!!
+                else -> salary.currency
             }
         }
 
         private fun setExperience(experience: Experience?): String {
-            return if (experience == null) {
-                "Без опыта"
-            } else experience.name
+            return experience?.name ?: "Без опыта"
         }
     }
 

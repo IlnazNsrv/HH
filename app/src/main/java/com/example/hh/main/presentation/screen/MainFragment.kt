@@ -52,8 +52,10 @@ class MainFragment : AbstractFragment<FragmentMainBinding>() {
             }
         })
 
+
         binding.textInputForSearch.setOnClickListener {
             viewModel.openSearchDialogFragment(parentFragmentManager)
+
         }
 
         binding.filterButton.setOnClickListener {
