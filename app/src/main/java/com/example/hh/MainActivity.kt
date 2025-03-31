@@ -20,9 +20,14 @@ import com.example.hh.loadvacancies.presentation.screen.NavigateToLoadVacancies
 import com.example.hh.main.presentation.screen.MainFragment
 import com.example.hh.main.presentation.screen.NavigateToHome
 import com.example.hh.search.presentation.SearchViewModel
+import com.example.hh.vacancydetails.presentation.screen.NavigateToVacancyDetails
+import com.example.hh.vacancydetails.presentation.screen.VacancyDetailsScreen
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), Navigate {
+
+   // private lateinit var navController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -36,7 +41,12 @@ class MainActivity : AppCompatActivity(), Navigate {
         val viewModel =
             (application as ProvideViewModel).viewModel<MainViewModel>(MainViewModel::class.java.simpleName)
 
+//        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
+//        navController = navHostFragment.navController
+
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+       // bottomNavigationView.setupWithNavController(navController)
+
 
         bottomNavigationView.setOnItemSelectedListener {
             val fragment: Fragment = when (it.itemId) {
@@ -49,6 +59,7 @@ class MainActivity : AppCompatActivity(), Navigate {
 //                    supportFragmentManager.findFragmentByTag(MainFragment::class.java.simpleName)
 //                        ?: MainFragment()
                 }
+
 
                 R.id.favorite -> {
                     viewModel.clearSearch()
@@ -84,6 +95,8 @@ class MainActivity : AppCompatActivity(), Navigate {
     }
 }
 
+
+
 class MainViewModel(
     private val clearViewModel: ClearViewModel
 ) : ViewModel() {
@@ -105,10 +118,12 @@ class MainViewModel(
     }
 }
 
-interface Navigate : NavigateToLoadVacancies, NavigateToFilters, NavigateToHome {
+interface Navigate : NavigateToLoadVacancies, NavigateToFilters, NavigateToHome, NavigateToVacancyDetails {
     fun navigate(screen: Screen)
 
     override fun navigateToLoadVacancies() = navigate(LoadVacanciesScreen)
     override fun navigateToFilters() = navigate(FiltersScreen)
+    override fun navigateToVacancyDetails(vacancyId: String) = navigate(VacancyDetailsScreen(vacancyId))
+//override fun navigateToVacancyDetails() = navigate(VacancyDetailsScreen)
     //override fun navigateToHome() = navigate(MainScreen)
 }

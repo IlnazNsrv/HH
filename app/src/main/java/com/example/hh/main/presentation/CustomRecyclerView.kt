@@ -12,6 +12,7 @@ import com.example.hh.filters.presentation.FilterButtonUi
 import com.example.hh.filters.presentation.FilterButtonsLiveDataWrapper
 import com.example.hh.filters.presentation.FiltersAdapter
 import com.example.hh.main.data.BundleWrapper
+import com.example.hh.vacancydetails.presentation.screen.NavigateToVacancyDetails
 
 class CustomRecyclerView<T : ItemsUi, V : UiState, U : AbstractViewModel<UiState>> : RecyclerView, UpdateItemsRecyclerView<T> {
 
@@ -26,16 +27,27 @@ class CustomRecyclerView<T : ItemsUi, V : UiState, U : AbstractViewModel<UiState
     private lateinit var adapter: Adapter<out ViewHolder>
 
 
-    fun init(viewModel: U, liveDataWrapper: VacanciesLiveDataWrapper, tag: String = "") {
+    fun init(viewModel: U, liveDataWrapper: VacanciesLiveDataWrapper, tag: String = "", navigate: NavigateToVacancyDetails) {
 
         adapter = VacanciesAdapter(clickActions = viewModel, liveDataWrapper = liveDataWrapper)
         setAdapter(adapter)
 
-        viewModel.liveData(tag).observe(findViewTreeLifecycleOwner()!!) {
-           // (it as VacanciesUiState).handle(viewModel as LoadVacancies)
-            (it as VacanciesUiState).show(this as UpdateItemsRecyclerView<VacancyUi>)
-
+        viewModel.liveData(tag).observe(findViewTreeLifecycleOwner()!!) { uiState ->
+            (uiState as VacanciesUiState).show(this as UpdateItemsRecyclerView<VacancyUi>)
+            when (uiState) {
+                is VacanciesUiState.Show -> {
+                    uiState.navigateToVacancyWithId?.let {
+                        uiState.navigatedToVacancy()
+                        navigate.navigateToVacancyDetails(it)
+                    }
+                }
+            }
         }
+
+//        viewModel.liveData(tag).observe(findViewTreeLifecycleOwner()!!) {
+//           // (it as VacanciesUiState).handle(viewModel as LoadVacancies)
+//           (it as VacanciesUiState).show(this as UpdateItemsRecyclerView<VacancyUi>)
+//        }
     }
 
     fun initButtons(

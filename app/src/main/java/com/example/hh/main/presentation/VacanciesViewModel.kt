@@ -62,8 +62,9 @@ class VacanciesViewModel(
         liveDataWrapper.clickFavorite(vacancyUi)
     }
 
-    override fun clickVacancy(vacancyId: String) {
-        super.clickVacancy(vacancyId)
+
+    override fun clickVacancy(vacancyUi: VacancyUi) {
+        liveDataWrapper.clickVacancy(vacancyUi)
     }
 
     override fun clickRespond(vacancyUi: VacancyUi) {

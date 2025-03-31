@@ -50,7 +50,10 @@ class FavoriteVacanciesViewModel(
  //           it.map(mapper)
             liveDataWrapper.clickFavorite(vacancyUi)
         })
+    }
 
+    override fun clickVacancy(vacancyUi: VacancyUi) {
+        liveDataWrapper.clickVacancy(vacancyUi)
     }
 
 

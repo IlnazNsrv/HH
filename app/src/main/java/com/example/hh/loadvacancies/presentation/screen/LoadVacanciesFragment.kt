@@ -15,6 +15,7 @@ import com.example.hh.core.presentation.Screen
 import com.example.hh.databinding.FragmentLoadVacanciesBinding
 import com.example.hh.loadvacancies.presentation.LoadVacanciesViewModel
 import com.example.hh.main.presentation.VacanciesLiveDataWrapper
+import com.example.hh.vacancydetails.presentation.screen.NavigateToVacancyDetails
 
 class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
 
@@ -67,7 +68,7 @@ class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
                 liveDataWrapper: VacanciesLiveDataWrapper
             ) {
                 //  binding.recyclerView.initSearchFragment(loadVacanciesViewModel, liveDataWrapper)
-                binding.recyclerView.init(loadVacanciesViewModel, liveDataWrapper)
+                binding.recyclerView.init(loadVacanciesViewModel, liveDataWrapper, navigate = requireActivity() as NavigateToVacancyDetails)
             }
         })
 

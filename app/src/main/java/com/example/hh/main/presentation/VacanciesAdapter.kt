@@ -107,7 +107,7 @@ abstract class VacancyViewHolder(
         override fun bind(vacancy: VacancyUi) {
 
             binding.root.setOnClickListener {
-                clickActions.clickVacancy(vacancy.id())
+                clickActions.clickVacancy(vacancy)
             }
 
             binding.favoriteButton.setOnClickListener {
@@ -146,6 +146,6 @@ interface ClickActions : ChooseButton {
     fun clickFavorite(vacancyUi: VacancyUi) = Unit
     fun retry() = Unit
     fun clickRespond(vacancyUi: VacancyUi) = Unit
-    fun clickVacancy(vacancyId: String) = Unit
+    fun clickVacancy(vacancyUi: VacancyUi) = Unit
 }
 

@@ -10,14 +10,18 @@ import com.example.hh.core.presentation.AbstractFragment
 import com.example.hh.databinding.FragmentMainBinding
 import com.example.hh.filters.presentation.screen.NavigateToFilters
 import com.example.hh.main.data.BundleWrapper
-import com.example.hh.main.presentation.VacanciesAdapter
 import com.example.hh.main.presentation.VacanciesLiveDataWrapper
 import com.example.hh.main.presentation.VacanciesViewModel
 import com.example.hh.search.presentation.screen.SearchFragment
+import com.example.hh.vacancydetails.presentation.screen.NavigateToVacancyDetails
 
 class MainFragment : AbstractFragment<FragmentMainBinding>() {
 
     private lateinit var viewModel: VacanciesViewModel
+
+    companion object {
+        const val STRING_KEY = "KEY"
+    }
 
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentMainBinding.inflate(inflater, container, false)
@@ -35,20 +39,12 @@ class MainFragment : AbstractFragment<FragmentMainBinding>() {
 
         viewModel.init(savedInstanceState == null)
 
-        val adapter = VacanciesAdapter(
-            clickActions = viewModel,
-            liveDataWrapper = VacanciesLiveDataWrapper.Base()
-        )
-        binding.recyclerView.setAdapter(adapter)
-
-
-
         viewModel.init(object : VacanciesViewModel.Mapper {
             override fun map(
                 vacanciesViewModel: VacanciesViewModel,
                 liveDataWrapper: VacanciesLiveDataWrapper
             ) {
-                binding.recyclerView.init(vacanciesViewModel, liveDataWrapper)
+                binding.recyclerView.init(vacanciesViewModel, liveDataWrapper, navigate = requireActivity() as NavigateToVacancyDetails)
             }
         })
 
@@ -62,13 +58,15 @@ class MainFragment : AbstractFragment<FragmentMainBinding>() {
             val dialogFragment = SearchFragment()
             // dialogFragment.show(parentFragmentManager, SearchFragment.TAG)
             savedInstanceState?.clear()
- //           navigate(requireActivity() as NavigateToFilters)
+            //           navigate(requireActivity() as NavigateToFilters)
             viewModel.navigateToFilters(requireActivity() as NavigateToFilters)
 
         }
     }
 
     private fun navigate(navigate: NavigateToFilters) = navigate.navigateToFilters()
+    //private fun navigate(navigate: NavigateToVacancyDetails) = navigate.navigateToVacancyDetails()
+   // private fun navigate(screen: Screen) = screen.show(R.id.fragment_container_view, requireActivity().supportFragmentManager)
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)

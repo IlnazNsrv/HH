@@ -107,6 +107,10 @@ class LoadVacanciesViewModel(
         }
     }
 
+    override fun clickVacancy(vacancyUi: VacancyUi) {
+        liveDataWrapper.clickVacancy(vacancyUi)
+    }
+
     override fun onCleared() {
         super.onCleared()
         Log.d("inz", "Load Vacancies VM cleared")
