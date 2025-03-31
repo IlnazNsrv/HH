@@ -8,8 +8,16 @@ interface VacanciesLiveDataWrapper : LiveDataWrapper.Mutable<VacanciesUiState> {
     fun clickFavorite(vacancyUi: VacancyUi)
     override fun save(bundle: BundleWrapper.Save<VacanciesUiState>)
     fun clickRespondTest(vacancyUi: VacancyUi)
+    fun clickVacancy(vacancyUi: VacancyUi) = Unit
 
     class Base : LiveDataWrapper.Abstract<VacanciesUiState>(), VacanciesLiveDataWrapper {
+
+        override fun clickVacancy(vacancyUi: VacancyUi) {
+            liveData.value?.let {
+                val newUiState = it.clickVacancy(vacancyUi.id())
+                update(newUiState)
+            }
+        }
 
         override fun clickFavorite(vacancyUi: VacancyUi) {
             liveData.value?.let {

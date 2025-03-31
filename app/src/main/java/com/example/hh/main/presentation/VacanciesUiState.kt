@@ -6,6 +6,10 @@ interface VacanciesUiState : UiState {
     fun handle(viewModel: LoadVacancies) = Unit
     fun show(updateItemsRecyclerView: UpdateItemsRecyclerView<VacancyUi>) = Unit
 
+    fun clickVacancy(vacancyId: String) : VacanciesUiState = this
+
+    fun navigatedToVacancy() = Unit
+
     fun chooseFavorite(vacancyUi: VacancyUi) : VacanciesUiState = this
 
     object Load : VacanciesUiState {
@@ -35,7 +39,17 @@ interface VacanciesUiState : UiState {
         }
     }
 
-    data class Show(private val list: List<VacancyUi>) : VacanciesUiState {
+    data class Show(private val list: List<VacancyUi>,
+        var navigateToVacancyWithId: String? = null) : VacanciesUiState {
+
+        override fun clickVacancy(vacancyId: String) : VacanciesUiState {
+            navigateToVacancyWithId  = vacancyId
+            return this
+        }
+
+        override fun navigatedToVacancy() {
+            navigateToVacancyWithId = null
+        }
 
         override fun show(updateItemsRecyclerView: UpdateItemsRecyclerView<VacancyUi>) {
             updateItemsRecyclerView.update(list)
@@ -46,7 +60,7 @@ interface VacanciesUiState : UiState {
             val item = list.find { it.id() == vacancyUi.id() }!!
             val index = list.indexOf(item)
             newList[index] = item.changeFavoriteChosen()
-            return Show(newList)
+            return Show(newList, navigateToVacancyWithId)
         }
     }
 

@@ -9,6 +9,7 @@ import com.example.hh.core.presentation.AbstractFragment
 import com.example.hh.databinding.FragmentFavoriteVacanciesBinding
 import com.example.hh.favorite.presentation.FavoriteVacanciesViewModel
 import com.example.hh.main.presentation.VacanciesLiveDataWrapper
+import com.example.hh.vacancydetails.presentation.screen.NavigateToVacancyDetails
 
 class FavoriteVacanciesFragment : AbstractFragment<FragmentFavoriteVacanciesBinding>() {
 
@@ -32,7 +33,7 @@ class FavoriteVacanciesFragment : AbstractFragment<FragmentFavoriteVacanciesBind
                 favoriteVacanciesViewModel: FavoriteVacanciesViewModel,
                 liveDataWrapper: VacanciesLiveDataWrapper
             ) {
-                binding.recyclerView.init(favoriteVacanciesViewModel, liveDataWrapper)
+                binding.recyclerView.init(favoriteVacanciesViewModel, liveDataWrapper, navigate = requireActivity() as NavigateToVacancyDetails)
             }
         })
     }

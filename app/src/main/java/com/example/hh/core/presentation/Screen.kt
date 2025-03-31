@@ -26,4 +26,19 @@ interface Screen {
                 .commit()
         }
     }
+
+    abstract class AddWithBackstackVacancyDetails(private val fragment: Fragment) : Screen {
+
+        protected open val backStackName: String = ""
+
+        protected open fun newFragment() : Fragment = fragment
+
+        override fun show(containerId: Int, fragmentManager: FragmentManager) {
+
+            fragmentManager.beginTransaction()
+                .add(containerId, newFragment())
+                .addToBackStack(backStackName)
+                .commit()
+        }
+    }
 }
