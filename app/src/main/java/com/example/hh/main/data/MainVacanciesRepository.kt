@@ -26,11 +26,6 @@ interface MainVacanciesRepository {
     }
 }
 
-data class VacancyChoice(
-    val vacancyCloud: VacancyCloud,
-    val favoriteChosen: Boolean
-)
-
 interface LoadVacanciesResult {
     fun map(mapper: Mapper)
 
