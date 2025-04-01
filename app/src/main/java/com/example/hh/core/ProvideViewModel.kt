@@ -16,6 +16,8 @@ import com.example.hh.main.di.VacanciesModule
 import com.example.hh.main.presentation.VacanciesViewModel
 import com.example.hh.search.di.SearchViewModule
 import com.example.hh.search.presentation.SearchViewModel
+import com.example.hh.vacancydetails.di.VacancyDetailsViewModule
+import com.example.hh.vacancydetails.presentation.VacancyDetailsViewModel
 
 interface ProvideViewModel {
 
@@ -61,6 +63,8 @@ interface ProvideViewModel {
             FavoriteVacanciesViewModel::class.java.simpleName -> FavoriteVacanciesViewModule(core).viewModel()
 
             SearchViewModel::class.java.simpleName -> SearchViewModule(core, FiltersViewModule.coreFilters).viewModel()
+
+            VacancyDetailsViewModel::class.java.simpleName -> VacancyDetailsViewModule(core).viewModel()
 
             else -> throw IllegalStateException("unknown class: $tag")
 

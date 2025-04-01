@@ -1,5 +1,6 @@
 package com.example.hh.vacancydetails.presentation
 
+import android.text.Html
 import android.view.View
 import com.example.hh.R
 import com.example.hh.databinding.FragmentVacancyDetailsBinding
@@ -20,13 +21,15 @@ interface VacancyDetailsUi {
     ) : VacancyDetailsUi {
 
         override fun show(binding: FragmentVacancyDetailsBinding) {
+            binding.errorLayout.visibility = View.GONE
             setFavorite(binding)
+            setText(binding)
             binding.vacancyName.text = vacancyDetailsCloud.name
             setSalary(binding)
             binding.experience.text = setExperience(vacancyDetailsCloud.experience)
+            binding.areaTextView.visibility = View.VISIBLE
             setEmployment(binding)
             setEmployer(binding)
-            binding.vacancyDescription.text = vacancyDetailsCloud.description
             setContacts(binding)
             binding.areaInformation.text = vacancyDetailsCloud.area.name
         }
@@ -66,6 +69,12 @@ interface VacancyDetailsUi {
             }
         }
 
+        private fun setText(binding: FragmentVacancyDetailsBinding) {
+            val spannedText =
+                Html.fromHtml(vacancyDetailsCloud.description, Html.FROM_HTML_MODE_LEGACY)
+            binding.vacancyDescription.text = spannedText
+        }
+
         private fun setSalary(binding: FragmentVacancyDetailsBinding) {
             binding.salary.apply {
                 if (vacancyDetailsCloud.salary == null)
@@ -103,6 +112,7 @@ interface VacancyDetailsUi {
 
         private fun setEmployer(binding: FragmentVacancyDetailsBinding) {
             if (vacancyDetailsCloud.employer != null) {
+                binding.topLayout.visibility = View.VISIBLE
                 binding.companyName.text = vacancyDetailsCloud.employer.name
             } else {
                 binding.topLayout.visibility = View.GONE
@@ -111,6 +121,7 @@ interface VacancyDetailsUi {
 
         private fun setContacts(binding: FragmentVacancyDetailsBinding) {
             if (vacancyDetailsCloud.contacts != null) {
+                binding.contactsLayout.visibility = View.VISIBLE
                 vacancyDetailsCloud.contacts.name?.let { binding.contactName.text = it }
                 vacancyDetailsCloud.contacts.email?.let { binding.contactEmail.text = it }
                 setPhoneNumbers(binding)
@@ -121,9 +132,32 @@ interface VacancyDetailsUi {
             val vacancyPhone = vacancyDetailsCloud.contacts?.phones?.first()
             binding.contactNumber.text = vacancyPhone?.number
             if (vacancyPhone?.comment != null) {
-             binding.contactDescription.visibility = View.VISIBLE
-             binding.contactDescription.text = vacancyPhone.comment
+                binding.contactDescription.visibility = View.VISIBLE
+                binding.contactDescription.text = vacancyPhone.comment
             }
         }
+    }
+
+    class Error(
+        private val message: String
+    ) : VacancyDetailsUi {
+
+        override fun show(binding: FragmentVacancyDetailsBinding) {
+            binding.errorLayout.visibility = View.VISIBLE
+            binding.errorText.text = message
+        }
+
+        override fun id(): String {
+            return this::class.java.simpleName
+        }
+
+        override fun changeFavoriteChosen(): VacancyDetailsUi {
+            return this
+        }
+
+        override fun favoriteChosen(): Boolean {
+            return false
+        }
+
     }
 }
