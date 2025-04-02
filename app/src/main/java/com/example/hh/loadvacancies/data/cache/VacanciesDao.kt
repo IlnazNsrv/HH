@@ -45,7 +45,7 @@ interface VacanciesDao {
     suspend fun updateFavorite(id: String)
 
     @Query("SELECT * FROM vacancies_table WHERE id=:vacancyId")
-    suspend fun getVacancy(vacancyId: String) : VacancyCache
+    suspend fun getVacancy(vacancyId: String) : VacancyCache?
 
     @Query("SELECT * FROM vacancies_table WHERE isFavorite = 1")
     suspend fun getFavoriteVacancies() : List<VacancyCache>

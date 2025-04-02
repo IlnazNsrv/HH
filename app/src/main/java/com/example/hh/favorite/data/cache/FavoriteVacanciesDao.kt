@@ -34,7 +34,7 @@ interface FavoriteVacanciesDao {
     suspend fun getFavoriteVacancies() : List<FavoriteVacancyCache>
 
     @Query("SELECT * FROM favorite_table WHERE id=:id")
-    suspend fun getFavoriteVacancy(id: String) : FavoriteVacancyCache
+    suspend fun getFavoriteVacancy(id: String) : FavoriteVacancyCache?
 
     @Query("DELETE FROM favorite_table WHERE isFavorite=0")
     suspend fun deleteNonFavoriteVacancies()

@@ -1,13 +1,13 @@
 package com.example.hh.vacancydetails.presentation.screen
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.hh.core.ProvideViewModel
 import com.example.hh.core.presentation.AbstractFragment
 import com.example.hh.databinding.FragmentVacancyDetailsBinding
+import com.example.hh.main.data.BundleWrapper
 import com.example.hh.main.presentation.screen.MainFragment
 import com.example.hh.vacancydetails.data.LoadVacancyDetailsResult
 import com.example.hh.vacancydetails.presentation.VacancyDetailsViewModel
@@ -30,18 +30,17 @@ class VacancyDetailsFragment : AbstractFragment<FragmentVacancyDetailsBinding>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        savedInstanceState?.clear()
-
 
         viewModel =
             (requireActivity().application as ProvideViewModel).viewModel(VacancyDetailsViewModel::class.java.simpleName)
 
         viewModel.init(savedInstanceState == null, argumentFromBundleData!!)
 
-
-
         viewModel.map(object : VacancyDetailsViewModel.Mapper {
-            override fun map(progressViewModel: CustomProgressViewModel, mapper: LoadVacancyDetailsResult.Mapper) {
+            override fun map(
+                progressViewModel: CustomProgressViewModel,
+                mapper: LoadVacancyDetailsResult.Mapper
+            ) {
                 binding.progressBar.init(progressViewModel)
             }
         })
@@ -52,10 +51,31 @@ class VacancyDetailsFragment : AbstractFragment<FragmentVacancyDetailsBinding>()
 
         binding.retryButton.setOnClickListener {
             binding.errorLayout.visibility = View.GONE
-            viewModel.init(true, argumentFromBundleData!!)
+            viewModel.loadVacancyDetails()
         }
 
-      //  binding.vacancyName.text = argumentFromBundleData
-        Log.d("inz", "argument is $argumentFromBundleData")
+        binding.favoriteButton.setOnClickListener {
+            viewModel.clickFavorite()
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(POSITION_KEY, binding.scrollView.scrollY)
+        viewModel.save(BundleWrapper.Base(outState))
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        if (savedInstanceState != null && savedInstanceState.size() > 0) {
+            viewModel.restore(BundleWrapper.Base(savedInstanceState))
+            binding.scrollView.post {
+                binding.scrollView.scrollTo(0, savedInstanceState.getInt(POSITION_KEY))
+            }
+        }
+    }
+
+    companion object {
+        private const val POSITION_KEY = "POSITION"
     }
 }

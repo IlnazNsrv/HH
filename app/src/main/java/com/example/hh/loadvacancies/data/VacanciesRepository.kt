@@ -165,7 +165,7 @@ interface VacanciesRepository {
         }
 
         override suspend fun updateFavoriteStatus(vacancyUi: VacancyUi) {
-            val getVacancy = vacanciesDao.getVacancy(vacancyUi.id())
+            val getVacancy = vacanciesDao.getVacancy(vacancyUi.id())!!
             val favoriteVacancy = FavoriteVacancyCache(
                 getVacancy.id,
                 getVacancy.name,

@@ -27,24 +27,6 @@ interface CreatePropertiesForVacancyUi {
     fun createWorkingHours(workingHours: List<WorkingHoursEntity>): List<WorkingHours>
     fun createWorkScheduleByDays(workScheduleByDays: List<WorkScheduleByDaysEntity>): List<WorkScheduleByDays>
 
-
-    interface WorkFormatBase {
-        val id: String
-        val name: String
-    }
-
- //   data class WorkFormatEntity(override val id: String, override val name: String) : WorkFormatBase
- //   data class FavoriteWorkFormatEntity(override val id: String, override val name: String) :
- //       WorkFormatBase
-
-    class WorkFormatConverter {
-
-        fun <T : WorkFormatBase> createWorkFormatList(workFormat: List<T>): List<WorkFormat> {
-            return workFormat.map { WorkFormat(it.id, it.name) }
-        }
-    }
-
-
     class Base() : CreatePropertiesForVacancyUi {
 
 

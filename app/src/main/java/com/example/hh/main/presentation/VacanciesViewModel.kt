@@ -59,7 +59,13 @@ class VacanciesViewModel(
     }
 
     override fun clickFavorite(vacancyUi: VacancyUi) {
-        liveDataWrapper.clickFavorite(vacancyUi)
+        if (lastTimeButtonClicked.timePassed()) {
+            runAsync.runAsync(viewModelScope, {
+                mainVacanciesRepository.updateFavoriteStatus(vacancyUi)
+            }, {
+                liveDataWrapper.clickFavorite(vacancyUi)
+            })
+        }
     }
 
 
