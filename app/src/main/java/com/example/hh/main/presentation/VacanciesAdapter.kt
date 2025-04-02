@@ -144,6 +144,7 @@ private class Diff(
 interface ClickActions : ChooseButton {
 
     fun clickFavorite(vacancyUi: VacancyUi) = Unit
+    fun clickFavorite() = Unit
     fun retry() = Unit
     fun clickRespond(vacancyUi: VacancyUi) = Unit
     fun clickVacancy(vacancyUi: VacancyUi) = Unit

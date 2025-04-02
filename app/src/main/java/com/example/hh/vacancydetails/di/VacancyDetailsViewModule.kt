@@ -22,6 +22,7 @@ class VacancyDetailsViewModule(private val core: Core) : Module<VacancyDetailsVi
             VacancyDetailsLiveDataWrapper.Base()
 
         return VacancyDetailsViewModel(
+            core.lastTimeButtonClicked,
             vacancyDetailsLiveDataWrapper,
             VacancyDetailsResultMapper(
                 vacancyDetailsLiveDataWrapper
@@ -29,7 +30,8 @@ class VacancyDetailsViewModule(private val core: Core) : Module<VacancyDetailsVi
             CustomProgressViewModel(progressLiveDataWrapper),
             progressLiveDataWrapper,
             VacancyDetailsRepository.Base(
-                core.provideResource,
+                core.vacanciesCacheModule.dao(),
+                core.favoriteVacanciesCacheModule.favoriteVacanciesDao(),
                 LoadVacancyDetailsCloudDataSource.Base(
                     core.provideRetrofitBuilder.provideRetrofitBuilder(),
                     core.handleDataError

@@ -43,11 +43,6 @@ class CustomRecyclerView<T : ItemsUi, V : UiState, U : AbstractViewModel<UiState
                 }
             }
         }
-
-//        viewModel.liveData(tag).observe(findViewTreeLifecycleOwner()!!) {
-//           // (it as VacanciesUiState).handle(viewModel as LoadVacancies)
-//           (it as VacanciesUiState).show(this as UpdateItemsRecyclerView<VacancyUi>)
-//        }
     }
 
     fun initButtons(
