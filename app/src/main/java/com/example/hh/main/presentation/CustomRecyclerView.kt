@@ -27,18 +27,18 @@ class CustomRecyclerView<T : ItemsUi, V : UiState, U : AbstractViewModel<UiState
     private lateinit var adapter: Adapter<out ViewHolder>
 
 
-    fun init(viewModel: U, liveDataWrapper: VacanciesLiveDataWrapper, tag: String = "", navigate: NavigateToVacancyDetails) {
+    fun init(viewModel: U, liveDataWrapper: VacanciesLiveDataWrapper, navigate: NavigateToVacancyDetails, backStackName: String) {
 
         adapter = VacanciesAdapter(clickActions = viewModel, liveDataWrapper = liveDataWrapper)
         setAdapter(adapter)
 
-        viewModel.liveData(tag).observe(findViewTreeLifecycleOwner()!!) { uiState ->
+        viewModel.liveData("tag").observe(findViewTreeLifecycleOwner()!!) { uiState ->
             (uiState as VacanciesUiState).show(this as UpdateItemsRecyclerView<VacancyUi>)
             when (uiState) {
                 is VacanciesUiState.Show -> {
                     uiState.navigateToVacancyWithId?.let {
                         uiState.navigatedToVacancy()
-                        navigate.navigateToVacancyDetails(it)
+                        navigate.navigateToVacancyDetails(it, backStackName)
                     }
                 }
             }

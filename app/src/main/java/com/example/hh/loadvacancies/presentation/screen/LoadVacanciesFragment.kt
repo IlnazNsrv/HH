@@ -34,7 +34,7 @@ class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
         onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 viewModel.clearVacancies()
-                navigateToHome()
+                navigateToFilters()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(
@@ -50,10 +50,6 @@ class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.backButton.setOnClickListener {
-            viewModel.clearVacancies()
-            navigateToHome()
-        }
 
         simpleItems = resources.getStringArray(R.array.simple_items)
 
@@ -67,17 +63,18 @@ class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
                 loadVacanciesViewModel: LoadVacanciesViewModel,
                 liveDataWrapper: VacanciesLiveDataWrapper
             ) {
-                //  binding.recyclerView.initSearchFragment(loadVacanciesViewModel, liveDataWrapper)
-                binding.recyclerView.init(loadVacanciesViewModel, liveDataWrapper, navigate = requireActivity() as NavigateToVacancyDetails)
+                binding.recyclerView.init(loadVacanciesViewModel, liveDataWrapper, navigate = requireActivity() as NavigateToVacancyDetails, backStackName = Screen.LOAD_VACANCIES_SCREEN)
             }
         })
 
         binding.filtersAutoCompleteTextView.setOnItemClickListener { parent, view, position, id ->
             val selectedItem = parent.getItemAtPosition(position) as String
-            Log.d("inz", "selectedItem is $selectedItem")
-            compareSelectedItems(selectedItem)
             viewModel.clickFilters(selectedItem)
+        }
 
+        binding.backButton.setOnClickListener {
+            viewModel.clearVacancies()
+            navigateToFilters()
         }
     }
 
@@ -94,19 +91,10 @@ class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
         Log.d("inz", "LoadFragment was detached")
     }
 
-    private fun navigateToHome() {
+    private fun navigateToFilters() {
         parentFragmentManager.popBackStack(
             Screen.FILTERS_SCREEN,
             FragmentManager.POP_BACK_STACK_INCLUSIVE
         )
-    }
-
-    private fun compareSelectedItems(selectedItem: String) {
-        when(selectedItem) {
-            simpleItems[0] -> Log.d("inz", "Default chosen")
-            simpleItems[1] -> Log.d("inz", "Decrease chosen")
-            simpleItems[2] -> Log.d("inz", "Increase chosen")
-        }
-
     }
 }

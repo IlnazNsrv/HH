@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.hh.core.ProvideViewModel
 import com.example.hh.core.presentation.AbstractFragment
+import com.example.hh.core.presentation.Screen
 import com.example.hh.databinding.FragmentMainBinding
 import com.example.hh.filters.presentation.screen.NavigateToFilters
 import com.example.hh.main.data.BundleWrapper
@@ -44,7 +45,7 @@ class MainFragment : AbstractFragment<FragmentMainBinding>() {
                 vacanciesViewModel: VacanciesViewModel,
                 liveDataWrapper: VacanciesLiveDataWrapper
             ) {
-                binding.recyclerView.init(vacanciesViewModel, liveDataWrapper, navigate = requireActivity() as NavigateToVacancyDetails)
+                binding.recyclerView.init(vacanciesViewModel, liveDataWrapper, navigate = requireActivity() as NavigateToVacancyDetails, backStackName = Screen.HOME_SCREEN)
             }
         })
 

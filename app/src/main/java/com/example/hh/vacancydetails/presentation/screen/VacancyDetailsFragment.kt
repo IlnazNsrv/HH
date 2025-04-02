@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import com.example.hh.core.ProvideViewModel
 import com.example.hh.core.presentation.AbstractFragment
 import com.example.hh.databinding.FragmentVacancyDetailsBinding
@@ -15,8 +16,10 @@ import com.example.hh.views.progress.CustomProgressViewModel
 
 class VacancyDetailsFragment : AbstractFragment<FragmentVacancyDetailsBinding>() {
 
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
     private var argumentFromBundleData: String? = null
     private lateinit var viewModel: VacancyDetailsViewModel
+
 
     override fun bind(
         inflater: LayoutInflater,
@@ -26,6 +29,16 @@ class VacancyDetailsFragment : AbstractFragment<FragmentVacancyDetailsBinding>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         argumentFromBundleData = arguments?.getString(MainFragment.STRING_KEY)
+
+        onBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                parentFragmentManager.popBackStack()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            onBackPressedCallback = onBackPressedCallback
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,13 +70,20 @@ class VacancyDetailsFragment : AbstractFragment<FragmentVacancyDetailsBinding>()
         binding.favoriteButton.setOnClickListener {
             viewModel.clickFavorite()
         }
+
+        binding.backButton.setOnClickListener {
+           parentFragmentManager.popBackStack()
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(POSITION_KEY, binding.scrollView.scrollY)
-        viewModel.save(BundleWrapper.Base(outState))
+        if (isAdded && !requireActivity().isFinishing) {
+            outState.putInt(POSITION_KEY, binding.scrollView.scrollY)
+            viewModel.save(BundleWrapper.Base(outState))
+        }
     }
+
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
