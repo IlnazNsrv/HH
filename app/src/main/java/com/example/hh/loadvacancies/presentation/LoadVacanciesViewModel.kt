@@ -46,11 +46,13 @@ class LoadVacanciesViewModel(
         )
     }
 
+    private var cachedSelectedItem: String = filterItems[0]
+
     fun init(isFirstRun: Boolean) {
         if (isFirstRun)
             searchWithFilters()
         else
-            vacanciesFromDatabase()
+            clickFilters(cachedSelectedItem)
     }
 
     fun clearVacancies() {
@@ -82,15 +84,17 @@ class LoadVacanciesViewModel(
         }
     }
 
+    private fun vacanciesWithIncreaseFilter() {
+        runAsync.runAsync(viewModelScope, {
+            repository.vacanciesWithIncreaseFilters()
+        }) {
+            it.map(mapper)
+        }
+    }
+
     private fun searchWithFilters() {
         val cacheFilters = filtersCache.read()
         loadVacanciesWithQuery(cacheFilters)
-    }
-
-    fun inputSearch(text: String) {
-        val cacheFilters = filtersCache.read()
-        searchParams.setSearchText(text)
-        loadVacanciesWithQuery(searchParams.build())
     }
 
     private var searchParams = VacanciesSearchParams.Builder()
@@ -129,9 +133,11 @@ class LoadVacanciesViewModel(
     }
 
     fun clickFilters(item: String) {
+        cachedSelectedItem = item
         when(item) {
             filterItems[0] -> vacanciesFromDatabase()
             filterItems[1] -> vacanciesWithDecreaseFilter()
+            filterItems[2] -> vacanciesWithIncreaseFilter()
         }
     }
 }

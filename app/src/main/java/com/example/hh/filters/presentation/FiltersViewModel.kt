@@ -129,7 +129,6 @@ class FiltersViewModel(
 
     fun resetAllParams() {
         if (lastTimeButtonClicked.timePassed()) {
-            customAreaButtonViewModel.handleCloseAction()
             searchParams.setExperience("")
             searchParams.setOnlyWithSalary(false)
             searchParams.setEmployment("")

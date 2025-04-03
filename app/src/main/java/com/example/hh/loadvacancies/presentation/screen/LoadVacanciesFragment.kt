@@ -6,8 +6,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.FragmentManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hh.R
 import com.example.hh.core.ProvideViewModel
 import com.example.hh.core.presentation.AbstractFragment
@@ -22,6 +24,8 @@ class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
     private lateinit var onBackPressedCallback: OnBackPressedCallback
     private lateinit var viewModel: LoadVacanciesViewModel
     private lateinit var simpleItems: Array<String>
+    private var cachedScrollPosition: Int = 0 // Переменная для кеширования позиции
+    private var isNavigatingToDetails: Boolean = false // Флаг для отслеживания навигации
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -58,24 +62,45 @@ class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
 
         viewModel.init(savedInstanceState == null)
 
+        cachedScrollPosition = savedInstanceState?.getInt(RECYCLER_POSITION_KEY) ?: 0
+
         viewModel.init(object : LoadVacanciesViewModel.Mapper {
             override fun map(
                 loadVacanciesViewModel: LoadVacanciesViewModel,
                 liveDataWrapper: VacanciesLiveDataWrapper
             ) {
-                binding.recyclerView.init(loadVacanciesViewModel, liveDataWrapper, navigate = requireActivity() as NavigateToVacancyDetails, backStackName = Screen.LOAD_VACANCIES_SCREEN)
+                binding.recyclerView.init(
+                    loadVacanciesViewModel,
+                    liveDataWrapper,
+                    navigate = requireActivity() as NavigateToVacancyDetails,
+                    backStackName = Screen.LOAD_VACANCIES_SCREEN,
+                )
             }
         })
 
         binding.filtersAutoCompleteTextView.setOnItemClickListener { parent, view, position, id ->
             val selectedItem = parent.getItemAtPosition(position) as String
             viewModel.clickFilters(selectedItem)
+            binding.recyclerView.post {
+                binding.recyclerView.scrollToPosition(0)
+            }
         }
 
         binding.backButton.setOnClickListener {
             viewModel.clearVacancies()
             navigateToFilters()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_dropdown_item_1line,
+            resources.getStringArray(R.array.simple_items)
+        )
+        binding.filtersAutoCompleteTextView.setAdapter(adapter)
+        binding.recyclerView.scrollToPosition(cachedScrollPosition)
     }
 
     override fun onDestroy() {
@@ -85,6 +110,25 @@ class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
         Log.d("inz", "LoadVacanciesFragment was destroyed")
         // viewModel.clearVacancies()
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if (isAdded && !requireActivity().isFinishing) {
+            val layoutManager = binding.recyclerView.getLayoutManager() as LinearLayoutManager
+            outState.putInt(RECYCLER_POSITION_KEY, layoutManager.findFirstVisibleItemPosition())
+        }
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        if (savedInstanceState != null && savedInstanceState.size() > 0 && isAdded && !requireActivity().isFinishing) {
+            binding.recyclerView.post {
+                binding.recyclerView.scrollToPosition(savedInstanceState.getInt(
+                    RECYCLER_POSITION_KEY))
+            }
+        }
+    }
+
 
     override fun onDetach() {
         super.onDetach()
@@ -96,5 +140,9 @@ class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
             Screen.FILTERS_SCREEN,
             FragmentManager.POP_BACK_STACK_INCLUSIVE
         )
+    }
+
+    companion object {
+        private const val RECYCLER_POSITION_KEY = "RV_KEY"
     }
 }

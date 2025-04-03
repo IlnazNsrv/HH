@@ -41,7 +41,7 @@
                 android:backgroundTint="@color/black"
                 android:textColor="@color/DodgerBlue"
                 app:simpleItems="@array/simple_items"
-                />
+                tools:ignore="LabelFor" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

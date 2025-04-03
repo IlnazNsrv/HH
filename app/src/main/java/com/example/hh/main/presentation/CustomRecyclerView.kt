@@ -14,7 +14,8 @@ import com.example.hh.filters.presentation.FiltersAdapter
 import com.example.hh.main.data.BundleWrapper
 import com.example.hh.vacancydetails.presentation.screen.NavigateToVacancyDetails
 
-class CustomRecyclerView<T : ItemsUi, V : UiState, U : AbstractViewModel<UiState>> : RecyclerView, UpdateItemsRecyclerView<T> {
+class CustomRecyclerView<T : ItemsUi, V : UiState, U : AbstractViewModel<UiState>> : RecyclerView,
+    UpdateItemsRecyclerView<T> {
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
@@ -27,10 +28,17 @@ class CustomRecyclerView<T : ItemsUi, V : UiState, U : AbstractViewModel<UiState
     private lateinit var adapter: Adapter<out ViewHolder>
 
 
-    fun init(viewModel: U, liveDataWrapper: VacanciesLiveDataWrapper, navigate: NavigateToVacancyDetails, backStackName: String) {
+    fun init(
+        viewModel: U,
+        liveDataWrapper: VacanciesLiveDataWrapper,
+        navigate: NavigateToVacancyDetails,
+        backStackName: String,
+    ) {
 
         adapter = VacanciesAdapter(clickActions = viewModel, liveDataWrapper = liveDataWrapper)
         setAdapter(adapter)
+
+
 
         viewModel.liveData("tag").observe(findViewTreeLifecycleOwner()!!) { uiState ->
             (uiState as VacanciesUiState).show(this as UpdateItemsRecyclerView<VacancyUi>)
