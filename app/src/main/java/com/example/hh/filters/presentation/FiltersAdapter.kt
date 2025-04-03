@@ -36,13 +36,7 @@ class FiltersAdapter(
         result.dispatchUpdatesTo(this)
     }
 
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ButtonViewHolder(
-//        ItemSearchFilterButtonBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-//        clickListener
-//    )
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ButtonViewHolder {
-//        return typeList[viewType].viewHolder(parent, clickListener)
         return typeList[viewType].viewHolder(parent, clickListener)
     }
 
@@ -83,22 +77,6 @@ class FiltersAdapter(
     }
 }
 
-//class ButtonViewHolder(
-//    private val binding: ItemSearchFilterButtonBinding,
-//    private val clickListener: ChooseButton
-//) : ViewHolder(binding.root) {
-//
-//    fun binding(button: FilterButtonUi<ItemSearchFilterButtonBinding>) {
-//        binding.nameFilterButton.setOnClickListener {
-//            clickListener.choose(button)
-//        }
-//        button.show(binding)
-//    }
-//}
-//interface ChooseButton{
-//
-//    fun choose(buttonUi: FilterButtonUi) = Unit
-//}
 interface ChooseButton {
 
     fun choose(buttonUi: FilterButtonUi) = Unit

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.hh.core.ProvideViewModel
 import com.example.hh.core.presentation.AbstractFragment
+import com.example.hh.core.presentation.Screen
 import com.example.hh.databinding.FragmentMainBinding
 import com.example.hh.filters.presentation.screen.NavigateToFilters
 import com.example.hh.main.data.BundleWrapper
@@ -44,7 +45,12 @@ class MainFragment : AbstractFragment<FragmentMainBinding>() {
                 vacanciesViewModel: VacanciesViewModel,
                 liveDataWrapper: VacanciesLiveDataWrapper
             ) {
-                binding.recyclerView.init(vacanciesViewModel, liveDataWrapper, navigate = requireActivity() as NavigateToVacancyDetails)
+                binding.recyclerView.init(
+                    vacanciesViewModel,
+                    liveDataWrapper,
+                    navigate = requireActivity() as NavigateToVacancyDetails,
+                    backStackName = Screen.HOME_SCREEN
+                )
             }
         })
 
@@ -66,7 +72,7 @@ class MainFragment : AbstractFragment<FragmentMainBinding>() {
 
     private fun navigate(navigate: NavigateToFilters) = navigate.navigateToFilters()
     //private fun navigate(navigate: NavigateToVacancyDetails) = navigate.navigateToVacancyDetails()
-   // private fun navigate(screen: Screen) = screen.show(R.id.fragment_container_view, requireActivity().supportFragmentManager)
+    // private fun navigate(screen: Screen) = screen.show(R.id.fragment_container_view, requireActivity().supportFragmentManager)
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -85,9 +91,7 @@ class MainFragment : AbstractFragment<FragmentMainBinding>() {
             "saveInstance is null? ${savedInstanceState == null}, is empty? ${savedInstanceState?.isEmpty}"
         )
         if (savedInstanceState != null && savedInstanceState.isEmpty) {
-//            Log.d("bdl", "restore instance in MainFragment is $savedInstanceState")
             viewModel.init(true)
-//            // binding.recyclerView.restore(savedInstanceState)
         } else {
             if (savedInstanceState != null)
                 viewModel.restore(BundleWrapper.Base(savedInstanceState))

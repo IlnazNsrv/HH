@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.hh.core.ProvideViewModel
 import com.example.hh.core.presentation.AbstractFragment
+import com.example.hh.core.presentation.Screen
 import com.example.hh.databinding.FragmentFavoriteVacanciesBinding
 import com.example.hh.favorite.presentation.FavoriteVacanciesViewModel
 import com.example.hh.main.presentation.VacanciesLiveDataWrapper
@@ -33,7 +34,7 @@ class FavoriteVacanciesFragment : AbstractFragment<FragmentFavoriteVacanciesBind
                 favoriteVacanciesViewModel: FavoriteVacanciesViewModel,
                 liveDataWrapper: VacanciesLiveDataWrapper
             ) {
-                binding.recyclerView.init(favoriteVacanciesViewModel, liveDataWrapper, navigate = requireActivity() as NavigateToVacancyDetails)
+                binding.recyclerView.init(favoriteVacanciesViewModel, liveDataWrapper, navigate = requireActivity() as NavigateToVacancyDetails, backStackName = Screen.HOME_SCREEN)
             }
         })
     }

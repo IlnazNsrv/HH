@@ -30,6 +30,7 @@ class FiltersFragment : AbstractFragment<FragmentFiltersBinding>() {
 
         viewModel =
             (requireActivity().application as ProvideViewModel).viewModel(FiltersViewModel::class.java.simpleName)
+
         viewModel.init(savedInstanceState == null)
 
 
@@ -115,14 +116,15 @@ class FiltersFragment : AbstractFragment<FragmentFiltersBinding>() {
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        if (savedInstanceState != null && isAdded && !requireActivity().isFinishing) {
-            Log.d("inz", "SavedInstance in filtersFragment is $savedInstanceState")
-            viewModel.restore(BundleWrapper.Base(savedInstanceState))
+        if (savedInstanceState != null && savedInstanceState.isEmpty) {
+            viewModel.init(true)
+        } else {
+            if (savedInstanceState != null)
+                viewModel.restore(BundleWrapper.Base(savedInstanceState))
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Log.d("inz", "filters fragment was destroyed")
     }
 }

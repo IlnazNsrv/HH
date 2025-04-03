@@ -47,7 +47,6 @@ class FavoriteVacanciesViewModel(
         runAsync.runAsync(viewModelScope, {
             favoriteRepository.clickFavorite(vacancyUi)
         }, {
- //           it.map(mapper)
             liveDataWrapper.clickFavorite(vacancyUi)
         })
     }

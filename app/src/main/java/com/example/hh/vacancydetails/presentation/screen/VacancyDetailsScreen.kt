@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.hh.core.presentation.Screen
 
-class VacancyDetailsScreen(private val vacancyId: String) : Screen.AddWithBackstack(VacancyDetailsFragment::class.java) {
+class VacancyDetailsScreen(private val vacancyId: String, override val backStackName: String) : Screen.AddWithBackstack(VacancyDetailsFragment::class.java) {
 
     companion object {
         const val ID_KEY = "KEY"
@@ -17,6 +17,4 @@ class VacancyDetailsScreen(private val vacancyId: String) : Screen.AddWithBackst
             }
         }
     }
-
-    override val backStackName: String = Screen.HOME_SCREEN
 }

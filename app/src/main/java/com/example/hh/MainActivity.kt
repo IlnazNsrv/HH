@@ -123,7 +123,7 @@ interface Navigate : NavigateToLoadVacancies, NavigateToFilters, NavigateToHome,
 
     override fun navigateToLoadVacancies() = navigate(LoadVacanciesScreen)
     override fun navigateToFilters() = navigate(FiltersScreen)
-    override fun navigateToVacancyDetails(vacancyId: String) = navigate(VacancyDetailsScreen(vacancyId))
+    override fun navigateToVacancyDetails(vacancyId: String, backstackName: String) = navigate(VacancyDetailsScreen(vacancyId, backstackName))
 //override fun navigateToVacancyDetails() = navigate(VacancyDetailsScreen)
     //override fun navigateToHome() = navigate(MainScreen)
 }
