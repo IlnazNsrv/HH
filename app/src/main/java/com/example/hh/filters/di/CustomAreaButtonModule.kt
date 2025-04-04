@@ -1,9 +1,9 @@
 package com.example.hh.filters.di
 
 import com.example.hh.core.Module
+import com.example.hh.core.VacanciesSearchParams
 import com.example.hh.filters.core.FiltersCore
 import com.example.hh.filters.data.FiltersRepository
-import com.example.hh.search.presentation.VacanciesSearchParams
 import com.example.hh.views.button.areabutton.CustomAreaButtonViewModel
 
 class CustomAreaButtonModule(

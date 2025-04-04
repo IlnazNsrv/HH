@@ -6,6 +6,7 @@ import com.example.hh.core.ClearViewModel
 import com.example.hh.core.LastTimeButtonClicked
 import com.example.hh.core.ProvideResource
 import com.example.hh.core.RunAsync
+import com.example.hh.core.VacanciesSearchParams
 import com.example.hh.core.presentation.AbstractViewModel
 import com.example.hh.filters.data.cache.ChosenFiltersCache
 import com.example.hh.loadvacancies.data.VacanciesRepository
@@ -13,7 +14,6 @@ import com.example.hh.main.data.LoadVacanciesResult
 import com.example.hh.main.presentation.VacanciesLiveDataWrapper
 import com.example.hh.main.presentation.VacanciesUiState
 import com.example.hh.main.presentation.VacancyUi
-import com.example.hh.search.presentation.VacanciesSearchParams
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

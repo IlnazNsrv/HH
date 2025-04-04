@@ -2,11 +2,11 @@ package com.example.hh.search.di
 
 import com.example.hh.core.Core
 import com.example.hh.core.Module
+import com.example.hh.core.VacanciesSearchParams
 import com.example.hh.filters.core.FiltersCore
 import com.example.hh.filters.data.FiltersRepository
 import com.example.hh.filters.data.cache.ChosenFiltersCache
 import com.example.hh.search.presentation.SearchViewModel
-import com.example.hh.search.presentation.VacanciesSearchParams
 import com.example.hh.views.button.areabutton.CustomAreaButtonViewModel
 
 class SearchViewModule(
@@ -20,6 +20,7 @@ class SearchViewModule(
     override fun viewModel(): SearchViewModel {
 
         return SearchViewModel(
+            core.clearViewModel,
             searchParams,
             chosenFilters,
             CustomAreaButtonViewModel(

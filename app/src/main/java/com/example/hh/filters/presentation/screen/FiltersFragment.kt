@@ -1,7 +1,6 @@
 package com.example.hh.filters.presentation.screen
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,8 +31,6 @@ class FiltersFragment : AbstractFragment<FragmentFiltersBinding>() {
             (requireActivity().application as ProvideViewModel).viewModel(FiltersViewModel::class.java.simpleName)
 
         viewModel.init(savedInstanceState == null)
-
-
 
         viewModel.init(object : FiltersViewModel.Mapper {
             override fun map(
@@ -80,8 +77,8 @@ class FiltersFragment : AbstractFragment<FragmentFiltersBinding>() {
         }
 
         binding.backButton.setOnClickListener {
-            savedInstanceState?.clear()
             navigateToHome()
+            viewModel.cleaViewModel()
         }
 
         binding.searchButton.setOnClickListener {
@@ -92,7 +89,6 @@ class FiltersFragment : AbstractFragment<FragmentFiltersBinding>() {
                 inputNumber.toIntOrNull(),
                 requireActivity() as NavigateToLoadVacancies
             )
-            Log.d("inz", "text is: ${inputString}, number is ${inputNumber.toIntOrNull()}")
         }
 
         binding.onlyWithSalarySwitchButton.setOnCheckedChangeListener { _, isChecked ->
@@ -122,9 +118,5 @@ class FiltersFragment : AbstractFragment<FragmentFiltersBinding>() {
             if (savedInstanceState != null)
                 viewModel.restore(BundleWrapper.Base(savedInstanceState))
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
     }
 }

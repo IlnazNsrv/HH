@@ -17,7 +17,8 @@ interface VacancyDetailsLiveDataWrapper : LiveDataWrapper.Mutable<VacancyDetails
         }
 
         override fun save(bundleWrapper: BundleWrapper.Save<VacancyDetailsUiState>) {
-            bundleWrapper.save(liveData.value!!)
+            if (liveData.value != null)
+                bundleWrapper.save(liveData.value!!)
         }
     }
 }

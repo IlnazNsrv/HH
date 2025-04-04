@@ -38,7 +38,4 @@ class FavoriteVacanciesFragment : AbstractFragment<FragmentFavoriteVacanciesBind
             }
         })
     }
-
-
-
 }

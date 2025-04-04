@@ -2,13 +2,13 @@ package com.example.hh.filters.areafilters.presentation
 
 import androidx.lifecycle.LiveData
 import com.example.hh.core.RunAsync
+import com.example.hh.core.VacanciesSearchParams
 import com.example.hh.core.presentation.AbstractViewModel
 import com.example.hh.filters.areafilters.data.AreasRepository
 import com.example.hh.filters.areafilters.data.LoadAreasResult
 import com.example.hh.filters.presentation.ButtonsUiState
 import com.example.hh.filters.presentation.FilterButtonUi
 import com.example.hh.filters.presentation.FilterButtonsLiveDataWrapper
-import com.example.hh.search.presentation.VacanciesSearchParams
 import com.example.hh.views.button.CustomButtonLiveDataWrapper
 import com.example.hh.views.button.areabutton.CustomAreaButtonUiState
 import kotlinx.coroutines.CoroutineScope

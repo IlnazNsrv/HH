@@ -2,6 +2,7 @@ package com.example.hh.loadvacancies.data
 
 import com.example.hh.R
 import com.example.hh.core.ProvideResource
+import com.example.hh.core.VacanciesSearchParams
 import com.example.hh.favorite.data.cache.FavoriteVacanciesDao
 import com.example.hh.favorite.data.cache.FavoriteVacancyCache
 import com.example.hh.loadvacancies.data.cache.AddressEntity
@@ -29,7 +30,6 @@ import com.example.hh.main.data.cloud.Salary
 import com.example.hh.main.data.cloud.Type
 import com.example.hh.main.data.cloud.VacancyCloud
 import com.example.hh.main.presentation.VacancyUi
-import com.example.hh.search.presentation.VacanciesSearchParams
 
 interface VacanciesRepository {
 

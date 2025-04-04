@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.hh.databinding.ItemAreasButtonBinding
 import com.example.hh.databinding.ItemSearchFilterButtonBinding
 import com.example.hh.main.data.BundleWrapper
-import com.example.hh.main.presentation.SaveItems
-import com.example.hh.main.presentation.UpdateItems
+import com.example.hh.main.presentation.adapter.SaveItems
+import com.example.hh.main.presentation.adapter.UpdateItems
 
 class FiltersAdapter(
     private val typeList: List<FiltersButtonUiType> = listOf(
