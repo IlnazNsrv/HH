@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.hh.core.LastTimeButtonClicked
 import com.example.hh.core.LiveDataWrapper
+import com.example.hh.core.VacanciesSearchParams
 import com.example.hh.filters.areafilters.presentation.screen.AreaFragment
 import com.example.hh.filters.data.FiltersRepository
-import com.example.hh.search.presentation.VacanciesSearchParams
 import com.example.hh.views.button.CustomButtonLiveDataWrapper
 
 class CustomAreaButtonViewModel(

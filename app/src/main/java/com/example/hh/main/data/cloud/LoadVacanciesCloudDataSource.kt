@@ -1,7 +1,7 @@
 package com.example.hh.main.data.cloud
 
+import com.example.hh.core.VacanciesSearchParams
 import com.example.hh.main.data.HandleError
-import com.example.hh.search.presentation.VacanciesSearchParams
 import retrofit2.Retrofit
 
 interface LoadVacanciesCloudDataSource {

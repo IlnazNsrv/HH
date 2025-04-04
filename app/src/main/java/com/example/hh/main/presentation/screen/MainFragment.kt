@@ -1,7 +1,6 @@
 package com.example.hh.main.presentation.screen
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import com.example.hh.filters.presentation.screen.NavigateToFilters
 import com.example.hh.main.data.BundleWrapper
 import com.example.hh.main.presentation.VacanciesLiveDataWrapper
 import com.example.hh.main.presentation.VacanciesViewModel
-import com.example.hh.search.presentation.screen.SearchFragment
 import com.example.hh.vacancydetails.presentation.screen.NavigateToVacancyDetails
 
 class MainFragment : AbstractFragment<FragmentMainBinding>() {
@@ -26,11 +24,6 @@ class MainFragment : AbstractFragment<FragmentMainBinding>() {
 
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentMainBinding.inflate(inflater, container, false)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.d("inz", "MainFragment onCreate pinged")
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -54,42 +47,25 @@ class MainFragment : AbstractFragment<FragmentMainBinding>() {
             }
         })
 
-
         binding.textInputForSearch.setOnClickListener {
             viewModel.openSearchDialogFragment(parentFragmentManager)
-
         }
 
         binding.filterButton.setOnClickListener {
-            val dialogFragment = SearchFragment()
-            // dialogFragment.show(parentFragmentManager, SearchFragment.TAG)
             savedInstanceState?.clear()
-            //           navigate(requireActivity() as NavigateToFilters)
             viewModel.navigateToFilters(requireActivity() as NavigateToFilters)
-
         }
     }
 
-    private fun navigate(navigate: NavigateToFilters) = navigate.navigateToFilters()
-    //private fun navigate(navigate: NavigateToVacancyDetails) = navigate.navigateToVacancyDetails()
-    // private fun navigate(screen: Screen) = screen.show(R.id.fragment_container_view, requireActivity().supportFragmentManager)
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        //viewModel.save(BundleWrapper.Base(outState))
         if (isAdded && !requireActivity().isFinishing) {
-            Log.d("bdl", "saved instance in MainFragment is $outState")
             viewModel.save(BundleWrapper.Base(outState))
         }
-        //  binding.recyclerView.save(outState)
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        Log.d(
-            "bdl",
-            "saveInstance is null? ${savedInstanceState == null}, is empty? ${savedInstanceState?.isEmpty}"
-        )
         if (savedInstanceState != null && savedInstanceState.isEmpty) {
             viewModel.init(true)
         } else {

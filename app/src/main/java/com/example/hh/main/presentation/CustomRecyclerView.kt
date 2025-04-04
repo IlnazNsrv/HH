@@ -12,6 +12,9 @@ import com.example.hh.filters.presentation.FilterButtonUi
 import com.example.hh.filters.presentation.FilterButtonsLiveDataWrapper
 import com.example.hh.filters.presentation.FiltersAdapter
 import com.example.hh.main.data.BundleWrapper
+import com.example.hh.main.presentation.adapter.SaveItems
+import com.example.hh.main.presentation.adapter.UpdateItems
+import com.example.hh.main.presentation.adapter.VacanciesAdapter
 import com.example.hh.vacancydetails.presentation.screen.NavigateToVacancyDetails
 
 class CustomRecyclerView<T : ItemsUi, V : UiState, U : AbstractViewModel<UiState>> : RecyclerView,

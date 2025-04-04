@@ -6,6 +6,8 @@ import com.example.hh.databinding.ItemEmptyFavoriteDatabaseBinding
 import com.example.hh.databinding.ItemErrorBinding
 import com.example.hh.databinding.ItemProgressBinding
 import com.example.hh.databinding.ItemVacancyBinding
+import com.example.hh.main.presentation.adapter.ClickActions
+import com.example.hh.main.presentation.adapter.VacancyViewHolder
 
 interface VacancyUiType {
 

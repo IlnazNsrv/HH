@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -53,16 +52,13 @@
 
     </LinearLayout>
 
-    <com.example.hh.main.presentation.CustomRecyclerView
-        android:visibility="gone"
-        android:id="@+id/horizontalRecyclerView"
+    <TextView
+        android:textColor="@color/white"
+        android:text="@string/vacancies_for_you"
+        android:textSize="18sp"
+        android:padding="6dp"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_recommendation" />
+        android:layout_height="wrap_content"/>
 
     <com.example.hh.main.presentation.CustomRecyclerView
         android:id="@+id/recyclerView"

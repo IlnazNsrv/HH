@@ -1,8 +1,6 @@
 package com.example.hh.loadvacancies.presentation.screen
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,13 +22,6 @@ class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
     private lateinit var onBackPressedCallback: OnBackPressedCallback
     private lateinit var viewModel: LoadVacanciesViewModel
     private lateinit var simpleItems: Array<String>
-    private var cachedScrollPosition: Int = 0 // Переменная для кеширования позиции
-    private var isNavigatingToDetails: Boolean = false // Флаг для отслеживания навигации
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        Log.d("inz", "load fragment attached")
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,8 +52,6 @@ class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
             (requireActivity().application as ProvideViewModel).viewModel(LoadVacanciesViewModel::class.java.simpleName)
 
         viewModel.init(savedInstanceState == null)
-
-        cachedScrollPosition = savedInstanceState?.getInt(RECYCLER_POSITION_KEY) ?: 0
 
         viewModel.init(object : LoadVacanciesViewModel.Mapper {
             override fun map(
@@ -100,15 +89,11 @@ class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
             resources.getStringArray(R.array.simple_items)
         )
         binding.filtersAutoCompleteTextView.setAdapter(adapter)
-        binding.recyclerView.scrollToPosition(cachedScrollPosition)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        // Отключаем колбэк при уничтожении фрагмента
         onBackPressedCallback.remove()
-        Log.d("inz", "LoadVacanciesFragment was destroyed")
-        // viewModel.clearVacancies()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -127,12 +112,6 @@ class LoadVacanciesFragment : AbstractFragment<FragmentLoadVacanciesBinding>() {
                     RECYCLER_POSITION_KEY))
             }
         }
-    }
-
-
-    override fun onDetach() {
-        super.onDetach()
-        Log.d("inz", "LoadFragment was detached")
     }
 
     private fun navigateToFilters() {

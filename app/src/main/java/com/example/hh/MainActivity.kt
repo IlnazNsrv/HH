@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import com.example.hh.core.ClearViewModel
 import com.example.hh.core.ProvideViewModel
 import com.example.hh.core.presentation.Screen
+import com.example.hh.favorite.presentation.FavoriteVacanciesViewModel
 import com.example.hh.favorite.presentation.screen.FavoriteVacanciesFragment
 import com.example.hh.filters.presentation.FiltersViewModel
 import com.example.hh.filters.presentation.screen.FiltersScreen
@@ -17,8 +18,8 @@ import com.example.hh.filters.presentation.screen.NavigateToFilters
 import com.example.hh.loadvacancies.presentation.LoadVacanciesViewModel
 import com.example.hh.loadvacancies.presentation.screen.LoadVacanciesScreen
 import com.example.hh.loadvacancies.presentation.screen.NavigateToLoadVacancies
+import com.example.hh.main.presentation.VacanciesViewModel
 import com.example.hh.main.presentation.screen.MainFragment
-import com.example.hh.main.presentation.screen.NavigateToHome
 import com.example.hh.search.presentation.SearchViewModel
 import com.example.hh.vacancydetails.presentation.screen.NavigateToVacancyDetails
 import com.example.hh.vacancydetails.presentation.screen.VacancyDetailsScreen
@@ -26,7 +27,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), Navigate {
 
-   // private lateinit var navController: NavController
+    private var currentFragment: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,68 +42,74 @@ class MainActivity : AppCompatActivity(), Navigate {
         val viewModel =
             (application as ProvideViewModel).viewModel<MainViewModel>(MainViewModel::class.java.simpleName)
 
-//        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
-//        navController = navHostFragment.navController
-
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-       // bottomNavigationView.setupWithNavController(navController)
 
+        if (savedInstanceState == null) {
+            currentFragment = MainFragment()
+            supportFragmentManager.beginTransaction()
+                .replace(
+                    R.id.fragment_container_view,
+                    currentFragment!!,
+                    currentFragment!!::class.java.simpleName
+                )
+                .commit()
+            viewModel.clearAllWithoutMain()
+            bottomNavigationView.selectedItemId = R.id.main
+        } else {
+            currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
+        }
 
         bottomNavigationView.setOnItemSelectedListener {
             val fragment: Fragment = when (it.itemId) {
                 R.id.main -> {
-//                    viewModel.clearSearch()
-//                    viewModel.clearLoadVacancies()
-//                    viewModel.clearFilters()
+                    viewModel.clearAllWithoutMain()
                     MainFragment()
-
-//                    supportFragmentManager.findFragmentByTag(MainFragment::class.java.simpleName)
-//                        ?: MainFragment()
                 }
-
 
                 R.id.favorite -> {
                     viewModel.clearSearch()
+                    viewModel.clearVacancies()
                     viewModel.clearLoadVacancies()
                     viewModel.clearFilters()
+                    viewModel.clearLoadVacancies()
+                    viewModel.clearVacancyDetails()
                     FavoriteVacanciesFragment()
-//                    supportFragmentManager.findFragmentByTag(FavoriteVacanciesFragment::class.java.simpleName)
-//                        ?: FavoriteVacanciesFragment()
                 }
 
                 else -> throw IllegalStateException()
             }
-            supportFragmentManager.beginTransaction()
-                .replace(
-                    R.id.fragment_container_view,
-                    fragment,
-                    MainFragment::class.java.simpleName
-                )
-                .commit()
+            if (currentFragment?.javaClass != fragment.javaClass) {
+                supportFragmentManager.beginTransaction()
+                    .replace(
+                        R.id.fragment_container_view,
+                        fragment,
+                        fragment::class.java.simpleName
+                    )
+                    .commit()
+
+                currentFragment = fragment
+            }
             true
         }
 
-        if (savedInstanceState == null)
-            bottomNavigationView.selectedItemId = R.id.main
     }
 
     override fun navigate(screen: Screen) {
         screen.show(R.id.fragment_container_view, supportFragmentManager)
     }
-
-    override fun navigateToHome() {
-        TODO("Not yet implemented")
-    }
 }
-
 
 
 class MainViewModel(
     private val clearViewModel: ClearViewModel
 ) : ViewModel() {
 
-    fun clearHome() = with(clearViewModel) {
-        clear(MainViewModel::class.java.simpleName)
+    fun clearFavorite() {
+        clearViewModel.clear(FavoriteVacanciesViewModel::class.java.simpleName)
+    }
+
+    fun clearVacancies() {
+        clearViewModel.clear(VacanciesViewModel::class.java.simpleName)
     }
 
     fun clearFilters() = with(clearViewModel) {
@@ -116,14 +123,27 @@ class MainViewModel(
     fun clearSearch() {
         clearViewModel.clear(SearchViewModel::class.java.simpleName)
     }
+
+    fun clearVacancyDetails() {
+        clearViewModel.clear(VacancyDetailsScreen::class.java.simpleName)
+    }
+
+    fun clearAllWithoutMain() {
+        this.clearSearch()
+        this.clearLoadVacancies()
+        this.clearFilters()
+        this.clearVacancies()
+        this.clearVacancyDetails()
+        this.clearFavorite()
+    }
 }
 
-interface Navigate : NavigateToLoadVacancies, NavigateToFilters, NavigateToHome, NavigateToVacancyDetails {
+interface Navigate : NavigateToLoadVacancies, NavigateToFilters, NavigateToVacancyDetails {
     fun navigate(screen: Screen)
 
     override fun navigateToLoadVacancies() = navigate(LoadVacanciesScreen)
     override fun navigateToFilters() = navigate(FiltersScreen)
-    override fun navigateToVacancyDetails(vacancyId: String, backstackName: String) = navigate(VacancyDetailsScreen(vacancyId, backstackName))
-//override fun navigateToVacancyDetails() = navigate(VacancyDetailsScreen)
-    //override fun navigateToHome() = navigate(MainScreen)
+    override fun navigateToVacancyDetails(vacancyId: String, backstackName: String) =
+        navigate(VacancyDetailsScreen(vacancyId, backstackName))
 }
+

@@ -1,15 +1,13 @@
-package com.example.hh.main.presentation
+package com.example.hh.main.presentation.adapter
 
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.example.hh.core.UiState
-import com.example.hh.databinding.ItemErrorBinding
-import com.example.hh.databinding.ItemVacancyBinding
-import com.example.hh.filters.presentation.ChooseButton
 import com.example.hh.main.data.BundleWrapper
+import com.example.hh.main.presentation.VacanciesLiveDataWrapper
+import com.example.hh.main.presentation.VacanciesUiState
+import com.example.hh.main.presentation.VacancyUi
+import com.example.hh.main.presentation.VacancyUiType
 
 class VacanciesAdapter(
     private val typeList: List<VacancyUiType> = listOf(
@@ -62,67 +60,7 @@ class VacanciesAdapter(
     }
 
     override fun getItemCount(): Int = list.size
-
 }
-
-interface SaveItems<T: UiState> {
-    fun save(bundle: BundleWrapper.Save<T>)
-    fun restore(bundleWrapper: BundleWrapper.Restore<T>)
-}
-
-interface UpdateItems<T: ItemsUi> {
-    fun updateItems(newList: List<T>)
-}
-
-abstract class VacancyViewHolder(
-    view: View
-) : ViewHolder(view) {
-
-    open fun bind(vacancy: VacancyUi) = Unit
-
-    class Progress(view: View) : VacancyViewHolder(view)
-
-    class Error(
-        private val binding: ItemErrorBinding,
-        private val clickActions: ClickActions
-    ) : VacancyViewHolder(binding.root) {
-
-        override fun bind(vacancy: VacancyUi) {
-            vacancy.showError(binding)
-            binding.retryButton.setOnClickListener {
-                clickActions.retry()
-            }
-        }
-    }
-
-    class EmptyFavoriteCache(
-        view: View
-    ) : VacancyViewHolder(view)
-
-    class Vacancy(
-        private val binding: ItemVacancyBinding,
-        private val clickActions: ClickActions
-    ) : VacancyViewHolder(binding.root) {
-
-        override fun bind(vacancy: VacancyUi) {
-
-            binding.root.setOnClickListener {
-                clickActions.clickVacancy(vacancy)
-            }
-
-            binding.favoriteButton.setOnClickListener {
-                vacancy.changeFavoriteIcon(binding)
-                clickActions.clickFavorite(vacancy)
-            }
-            binding.respondButton.setOnClickListener {
-                clickActions.clickRespond(vacancy)
-            }
-
-            vacancy.show(binding)
-        }
-    }
-}
-
 
 private class Diff(
     private val old: List<VacancyUi>,
@@ -140,13 +78,3 @@ private class Diff(
         return old[oldItemPosition] == new[newItemPosition]
     }
 }
-
-interface ClickActions : ChooseButton {
-
-    fun clickFavorite(vacancyUi: VacancyUi) = Unit
-    fun clickFavorite() = Unit
-    fun retry() = Unit
-    fun clickRespond(vacancyUi: VacancyUi) = Unit
-    fun clickVacancy(vacancyUi: VacancyUi) = Unit
-}
-

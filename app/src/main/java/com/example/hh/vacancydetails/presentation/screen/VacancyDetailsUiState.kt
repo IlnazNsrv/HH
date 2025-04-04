@@ -29,6 +29,13 @@ interface VacancyDetailsUiState : UiState {
         }
     }
 
+    data class Progress(val vacancyProgressUi: VacancyDetailsUi.Progress) : VacancyDetailsUiState {
+
+        override fun show(binding: FragmentVacancyDetailsBinding) {
+            vacancyProgressUi.show(binding)
+        }
+    }
+
     data class Error(val vacancyErrorUi: VacancyDetailsUi.Error) : VacancyDetailsUiState {
 
         override fun show(binding: FragmentVacancyDetailsBinding) {

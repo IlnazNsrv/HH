@@ -4,12 +4,12 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
 import com.example.hh.core.ClearViewModel
 import com.example.hh.core.LastTimeButtonClicked
+import com.example.hh.core.VacanciesSearchParams
 import com.example.hh.core.presentation.AbstractViewModel
 import com.example.hh.filters.areafilters.presentation.screen.AreaFragment
 import com.example.hh.filters.data.FiltersRepository
 import com.example.hh.loadvacancies.presentation.screen.NavigateToLoadVacancies
 import com.example.hh.main.data.BundleWrapper
-import com.example.hh.search.presentation.VacanciesSearchParams
 import com.example.hh.views.button.areabutton.CustomAreaButtonViewModel
 
 class FiltersViewModel(
@@ -73,6 +73,7 @@ class FiltersViewModel(
         cachedSalary = number
         buildSearchParams()
         navigate(navigate)
+        cleaViewModel()
     }
 
     fun switchSalaryParams(isChecked: Boolean) {
@@ -159,5 +160,9 @@ class FiltersViewModel(
         searchFieldButtonLiveDataWrapper.update(
             bundleWrapper.restoreWithKey(CreateFilters.SEARCH_FIELD_TAG).restore()
         )
+    }
+
+    fun cleaViewModel() {
+        clearViewModel.clear(FiltersViewModel::class.java.simpleName)
     }
 }

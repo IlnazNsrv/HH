@@ -32,6 +32,7 @@ interface VacancyDetailsUi {
             setEmployer(binding)
             setContacts(binding)
             binding.areaInformation.text = vacancyDetailsCloud.area.name
+            binding.progressBar.visibility = View.GONE
         }
 
         override fun id(): String {
@@ -138,11 +139,31 @@ interface VacancyDetailsUi {
         }
     }
 
+    object Progress : VacancyDetailsUi {
+        override fun id(): String {
+            return this::class.java.simpleName
+        }
+
+        override fun show(binding: FragmentVacancyDetailsBinding) {
+            binding.progressBar.visibility = View.VISIBLE
+        }
+
+        override fun changeFavoriteChosen(): VacancyDetailsUi {
+            return this
+        }
+
+        override fun favoriteChosen(): Boolean {
+            return false
+        }
+
+    }
+
     class Error(
         private val message: String
     ) : VacancyDetailsUi {
 
         override fun show(binding: FragmentVacancyDetailsBinding) {
+            binding.progressBar.visibility = View.GONE
             binding.errorLayout.visibility = View.VISIBLE
             binding.errorText.text = message
         }

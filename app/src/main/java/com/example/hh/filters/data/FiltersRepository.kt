@@ -1,7 +1,7 @@
 package com.example.hh.filters.data
 
+import com.example.hh.core.VacanciesSearchParams
 import com.example.hh.filters.data.cache.ChosenFiltersCache
-import com.example.hh.search.presentation.VacanciesSearchParams
 
 interface FiltersRepository {
 

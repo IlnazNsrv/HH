@@ -1,7 +1,7 @@
 package com.example.hh.filters.data.cache
 
 import android.content.SharedPreferences
-import com.example.hh.search.presentation.VacanciesSearchParams
+import com.example.hh.core.VacanciesSearchParams
 import com.google.gson.Gson
 
 interface ChosenFiltersCache {

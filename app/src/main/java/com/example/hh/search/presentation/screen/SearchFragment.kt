@@ -34,6 +34,7 @@ class SearchFragment() : AbstractBottomDialogFragment<FragmentSearchDialogBindin
 
         binding.dismissButton.setOnClickListener {
             dismiss()
+            viewModel.clearViewModel()
         }
 
         binding.addAreaButton.setOnClickListener {
@@ -44,6 +45,7 @@ class SearchFragment() : AbstractBottomDialogFragment<FragmentSearchDialogBindin
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 viewModel.inputSearch(binding.inputEditText.text.toString(), requireActivity() as NavigateToLoadVacancies)
                 dismiss()
+                viewModel.clearViewModel()
                 true
             } else
                 false

@@ -10,9 +10,7 @@ import com.example.hh.core.presentation.AbstractFragment
 import com.example.hh.databinding.FragmentVacancyDetailsBinding
 import com.example.hh.main.data.BundleWrapper
 import com.example.hh.main.presentation.screen.MainFragment
-import com.example.hh.vacancydetails.data.LoadVacancyDetailsResult
 import com.example.hh.vacancydetails.presentation.VacancyDetailsViewModel
-import com.example.hh.views.progress.CustomProgressViewModel
 
 class VacancyDetailsFragment : AbstractFragment<FragmentVacancyDetailsBinding>() {
 
@@ -33,6 +31,7 @@ class VacancyDetailsFragment : AbstractFragment<FragmentVacancyDetailsBinding>()
         onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 parentFragmentManager.popBackStack()
+                viewModel.clearViewModel()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(
@@ -49,15 +48,6 @@ class VacancyDetailsFragment : AbstractFragment<FragmentVacancyDetailsBinding>()
 
         viewModel.init(savedInstanceState == null, argumentFromBundleData!!)
 
-        viewModel.map(object : VacancyDetailsViewModel.Mapper {
-            override fun map(
-                progressViewModel: CustomProgressViewModel,
-                mapper: LoadVacancyDetailsResult.Mapper
-            ) {
-                binding.progressBar.init(progressViewModel)
-            }
-        })
-
         viewModel.liveData("").observe(viewLifecycleOwner) {
             it.show(binding)
         }
@@ -73,6 +63,7 @@ class VacancyDetailsFragment : AbstractFragment<FragmentVacancyDetailsBinding>()
 
         binding.backButton.setOnClickListener {
            parentFragmentManager.popBackStack()
+            viewModel.clearViewModel()
         }
     }
 
@@ -93,6 +84,11 @@ class VacancyDetailsFragment : AbstractFragment<FragmentVacancyDetailsBinding>()
                 binding.scrollView.scrollTo(0, savedInstanceState.getInt(POSITION_KEY))
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        onBackPressedCallback.remove() // Удаляем коллбек
     }
 
     companion object {
