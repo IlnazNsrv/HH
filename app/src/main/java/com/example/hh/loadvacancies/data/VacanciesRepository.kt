@@ -18,7 +18,6 @@ import com.example.hh.loadvacancies.data.cache.VacancyCache
 import com.example.hh.loadvacancies.data.cache.WorkFormatEntity
 import com.example.hh.loadvacancies.data.cache.WorkScheduleByDaysEntity
 import com.example.hh.loadvacancies.data.cache.WorkingHoursEntity
-import com.example.hh.loadvacancies.presentation.VacancyCachedUi
 import com.example.hh.main.data.HandleError
 import com.example.hh.main.data.LoadVacanciesResult
 import com.example.hh.main.data.cloud.Address
@@ -39,7 +38,7 @@ interface VacanciesRepository {
     suspend fun clearVacancies()
     suspend fun updateFavoriteStatus(vacancyUi: VacancyUi)
     suspend fun vacanciesWithDecreaseFilter(): LoadVacanciesResult
-    suspend fun vacanciesWithIncreaseFilters() : LoadVacanciesResult
+    suspend fun vacanciesWithIncreaseFilters(): LoadVacanciesResult
 
     class Base(
         private val provideResource: ProvideResource,
@@ -129,20 +128,7 @@ interface VacanciesRepository {
                     LoadVacanciesResult.Success(
                         vacanciesFromCache.map {
                             VacancyUi.Base(
-                                VacancyCloud(
-                                    it.vacancy.id,
-                                    it.vacancy.name,
-                                    Area(it.vacancy.area.id, it.vacancy.area.name),
-                                    createProperties.createSalary(it.vacancy.salary),
-                                    createProperties.createAddress(it.vacancy.address),
-                                    createProperties.createEmployer(it.vacancy.employer),
-                                    createProperties.createWorkFormatList(it.workFormats),
-                                    createProperties.createWorkingHours(it.workingHours),
-                                    createProperties.createWorkScheduleByDays(it.workBySchedule),
-                                    createProperties.createExperience(it.vacancy.experience),
-                                    it.vacancy.url,
-                                    Type(it.vacancy.type.id, it.vacancy.type.name)
-                                ),
+                                setVacancyCacheToCloud(it),
                                 it.vacancy.isFavorite
                             )
                         })
@@ -159,7 +145,10 @@ interface VacanciesRepository {
             } else {
                 LoadVacanciesResult.Success(
                     dataCache.map {
-                        VacancyCachedUi(it, it.vacancy.isFavorite)
+                        VacancyUi.Base(
+                            setVacancyCacheToCloud(it),
+                            it.vacancy.isFavorite
+                        )
                     }
                 )
             }
@@ -194,7 +183,10 @@ interface VacanciesRepository {
             } else {
                 LoadVacanciesResult.Success(
                     dataCache.map {
-                        VacancyCachedUi(it, it.vacancy.isFavorite)
+                        VacancyUi.Base(
+                            setVacancyCacheToCloud(it),
+                            it.vacancy.isFavorite
+                        )
                     }
                 )
             }
@@ -207,10 +199,31 @@ interface VacanciesRepository {
             } else {
                 LoadVacanciesResult.Success(
                     dataCache.map {
-                        VacancyCachedUi(it, it.vacancy.isFavorite)
+                        VacancyUi.Base(
+                            setVacancyCacheToCloud(it),
+                            it.vacancy.isFavorite
+                        )
                     }
                 )
             }
+        }
+
+        private fun setVacancyCacheToCloud(dataCache: VacanciesDao.VacancyWithDetails): VacancyCloud {
+
+            return VacancyCloud(
+                dataCache.vacancy.id,
+                dataCache.vacancy.name,
+                Area(dataCache.vacancy.area.id, dataCache.vacancy.area.name),
+                createProperties.createSalary(dataCache.vacancy.salary),
+                createProperties.createAddress(dataCache.vacancy.address),
+                createProperties.createEmployer(dataCache.vacancy.employer),
+                createProperties.createWorkFormatList(dataCache.workFormats),
+                createProperties.createWorkingHours(dataCache.workingHours),
+                createProperties.createWorkScheduleByDays(dataCache.workBySchedule),
+                createProperties.createExperience(dataCache.vacancy.experience),
+                dataCache.vacancy.url,
+                Type(dataCache.vacancy.type.id, dataCache.vacancy.type.name)
+            )
         }
 
         private fun createSalaryEntity(salary: Salary?): SalaryEntity? {
