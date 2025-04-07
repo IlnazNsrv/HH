@@ -1,6 +1,9 @@
 package com.example.hh.main.presentation
 
 import android.view.View
+import coil3.load
+import coil3.request.transformations
+import coil3.transform.CircleCropTransformation
 import com.example.hh.R
 import com.example.hh.databinding.ItemErrorBinding
 import com.example.hh.databinding.ItemVacancyBinding
@@ -35,11 +38,20 @@ interface VacancyUi : ItemsUi {
             binding.experience.text = setExperience(vacancyCloud.experience)
             setFavorite(binding)
             binding.city.text = vacancyCloud.area.name
-
+            setImageView(binding)
             binding.respondButton.apply {
                 if (vacancyCloud.type.id == "closed") {
                     isEnabled = false
                     text = vacancyCloud.type.name
+                }
+            }
+        }
+
+        private fun setImageView(binding: ItemVacancyBinding) {
+            if (vacancyCloud.employer.logoUrls != null) {
+                binding.companyImageView.visibility = View.VISIBLE
+                binding.companyImageView.load(vacancyCloud.employer.logoUrls.ninety) {
+                    transformations(CircleCropTransformation())
                 }
             }
         }
@@ -144,6 +156,7 @@ interface VacancyUi : ItemsUi {
         override fun showError(binding: ItemErrorBinding) {
             binding.errorText.text = message
         }
+
         override fun id(): String = javaClass.simpleName + message
         override fun changeFavoriteChosen(): VacancyUi = Error(message)
         override fun favoriteChosen(): Boolean = false

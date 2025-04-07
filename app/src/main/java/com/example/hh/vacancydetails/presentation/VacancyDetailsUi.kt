@@ -2,6 +2,9 @@ package com.example.hh.vacancydetails.presentation
 
 import android.text.Html
 import android.view.View
+import coil3.load
+import coil3.request.transformations
+import coil3.transform.CircleCropTransformation
 import com.example.hh.R
 import com.example.hh.databinding.FragmentVacancyDetailsBinding
 import com.example.hh.main.data.cloud.Experience
@@ -33,6 +36,7 @@ interface VacancyDetailsUi {
             setContacts(binding)
             binding.areaInformation.text = vacancyDetailsCloud.area.name
             binding.progressBar.visibility = View.GONE
+            setImageView(binding)
         }
 
         override fun id(): String {
@@ -126,6 +130,16 @@ interface VacancyDetailsUi {
                 vacancyDetailsCloud.contacts.name?.let { binding.contactName.text = it }
                 vacancyDetailsCloud.contacts.email?.let { binding.contactEmail.text = it }
                 setPhoneNumbers(binding)
+            }
+        }
+
+        private fun setImageView(binding: FragmentVacancyDetailsBinding) {
+            if (vacancyDetailsCloud.employer?.logoUrls != null) {
+                binding.companyImage.visibility = View.VISIBLE
+                binding.companyImage.load(vacancyDetailsCloud.employer.logoUrls.original) {
+                    size(200, 200)
+                    transformations(CircleCropTransformation())
+                }
             }
         }
 
