@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ModalBottomSheetDialog"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/standardBottomSheet"
+        style="@style/ModalBottomSheetDialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/rounded_black_background"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="160dp"
+                android:text="Поиск"
+                android:textColor="@color/white"
+                android:textSize="25sp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/dismissButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/transparent"
+                android:src="@drawable/baseline_close_24" />
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/inputLayout"
+            app:startIconDrawable="@drawable/ic_search"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            app:boxStrokeWidth="2dp"
+            app:hintEnabled="true"
+            app:hintAnimationEnabled="true"
+            android:layout_marginHorizontal="16dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputEditText"
+                android:layout_width="match_parent"
+                android:imeOptions="actionSearch"
+                android:backgroundTint="@color/white"
+                android:singleLine="true"
+                android:paddingStart="40dp"
+                android:theme="@style/MyEditTextTheme"
+                android:hint="Должность, ключевые слова"
+                android:background="@drawable/input_background"
+                android:textColor="@android:color/black"
+                android:layout_margin="8dp"
+                android:layout_height="wrap_content"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.example.hh.views.button.areabutton.CustomAreaButton
+            android:id="@+id/cityButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="москва" />
+
+        <TextView
+            android:id="@+id/addAreaButton"
+            android:textColor="@color/DodgerBlue"
+            android:text="+ Добавить город"
+            android:textSize="16sp"
+            android:paddingStart="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="7dp"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/darker_gray" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="История поиска" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:minHeight="700dp"/>
+
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

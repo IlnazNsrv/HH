@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/ModalBottomSheetDialog"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/standardBottomSheet"
+        style="@style/ModalBottomSheetDialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/rounded_background"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="160dp"
+                android:text="Регион"
+                android:textColor="@color/white"
+                android:textSize="25sp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/dismissButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/transparent"
+                android:src="@drawable/baseline_close_24" />
+
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/inputLayout"
+            app:startIconDrawable="@drawable/ic_search"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            app:boxStrokeWidth="2dp"
+            app:hintEnabled="true"
+            app:hintAnimationEnabled="true"
+            android:layout_marginHorizontal="16dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputAreaEditText"
+                android:layout_width="match_parent"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
+                android:paddingStart="40dp"
+                android:theme="@style/MyEditTextTheme"
+                android:hint="Поиск"
+                android:background="@drawable/input_background"
+                android:textColor="@android:color/white"
+                android:layout_margin="8dp"
+                android:layout_height="wrap_content"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="7dp"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/darker_gray" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="История поиска" />
+
+        <com.example.hh.main.presentation.CustomRecyclerView
+            android:id="@+id/areaRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:minHeight="700dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/black"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/saveArea"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="Сохранить город" />
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

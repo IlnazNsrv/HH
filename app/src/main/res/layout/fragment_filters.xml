@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/rootLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:clickable="true">
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<LinearLayout
+    android:id="@+id/topLinearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/black"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/ic_back_button" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:textColor="@color/white"
+            android:paddingEnd="25dp"
+            android:paddingStart="25dp"
+            android:text="@string/filters_text"
+            android:textSize="26sp" />
+
+        <Button
+            android:id="@+id/resetFiltersButton"
+            android:layout_width="wrap_content"
+            android:textSize="18sp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:enabled="true"
+            android:text="@string/reset"
+            android:textColor="@color/DodgerBlue" />
+    </LinearLayout>
+
+    <com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/inputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginHorizontal="16dp"
+        app:boxStrokeWidth="2dp"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:startIconDrawable="@drawable/ic_search">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputVacancyEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/input_background"
+            android:backgroundTint="@color/white"
+            android:hint="Должность, ключевые слова"
+            android:imeOptions="actionSearch"
+            android:paddingStart="40dp"
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+            android:theme="@style/MyEditTextTheme" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <TextView
+        android:paddingStart="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Искать только в"
+        android:textColor="@color/white" />
+
+    <com.example.hh.main.presentation.CustomRecyclerView
+        android:id="@+id/nameRecyclerView"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
+        tools:listitem="@layout/item_search_filter_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginHorizontal="16dp"
+        app:boxStrokeWidth="2dp"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:startIconDrawable="@drawable/ic_search">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputSalary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/input_background"
+            android:backgroundTint="@color/white"
+            android:hint="Уровень дохода от"
+            android:imeOptions="actionSearch"
+            android:inputType="number"
+            android:paddingStart="40dp"
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+            android:theme="@style/MyEditTextTheme"
+            tools:ignore="RtlSymmetry" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/onlyWithSalarySwitchButton"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="Указан доход" />
+
+    <TextView
+        android:paddingStart="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Регион"
+        android:textColor="@color/white" />
+
+    <com.example.hh.views.button.areabutton.CustomAreaButton
+        android:id="@+id/customAreaButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/cityFragmentButton"
+        android:textColor="@color/DodgerBlue"
+        android:text="+ Добавить город"
+        android:textSize="16sp"
+        android:paddingStart="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:paddingTop="26dp"
+        android:paddingStart="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Требуемый опыт"
+        android:textColor="@color/white" />
+
+    <com.example.hh.main.presentation.CustomRecyclerView
+        android:id="@+id/experienceRecyclerView"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
+        tools:listitem="@layout/item_search_filter_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:paddingTop="26dp"
+        android:paddingStart="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Тип занятости"
+        android:textColor="@color/white" />
+
+    <com.example.hh.main.presentation.CustomRecyclerView
+        android:id="@+id/employmentRecyclerView"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
+        tools:listitem="@layout/item_search_filter_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:paddingTop="26dp"
+        android:paddingStart="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="График работы"
+        android:textColor="@color/white" />
+
+    <com.example.hh.main.presentation.CustomRecyclerView
+        android:id="@+id/scheduleRecyclerView"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
+        tools:listitem="@layout/item_search_filter_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="90dp" />
+
+</LinearLayout>
+</ScrollView>
+    <LinearLayout
+        android:id="@+id/searchButtonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:background="@color/black"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/searchButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Найти вакансии"
+            android:layout_margin="16dp" />
+    </LinearLayout>
+</RelativeLayout>

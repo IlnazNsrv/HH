@@ -1,3 +1,30 @@
 <resources>
     <string name="app_name">HH</string>
+    <string name="search">поиск</string>
+    <string name="favorite">избранное</string>
+    <string name="responses">отклики</string>
+    <string name="profile">профиль</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="service_is_unavailable">Service is unavailable</string>
+    <string name="noExperience">Нет опыта</string>
+    <string name="between1And3">От 1 года до 3 лет</string>
+    <string name="between3And6">От 3 до 6 лет</string>
+    <string name="moreThan6">Более 6 лет</string>
+    <string name="full">Полная занятость</string>
+    <string name="part">Частичная занятость</string>
+    <string name="project">Проектная работа</string>
+    <string name="volunteer">Волонтерство</string>
+    <string name="probation">Стажировка</string>
+    <string name="fullDay">Полный день</string>
+    <string name="shift">Сменный график</string>
+    <string name="flexible">Гибкий график</string>
+    <string name="remote">Удаленная работа</string>
+    <string name="flyInFlyOut">Вахтовый метод</string>
+    <string name="name">Названии вакансии</string>
+    <string name="company_name">Названии компании</string>
+    <string name="description">Описании вакансии</string>
+    <string name="empty_vacancy_cache">Упс, здесь явно какя-то ошибка. Попробуйте снова.</string>
+    <string name="vacancies_for_you">Вакансии для вас</string>
+    <string name="reset">Сбросить</string>
+    <string name="filters_text">Фильры</string>
 </resources>
