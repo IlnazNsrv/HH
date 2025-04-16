@@ -8,7 +8,7 @@
 6. Room
 7. LiveData
 8. MVVM
-9. Корутины
+9. Coroutines
 10. Views
 
 
