@@ -1,9 +1,21 @@
+# Описание
 Простой клон HH.ru - сервис поиска работы.
-Контроль версий Git
-Работа с ветками
-Merge conflict resolving
-Junit and Ui tests
-Retrofit2, Gson
-LiveData
-MVVM
-Корутины
+1. Контроль версий Git
+2. Работа с ветками
+3. Merge conflict resolving
+4. Junit and Ui tests
+5. Retrofit2, Gson
+6. Room
+7. LiveData
+8. MVVM
+9. Корутины
+10. Views
+
+
+
+
+
+
+
+
+		
