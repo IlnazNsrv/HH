@@ -55,7 +55,6 @@ class FavoriteVacanciesViewModel(
         liveDataWrapper.clickVacancy(vacancyUi)
     }
 
-
     override fun liveData(tag: String): LiveData<VacanciesUiState> {
         return liveDataWrapper.liveData()
     }

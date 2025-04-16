@@ -21,10 +21,12 @@ import com.example.hh.main.data.cloud.Area
 import com.example.hh.main.data.cloud.Employer
 import com.example.hh.main.data.cloud.Experience
 import com.example.hh.main.data.cloud.LoadVacanciesCloudDataSource
+import com.example.hh.main.data.cloud.MainVacanciesService
 import com.example.hh.main.data.cloud.Salary
 import com.example.hh.main.data.cloud.Type
 import com.example.hh.main.data.cloud.VacancyCloud
 import com.example.hh.main.presentation.VacancyUi
+import kotlinx.coroutines.delay
 
 interface MainVacanciesRepository {
 
@@ -73,7 +75,6 @@ interface MainVacanciesRepository {
 
                     val isFavorite = favoriteIds.contains(vacancyCloud.id)
 
-
                     VacancyCache(
                         vacancyCloud.id,
                         vacancyCloud.name,
@@ -99,9 +100,6 @@ interface MainVacanciesRepository {
 
                 val vacanciesFromCache = vacanciesDao.getAllVacancies()
 
-//                LoadVacanciesResult.Success(data.map {
-//                    VacancyUi.Base(it, false)
-//                })
                 LoadVacanciesResult.Success(
                     vacanciesFromCache.map {
                         VacancyUi.Base(
@@ -172,6 +170,35 @@ interface MainVacanciesRepository {
             }
         }
     }
+
+    class Fake(
+        private val service: MainVacanciesService,
+        private val handleError: HandleError<String>
+    ) : MainVacanciesRepository {
+
+        private var favoriteClicked = false
+
+        override suspend fun vacancies(): LoadVacanciesResult {
+            delay(1000)
+            try {
+                val data = service.loadVacanciesForMainPage().execute().body()!!.items
+                return LoadVacanciesResult.Success(
+                    data.map {
+                        VacancyUi.Base(
+                            it,
+                            false
+                        )
+                    }
+                )
+            } catch (e: Exception) {
+                return LoadVacanciesResult.Error(handleError.handle(e))
+            }
+        }
+
+        override suspend fun updateFavoriteStatus(vacancyUi: VacancyUi) {
+            favoriteClicked = !favoriteClicked
+        }
+    }
 }
 
 interface LoadVacanciesResult {
@@ -200,6 +227,5 @@ interface LoadVacanciesResult {
         override fun map(mapper: Mapper) {
             mapper.mapEmptyFavoriteCache()
         }
-
     }
 }

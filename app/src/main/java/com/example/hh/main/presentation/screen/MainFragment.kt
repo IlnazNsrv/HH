@@ -31,7 +31,7 @@ class MainFragment : AbstractFragment<FragmentMainBinding>() {
         viewModel =
             (requireActivity().application as ProvideViewModel).viewModel(VacanciesViewModel::class.java.simpleName)
 
-        viewModel.init(savedInstanceState == null)
+        viewModel.init(savedInstanceState == null || savedInstanceState.isEmpty)
 
         viewModel.init(object : VacanciesViewModel.Mapper {
             override fun map(

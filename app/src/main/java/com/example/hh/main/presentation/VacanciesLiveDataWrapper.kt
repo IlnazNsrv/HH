@@ -6,8 +6,7 @@ import com.example.hh.main.data.BundleWrapper
 interface VacanciesLiveDataWrapper : LiveDataWrapper.Mutable<VacanciesUiState> {
 
     fun clickFavorite(vacancyUi: VacancyUi)
-    override fun save(bundle: BundleWrapper.Save<VacanciesUiState>)
-    fun clickRespondTest(vacancyUi: VacancyUi)
+    override fun save(bundleWrapper: BundleWrapper.Save<VacanciesUiState>)
     fun clickVacancy(vacancyUi: VacancyUi) = Unit
 
     class Base : LiveDataWrapper.Abstract<VacanciesUiState>(), VacanciesLiveDataWrapper {
@@ -26,15 +25,8 @@ interface VacanciesLiveDataWrapper : LiveDataWrapper.Mutable<VacanciesUiState> {
             }
         }
 
-        override fun save(bundle: BundleWrapper.Save<VacanciesUiState>) {
-            bundle.save(liveData.value!!)
-        }
-
-        override fun clickRespondTest(vacancyUi: VacancyUi) {
-            liveData.value?.let {
-                val newUiState = it.chooseFavorite(vacancyUi)
-                update(newUiState)
-            }
+        override fun save(bundleWrapper: BundleWrapper.Save<VacanciesUiState>) {
+            bundleWrapper.save(liveData.value!!)
         }
     }
 }

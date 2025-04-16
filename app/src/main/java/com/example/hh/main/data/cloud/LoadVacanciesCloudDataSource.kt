@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 interface LoadVacanciesCloudDataSource {
 
     suspend fun loadMainVacancies(): List<VacancyCloud>
-    suspend fun loadVacancies(searchParams: VacanciesSearchParams) : List<VacancyCloud>
+    suspend fun loadVacancies(searchParams: VacanciesSearchParams): List<VacancyCloud>
 
     class Base(
         private val service: MainVacanciesService,
@@ -50,14 +50,5 @@ interface LoadVacanciesCloudDataSource {
                 throw handleError.handle(e)
             }
         }
-
-//        private fun handleResponseCode(code: Int): String {
-//            return when (code) {
-//                400 -> "Параметры переданы с ошибкой"
-//                403 -> "Требуется ввести капчу"
-//                404 -> "Указанная вакансия не существет"
-//                else -> ""
-//            }
-//        }
     }
 }

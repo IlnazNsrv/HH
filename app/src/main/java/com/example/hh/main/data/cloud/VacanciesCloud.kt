@@ -8,7 +8,7 @@ data class VacanciesCloud(
     val requestId: String?,
     @SerializedName("items")
     val items: List<VacancyCloud>
-): Serializable
+) : Serializable
 
 data class VacancyCloud(
     @SerializedName("id")
@@ -42,7 +42,7 @@ data class Type(
     val id: String,
     @SerializedName("name")
     val name: String
-): Serializable
+) : Serializable
 
 
 data class Area(
@@ -50,7 +50,7 @@ data class Area(
     val id: String,
     @SerializedName("name")
     val name: String
-): Serializable
+) : Serializable
 
 data class Salary(
     @SerializedName("from")
@@ -61,14 +61,14 @@ data class Salary(
     val currency: String,
     @SerializedName("gross")
     val gross: Boolean
-): Serializable
+) : Serializable
 
 data class Address(
     @SerializedName("city")
     val city: String?,
     @SerializedName("street")
     val street: String?
-): Serializable
+) : Serializable
 
 data class Employer(
     @SerializedName("id")
@@ -77,7 +77,7 @@ data class Employer(
     val name: String,
     @SerializedName("logo_urls")
     val logoUrls: LogoUrls?,
-): Serializable
+) : Serializable
 
 data class LogoUrls(
     @SerializedName("90")
@@ -86,33 +86,33 @@ data class LogoUrls(
     val twoHundredForty: String,
     @SerializedName("original")
     val original: String
-): Serializable
+) : Serializable
 
 data class WorkFormat(
     @SerializedName("id")
     val id: String,
     @SerializedName("name")
     val name: String
-): Serializable
+) : Serializable
 
 data class WorkingHours(
     @SerializedName("id")
     val id: String,
     @SerializedName("name")
     val name: String
-): Serializable
+) : Serializable
 
 data class WorkScheduleByDays(
     @SerializedName("id")
     val id: String,
     @SerializedName("name")
     val name: String
-): Serializable
+) : Serializable
 
 data class Experience(
     @SerializedName("id")
     val id: String,
     @SerializedName("name")
     val name: String
-): Serializable
+) : Serializable
 

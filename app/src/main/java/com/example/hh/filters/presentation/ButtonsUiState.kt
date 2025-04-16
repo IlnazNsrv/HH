@@ -15,8 +15,6 @@ interface ButtonsUiState<T : ItemsUi> : UiState {
             updateItemsRecyclerView.update(list)
         }
 
-
-
         override fun click(buttonUi: FilterButtonUi): ButtonsUiState<FilterButtonUi> {
             val newList = list.toMutableList()
             val item = list.find { it.id() == buttonUi.id()}!!
@@ -24,7 +22,6 @@ interface ButtonsUiState<T : ItemsUi> : UiState {
             newList[index] = item.changeChosen()
             return Show(newList)
         }
-
     }
 
     data class ShowAreaButtons(private val list: List<FilterButtonUi>) : ButtonsUiState<FilterButtonUi> {
@@ -46,6 +43,5 @@ interface ButtonsUiState<T : ItemsUi> : UiState {
             newList[index] = item.changeChosen()
             return ShowAreaButtons(newList)
         }
-
     }
 }

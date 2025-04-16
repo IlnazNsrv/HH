@@ -17,7 +17,6 @@ abstract class VacanciesDatabase : RoomDatabase(), ClearDataBase {
     override suspend fun clearAllVacancies() {
         clearAllTables()
     }
-
 }
 
 interface ClearDataBase {

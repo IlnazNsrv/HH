@@ -8,13 +8,12 @@ interface AreasRepository {
 
     suspend fun areas(text: String): LoadAreasResult
     fun saveArea(vacanciesSearchParams: VacanciesSearchParams)
-    fun readArea() : Pair<String, String>?
+    fun readArea(): Pair<String, String>?
 
     class Base(
         private val cacheDataSource: AreasCacheDataSource,
         private val chosenArea: ChosenFiltersCache
     ) : AreasRepository {
-
 
         override suspend fun areas(text: String): LoadAreasResult {
             val chosenId = chosenArea.read().area?.first
@@ -31,12 +30,12 @@ interface AreasRepository {
             }
         }
 
-        override fun readArea() : Pair<String, String>? {
+        override fun readArea(): Pair<String, String>? {
             return chosenArea.read().area
         }
 
         override fun saveArea(vacanciesSearchParams: VacanciesSearchParams) {
-           chosenArea.save(vacanciesSearchParams)
+            chosenArea.save(vacanciesSearchParams)
         }
     }
 }
@@ -54,6 +53,5 @@ interface LoadAreasResult {
         override fun map(mapper: Mapper) {
             mapper.mapSuccess(list)
         }
-
     }
 }

@@ -6,6 +6,7 @@ import com.example.hh.databinding.ItemAreasButtonBinding
 import com.example.hh.databinding.ItemSearchFilterButtonBinding
 
 interface FiltersButtonUiType {
+
     fun viewHolder(parent: ViewGroup, clickActions: ChooseButton): ButtonViewHolder
 
     object AreasButton : FiltersButtonUiType {

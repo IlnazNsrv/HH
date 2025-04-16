@@ -24,7 +24,6 @@ class CustomAreaButton : RelativeLayout, UpdateCustomAreaButton {
         defStyleAttr
     )
 
-
     fun init(viewModel: CustomAreaButtonViewModel, fragmentManager: FragmentManager) {
 
         viewModel.liveData().observe(findViewTreeLifecycleOwner()!!) {
@@ -41,7 +40,6 @@ class CustomAreaButton : RelativeLayout, UpdateCustomAreaButton {
             viewModel.handleCloseAction()
             this.visibility = GONE
         }
-
     }
 
     override fun onSaveInstanceState(): Parcelable? {
@@ -58,7 +56,6 @@ class CustomAreaButton : RelativeLayout, UpdateCustomAreaButton {
         val permanentState = restoredState.restore()
         this.visibility = permanentState.visibility
         binding.cityName.text = permanentState.text
-        // update(restoredState.restore().text, restoredState.restore().visibility)
     }
 
     override fun update(areaPair: Pair<String, String>?) {
@@ -74,6 +71,5 @@ class CustomAreaButton : RelativeLayout, UpdateCustomAreaButton {
 }
 
 interface UpdateCustomAreaButton {
-    //fun update(text: String?)
     fun update(areaPair: Pair<String, String>?)
 }

@@ -1,6 +1,5 @@
 package com.example.hh.loadvacancies.presentation
 
-import android.util.Log
 import com.example.hh.R
 import com.example.hh.core.ClearViewModel
 import com.example.hh.core.LastTimeButtonClicked
@@ -19,7 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 
 class LoadVacanciesViewModel(
-    private val provideResource: ProvideResource,
+    provideResource: ProvideResource,
     private val lastTimeButtonClicked: LastTimeButtonClicked,
     private val clearViewModel: ClearViewModel,
     private val filtersCache: ChosenFiltersCache,
@@ -29,8 +28,8 @@ class LoadVacanciesViewModel(
     private val mapper: LoadVacanciesResult.Mapper
 ) : AbstractViewModel<VacanciesUiState>() {
 
+    private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private val filterItems = provideResource.array(R.array.simple_items)
-
 
     interface Mapper {
         fun map(
@@ -61,7 +60,6 @@ class LoadVacanciesViewModel(
         }) {
         }
         clearViewModel.clear(LoadVacanciesViewModel::class.java.simpleName)
-        Log.d("inz", "repository cleared")
     }
 
     override fun retry() {
@@ -69,6 +67,7 @@ class LoadVacanciesViewModel(
     }
 
     private fun vacanciesFromDatabase() {
+        mapper.mapProgress()
         runAsync.runAsync(viewModelScope, {
             repository.vacanciesFromCache()
         }) {
@@ -77,6 +76,7 @@ class LoadVacanciesViewModel(
     }
 
     private fun vacanciesWithDecreaseFilter() {
+        mapper.mapProgress()
         runAsync.runAsync(viewModelScope, {
             repository.vacanciesWithDecreaseFilter()
         }) {
@@ -85,6 +85,7 @@ class LoadVacanciesViewModel(
     }
 
     private fun vacanciesWithIncreaseFilter() {
+        mapper.mapProgress()
         runAsync.runAsync(viewModelScope, {
             repository.vacanciesWithIncreaseFilters()
         }) {
@@ -97,11 +98,6 @@ class LoadVacanciesViewModel(
         loadVacanciesWithQuery(cacheFilters)
     }
 
-    private var searchParams = VacanciesSearchParams.Builder()
-
-    private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-
-
     private fun loadVacanciesWithQuery(vacanciesSearchParams: VacanciesSearchParams) {
         mapper.mapProgress()
         runAsync.runAsync(viewModelScope, {
@@ -113,11 +109,6 @@ class LoadVacanciesViewModel(
 
     override fun clickVacancy(vacancyUi: VacancyUi) {
         liveDataWrapper.clickVacancy(vacancyUi)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        Log.d("inz", "Load Vacancies VM cleared")
     }
 
     override fun liveData(tag: String) = liveDataWrapper.liveData()

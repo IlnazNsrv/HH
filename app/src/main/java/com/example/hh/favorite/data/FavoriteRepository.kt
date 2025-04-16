@@ -43,21 +43,21 @@ interface FavoriteRepository {
                                     createProperties.createSalary(it.vacancy.salary),
                                     createProperties.createAddress(it.vacancy.address),
                                     createProperties.createEmployer(it.vacancy.employer),
-                                    createProperties.createWorkFormatList(it.workFormats.map { data->
+                                    createProperties.createWorkFormatList(it.workFormats.map { data ->
                                         WorkFormatEntity(
                                             vacancyId = data.vacancyId,
                                             id = data.id,
                                             name = data.name
                                         )
                                     }),
-                                    createProperties.createWorkingHours(it.workingHours.map { data->
+                                    createProperties.createWorkingHours(it.workingHours.map { data ->
                                         WorkingHoursEntity(
                                             vacancyId = data.vacancyId,
                                             id = data.id,
                                             name = data.name
                                         )
                                     }),
-                                    createProperties.createWorkScheduleByDays(it.workBySchedule.map { data->
+                                    createProperties.createWorkScheduleByDays(it.workBySchedule.map { data ->
                                         WorkScheduleByDaysEntity(
                                             vacancyId = data.vacancyId,
                                             id = data.id,
@@ -78,11 +78,9 @@ interface FavoriteRepository {
             }
         }
 
-        override suspend fun clickFavorite(vacancyUi: VacancyUi){
+        override suspend fun clickFavorite(vacancyUi: VacancyUi) {
             favoriteVacanciesDao.updateFavoriteState(vacancyUi.id(), !vacancyUi.favoriteChosen())
             vacanciesDao.updateFavoriteState(vacancyUi.id(), !vacancyUi.favoriteChosen())
-
-//            return  LoadVacanciesResult.Success(favoriteVacanciesDao.getFavoriteVacancies() as List<VacancyUi>)
         }
     }
 }

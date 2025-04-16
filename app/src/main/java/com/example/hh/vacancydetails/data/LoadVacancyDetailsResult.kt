@@ -2,7 +2,7 @@ package com.example.hh.vacancydetails.data
 
 import com.example.hh.vacancydetails.presentation.VacancyDetailsUi
 
-interface LoadVacancyDetailsResult  {
+interface LoadVacancyDetailsResult {
 
     fun map(mapper: Mapper)
 
@@ -15,11 +15,15 @@ interface LoadVacancyDetailsResult  {
         override fun map(mapper: Mapper) {
             mapper.mapSuccess(vacancyUi)
         }
+
+        fun vacancyDetails() = vacancyUi
     }
 
     data class Error(private val vacancyUi: VacancyDetailsUi.Error) : LoadVacancyDetailsResult {
         override fun map(mapper: Mapper) {
             mapper.mapError(vacancyUi)
         }
+
+        fun error() = vacancyUi
     }
 }

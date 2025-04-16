@@ -35,7 +35,7 @@ interface VacancyDetailsUi {
             setEmployer(binding)
             setContacts(binding)
             binding.areaInformation.text = vacancyDetailsCloud.area.name
-            binding.progressBar.visibility = View.GONE
+            binding.progressBarVacancyDetails.visibility = View.GONE
             setImageView(binding)
         }
 
@@ -117,10 +117,10 @@ interface VacancyDetailsUi {
 
         private fun setEmployer(binding: FragmentVacancyDetailsBinding) {
             if (vacancyDetailsCloud.employer != null) {
-                binding.topLayout.visibility = View.VISIBLE
+                binding.companyLayout.visibility = View.VISIBLE
                 binding.companyName.text = vacancyDetailsCloud.employer.name
             } else {
-                binding.topLayout.visibility = View.GONE
+                binding.companyLayout.visibility = View.GONE
             }
         }
 
@@ -159,7 +159,7 @@ interface VacancyDetailsUi {
         }
 
         override fun show(binding: FragmentVacancyDetailsBinding) {
-            binding.progressBar.visibility = View.VISIBLE
+            binding.progressBarVacancyDetails.visibility = View.VISIBLE
         }
 
         override fun changeFavoriteChosen(): VacancyDetailsUi {
@@ -169,7 +169,6 @@ interface VacancyDetailsUi {
         override fun favoriteChosen(): Boolean {
             return false
         }
-
     }
 
     class Error(
@@ -177,7 +176,7 @@ interface VacancyDetailsUi {
     ) : VacancyDetailsUi {
 
         override fun show(binding: FragmentVacancyDetailsBinding) {
-            binding.progressBar.visibility = View.GONE
+            binding.progressBarVacancyDetails.visibility = View.GONE
             binding.errorLayout.visibility = View.VISIBLE
             binding.errorText.text = message
         }
@@ -186,6 +185,8 @@ interface VacancyDetailsUi {
             return this::class.java.simpleName
         }
 
+        fun message() = message
+
         override fun changeFavoriteChosen(): VacancyDetailsUi {
             return this
         }
@@ -193,6 +194,5 @@ interface VacancyDetailsUi {
         override fun favoriteChosen(): Boolean {
             return false
         }
-
     }
 }

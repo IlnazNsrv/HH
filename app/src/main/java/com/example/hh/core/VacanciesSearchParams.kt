@@ -19,11 +19,9 @@ class VacanciesSearchParams private constructor(
         private var experience: MutableList<String>? = null
         private var employment: MutableList<String>? = null
         private var schedule: MutableList<String>? = null
-
         private var area: Pair<AreaId, AreaValue>? = null
         private var salary: Int? = null
         private var onlyWithSalary: Boolean = false
-
 
         fun setSearchText(searchText: String) = apply { this.searchText = searchText }
 

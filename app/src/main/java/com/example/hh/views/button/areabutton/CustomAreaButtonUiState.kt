@@ -10,5 +10,7 @@ interface CustomAreaButtonUiState : UiState {
         override fun show(updateCustomAreaButton: UpdateCustomAreaButton) {
             updateCustomAreaButton.update(chosenArea)
         }
+
+        fun chosenArea() = chosenArea
     }
 }

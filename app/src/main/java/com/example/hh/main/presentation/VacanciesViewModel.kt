@@ -21,7 +21,7 @@ class VacanciesViewModel(
     private val runAsync: RunAsync,
     private val mapper: LoadVacanciesResult.Mapper,
     private val liveDataWrapper: VacanciesLiveDataWrapper,
-) : AbstractViewModel<VacanciesUiState>(), LoadVacancies, RecommendationActions {
+) : AbstractViewModel<VacanciesUiState>(), LoadVacancies {
 
     companion object {
         private const val KEY_FOR_BUNDLE = "key"
@@ -106,12 +106,9 @@ class VacanciesViewModel(
     }
 
     override fun liveData(tag: String): LiveData<VacanciesUiState> = liveDataWrapper.liveData()
-
-    override fun click(recommendationUi: RecommendationUi) = Unit
 }
 
 interface LoadVacancies {
     fun loadVacancies() = Unit
-    fun loadVacanciesWithQuery(query: String) = Unit
 }
 

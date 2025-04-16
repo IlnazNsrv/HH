@@ -45,9 +45,6 @@ interface LiveDataWrapper {
             liveData.value = data
         }
     }
-
 }
 
-interface UiState : Serializable {
-    //fun<T : ItemsUi> show(updateItemsRecyclerView: UpdateItemsRecyclerView<T>) = Unit
-}
+interface UiState : Serializable

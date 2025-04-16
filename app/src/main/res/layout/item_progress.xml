@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:id="@+id/progressItem"
-    android:background="@color/dimGray"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -11,8 +10,9 @@
         style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:progressBackgroundTint="@color/black"
-        android:progressTint="@color/red" />
+        android:indeterminate="true"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/red"/>
 
 
 </LinearLayout>

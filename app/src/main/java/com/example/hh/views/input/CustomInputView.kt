@@ -2,11 +2,8 @@ package com.example.hh.views.input
 
 import android.content.Context
 import android.os.Parcelable
-import android.text.Editable
 import android.text.InputType
-import android.text.TextWatcher
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -29,8 +26,6 @@ class CustomInputView : FrameLayout, UpdateCustomInput {
     private val binding =
         InputBinding.inflate(LayoutInflater.from(context), this, true)
     private lateinit var inputViewModel: CustomInputViewModel
-    private lateinit var textWatcherString: TextWatcher
-    private lateinit var textWatcherNumber: TextWatcher
 
     constructor(context: Context) : super(context)
 
@@ -48,46 +43,10 @@ class CustomInputView : FrameLayout, UpdateCustomInput {
         inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
     }
 
-    private fun hideKeyboard(view: View) {
-        val inputMethodManager =
-            view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-
-
-    private fun textWatcherCreator(type: String): TextWatcher {
-        val textWatcher = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) =
-                Unit
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
-
-            override fun afterTextChanged(s: Editable?) {
-                when (type) {
-                    STRING_INPUT_VIEW_TYPE_TAG -> handleTextInput(s)
-                    INT_INPUT_VIEW_TYPE_TAG -> handleNumberInput(s)
-                }
-            }
-        }
-        return textWatcher
-    }
-
-
-    private fun handleTextInput(s: Editable?) {
-        inputViewModel.cacheInputText(s.toString())
-    }
-
-    private fun handleNumberInput(s: Editable?) {
-        val input = s.toString()
-        inputViewModel.cacheInputNumber(input.toIntOrNull())
-    }
-
     fun init(
         viewModel: CustomInputViewModel,
         type: String,
     ) {
-        //uniqueId = type
-
         inputViewModel = viewModel
 
         when (type) {
@@ -95,10 +54,7 @@ class CustomInputView : FrameLayout, UpdateCustomInput {
             STRING_INPUT_VIEW_TYPE_TAG -> setStringTypeFeatures()
         }
 
-
         binding.inputEditText.setTextColor(resources.getColor(R.color.black))
-
-        // binding.inputEditText.setBackgroundColor(resources.getColor(R.color.white))
 
         inputViewModel.liveData().observe(findViewTreeLifecycleOwner()!!) {
             it.show(this)
@@ -107,9 +63,6 @@ class CustomInputView : FrameLayout, UpdateCustomInput {
         binding.inputEditText.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus)
                 showKeyboard(this)
-//            else {
-//                hideKeyboard(this)
-//            }
         }
     }
 
@@ -131,30 +84,20 @@ class CustomInputView : FrameLayout, UpdateCustomInput {
         binding.inputEditText.hint = "Должность, ключевые слова"
     }
 
-    fun addTextChangedListener() {
-        // binding.inputEditText.addTextChangedListener(textWatcher)
-    }
-
-    // fun removeTextChangedListener() = binding.inputEditText.removeTextChangedListener(textWatcher)
-
     override fun onSaveInstanceState(): Parcelable? {
         return super.onSaveInstanceState()?.let {
             val savedState = CustomInputSavedState(it)
             savedState.saveState(uniqueId, state)
             return savedState
         }
-        Log.d("CustomInputView", "Saved state for $uniqueId: $state")
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
         val restoredState = state as CustomInputSavedState
         super.onRestoreInstanceState(restoredState.superState)
         binding.inputEditText.text?.clear()
-  //      update(restoredState.restore(uniqueId = uniqueId))
         val restoredUiState = restoredState.restoreState(uniqueId)
         binding.inputEditText.setText(restoredUiState.text())
-       // update(restoredUiState)
-        Log.d("CustomInputView", "Restored state for $uniqueId: $restoredUiState")
     }
 
     override fun update(uiState: CustomInputUiState) {
@@ -176,14 +119,4 @@ interface UpdateCustomInput {
     fun update(uiState: CustomInputUiState) = Unit
 
     fun update(userInput: String)
-}
-
-class CustomTextWatcher(private val onTextChanged: (String) -> Unit) : TextWatcher {
-    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
-
-    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
-
-    override fun afterTextChanged(s: Editable?) {
-        onTextChanged(s.toString())
-    }
 }

@@ -18,7 +18,6 @@ class FiltersAdapter(
     ),
     private val clickListener: ChooseButton,
     private val liveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>
-
 ) : RecyclerView.Adapter<ButtonViewHolder>(),
     UpdateItems<FilterButtonUi>, SaveItems<ButtonsUiState<FilterButtonUi>> {
 
@@ -39,7 +38,6 @@ class FiltersAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ButtonViewHolder {
         return typeList[viewType].viewHolder(parent, clickListener)
     }
-
 
     override fun onBindViewHolder(holder: ButtonViewHolder, position: Int) {
         holder.bind(list[position])

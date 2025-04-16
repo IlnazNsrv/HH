@@ -7,13 +7,12 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/standard_bottom_sheet"
+        android:id="@+id/standardBottomSheet"
         style="@style/ModalBottomSheetDialog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/rounded_background"
         android:orientation="vertical">
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,7 +42,6 @@
 
         </LinearLayout>
 
-
         <com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/inputLayout"
@@ -56,7 +54,7 @@
             android:layout_marginHorizontal="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inputEditText"
+                android:id="@+id/inputAreaEditText"
                 android:layout_width="match_parent"
                 android:imeOptions="actionSearch"
                 android:singleLine="true"
@@ -68,9 +66,7 @@
                 android:layout_margin="8dp"
                 android:layout_height="wrap_content"
                 />
-
         </com.google.android.material.textfield.TextInputLayout>
-
 
         <View
             android:layout_width="match_parent"
@@ -90,10 +86,10 @@
             android:layout_height="match_parent"
             android:minHeight="700dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/bottomLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -108,5 +104,4 @@
             android:layout_margin="16dp"
             android:text="Сохранить город" />
     </LinearLayout>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

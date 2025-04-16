@@ -21,11 +21,11 @@ class FavoriteVacanciesFragment : AbstractFragment<FragmentFavoriteVacanciesBind
         container: ViewGroup?
     ) = FragmentFavoriteVacanciesBinding.inflate(inflater, container, false)
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = (requireActivity().application as ProvideViewModel).viewModel(FavoriteVacanciesViewModel::class.java.simpleName)
+        viewModel =
+            (requireActivity().application as ProvideViewModel).viewModel(FavoriteVacanciesViewModel::class.java.simpleName)
 
         viewModel.init()
 
@@ -34,7 +34,12 @@ class FavoriteVacanciesFragment : AbstractFragment<FragmentFavoriteVacanciesBind
                 favoriteVacanciesViewModel: FavoriteVacanciesViewModel,
                 liveDataWrapper: VacanciesLiveDataWrapper
             ) {
-                binding.recyclerView.init(favoriteVacanciesViewModel, liveDataWrapper, navigate = requireActivity() as NavigateToVacancyDetails, backStackName = Screen.HOME_SCREEN)
+                binding.recyclerView.init(
+                    favoriteVacanciesViewModel,
+                    liveDataWrapper,
+                    navigate = requireActivity() as NavigateToVacancyDetails,
+                    backStackName = Screen.HOME_SCREEN
+                )
             }
         })
     }

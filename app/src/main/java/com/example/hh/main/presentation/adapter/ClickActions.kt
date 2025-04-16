@@ -6,18 +6,16 @@ import com.example.hh.main.data.BundleWrapper
 import com.example.hh.main.presentation.ItemsUi
 import com.example.hh.main.presentation.VacancyUi
 
-interface SaveItems<T: UiState> {
+interface SaveItems<T : UiState> {
     fun save(bundle: BundleWrapper.Save<T>)
     fun restore(bundleWrapper: BundleWrapper.Restore<T>)
 }
 
-interface UpdateItems<T: ItemsUi> {
+interface UpdateItems<T : ItemsUi> {
     fun updateItems(newList: List<T>)
 }
 
-
 interface ClickActions : ChooseButton {
-
     fun clickFavorite(vacancyUi: VacancyUi) = Unit
     fun clickFavorite() = Unit
     fun retry() = Unit

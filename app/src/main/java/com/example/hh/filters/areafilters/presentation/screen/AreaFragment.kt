@@ -30,13 +30,11 @@ class AreaFragment() : AbstractBottomDialogFragment<FragmentAreaBinding>() {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
 
-
         override fun afterTextChanged(s: Editable?) {
             searchRunnable?.let { handler.removeCallbacks(it) }
             searchRunnable = Runnable {
-                viewModel.handleUserInput(text = s.toString())
+                viewModel.loadAreas(text = s.toString())
             }
-             //text для проверки дошли мы до нужного количества букв или нет
             handler.postDelayed(searchRunnable!!, 300)
         }
     }
@@ -44,29 +42,11 @@ class AreaFragment() : AbstractBottomDialogFragment<FragmentAreaBinding>() {
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentAreaBinding.inflate(inflater, container, false)
 
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setStyle(STYLE_NORMAL, R.style.ModalBottomSheetDialog)
-//    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        val bottomSheet = dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
-//        bottomSheet?.let { sheet ->
-//            val behavior = BottomSheetBehavior.from(sheet)
-//            behavior.state = BottomSheetBehavior.STATE_EXPANDED
-//            val displayMetrics = resources.displayMetrics
-//            val maxHeight = (displayMetrics.heightPixels * 0.9).toInt()
-//            sheet.layoutParams.height = maxHeight
-//            sheet.requestLayout()
-//
-//        }
-
         viewModel =
             (requireActivity().application as ProvideViewModel).viewModel(AreaViewModel::class.java.simpleName)
-
-        viewModel.loadAreas(binding.inputEditText.text.toString())
 
         viewModel.map(object : AreaViewModel.Mapper {
             override fun map(
@@ -77,7 +57,14 @@ class AreaFragment() : AbstractBottomDialogFragment<FragmentAreaBinding>() {
             }
         })
 
+        viewModel.loadAreas(binding.inputAreaEditText.text.toString())
+
         binding.saveArea.setOnClickListener {
+            viewModel.saveArea()
+            dismiss()
+        }
+
+        binding.dismissButton.setOnClickListener {
             viewModel.saveArea()
             dismiss()
         }
@@ -85,11 +72,11 @@ class AreaFragment() : AbstractBottomDialogFragment<FragmentAreaBinding>() {
 
     override fun onResume() {
         super.onResume()
-        binding.inputEditText.addTextChangedListener(textWatcher)
+        binding.inputAreaEditText.addTextChangedListener(textWatcher)
     }
 
     override fun onPause() {
         super.onPause()
-        binding.inputEditText.removeTextChangedListener(textWatcher)
+        binding.inputAreaEditText.removeTextChangedListener(textWatcher)
     }
 }

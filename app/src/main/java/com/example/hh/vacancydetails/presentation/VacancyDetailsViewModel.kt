@@ -37,7 +37,7 @@ class VacancyDetailsViewModel(
     fun loadVacancyDetails() {
         vacancyDetailsLiveDataWrapper.update(VacancyDetailsUiState.Progress(VacancyDetailsUi.Progress))
         runAsync.runAsync(viewModelScope, {
-            delay(2000)
+            delay(1000)
             repository.vacancyDetails(cachedVacancyId!!)
         }) {
             it.map(mapper)
@@ -59,7 +59,6 @@ class VacancyDetailsViewModel(
             }, {
                 vacancyDetailsLiveDataWrapper.clickFavorite()
             })
-
     }
 
     fun clearViewModel() {
@@ -68,5 +67,4 @@ class VacancyDetailsViewModel(
 
     override fun liveData(tag: String): LiveData<VacancyDetailsUiState> =
         vacancyDetailsLiveDataWrapper.liveData()
-
 }

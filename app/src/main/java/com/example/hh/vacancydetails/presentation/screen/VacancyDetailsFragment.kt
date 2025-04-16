@@ -18,7 +18,6 @@ class VacancyDetailsFragment : AbstractFragment<FragmentVacancyDetailsBinding>()
     private var argumentFromBundleData: String? = null
     private lateinit var viewModel: VacancyDetailsViewModel
 
-
     override fun bind(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -62,7 +61,7 @@ class VacancyDetailsFragment : AbstractFragment<FragmentVacancyDetailsBinding>()
         }
 
         binding.backButton.setOnClickListener {
-           parentFragmentManager.popBackStack()
+            parentFragmentManager.popBackStack()
             viewModel.clearViewModel()
         }
     }
@@ -74,7 +73,6 @@ class VacancyDetailsFragment : AbstractFragment<FragmentVacancyDetailsBinding>()
             viewModel.save(BundleWrapper.Base(outState))
         }
     }
-
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
