@@ -5,6 +5,7 @@ import com.example.hh.favorite.data.cache.FavoriteVacancyCache
 import com.example.hh.loadvacancies.data.cache.VacanciesDao
 import com.example.hh.main.data.HandleError
 import com.example.hh.vacancydetails.data.cloud.LoadVacancyDetailsCloudDataSource
+import com.example.hh.vacancydetails.data.cloud.VacancyDetailsService
 import com.example.hh.vacancydetails.presentation.VacancyDetailsUi
 
 interface VacancyDetailsRepository {
@@ -57,6 +58,32 @@ interface VacancyDetailsRepository {
                 vacanciesDao.updateFavoriteState(vacancyId, !getVacancy.isFavorite)
                 favoriteVacanciesDao.addVacancy(favoriteVacancy)
             }
+        }
+    }
+
+    class Fake(
+        private val cloudDataSource: VacancyDetailsService,
+        private val handleError: HandleError<String>
+    ) : VacancyDetailsRepository {
+
+        private var favoriteClicked = false
+
+        override suspend fun vacancyDetails(vacancyId: String): LoadVacancyDetailsResult {
+            try {
+                val data = cloudDataSource.vacancyDetails(vacancyId).execute().body()!!
+                return LoadVacancyDetailsResult.Success(
+                    VacancyDetailsUi.Base(
+                        data,
+                        false
+                    )
+                )
+            } catch (e: Exception) {
+                return LoadVacancyDetailsResult.Error(VacancyDetailsUi.Error(handleError.handle(e)))
+            }
+        }
+
+        override suspend fun updateFavoriteStatus(vacancyId: String) {
+            favoriteClicked = !favoriteClicked
         }
     }
 }

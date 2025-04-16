@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/vacanciesRootLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
@@ -10,6 +11,7 @@
     android:background="@color/black">
 
     <LinearLayout
+        android:id="@+id/vacanciesTopLayout"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -31,14 +33,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColorHint="@color/DodgerBlue"
-            android:hint="По возрастанию дохода">
+            android:hint="По соответствию">
 
             <AutoCompleteTextView
                 android:id="@+id/filtersAutoCompleteTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none"
                 android:backgroundTint="@color/black"
+                android:inputType="none"
                 android:textColor="@color/DodgerBlue"
                 app:simpleItems="@array/simple_items"
                 tools:ignore="LabelFor" />

@@ -3,13 +3,13 @@ package com.example.hh.vacancydetails.di
 import com.example.hh.core.Core
 import com.example.hh.core.Module
 import com.example.hh.vacancydetails.data.VacancyDetailsRepository
+import com.example.hh.vacancydetails.data.cloud.FakeVacancyDetailsService
 import com.example.hh.vacancydetails.data.cloud.LoadVacancyDetailsCloudDataSource
 import com.example.hh.vacancydetails.presentation.VacancyDetailsLiveDataWrapper
 import com.example.hh.vacancydetails.presentation.VacancyDetailsResultMapper
 import com.example.hh.vacancydetails.presentation.VacancyDetailsViewModel
 
 class VacancyDetailsViewModule(private val core: Core) : Module<VacancyDetailsViewModel> {
-
 
     override fun viewModel(): VacancyDetailsViewModel {
 
@@ -23,15 +23,22 @@ class VacancyDetailsViewModule(private val core: Core) : Module<VacancyDetailsVi
             VacancyDetailsResultMapper(
                 vacancyDetailsLiveDataWrapper
             ),
-            VacancyDetailsRepository.Base(
-                core.vacanciesCacheModule.dao(),
-                core.favoriteVacanciesCacheModule.favoriteVacanciesDao(),
-                LoadVacancyDetailsCloudDataSource.Base(
-                    core.provideRetrofitBuilder.provideRetrofitBuilder(),
-                    core.handleDataError
-                ),
-                core.handleDomainError
-            ),
+            if (core.runUiTest) {
+                VacancyDetailsRepository.Fake(
+                    FakeVacancyDetailsService(),
+                    core.handleDomainError
+                )
+            } else {
+                VacancyDetailsRepository.Base(
+                    core.vacanciesCacheModule.dao(),
+                    core.favoriteVacanciesCacheModule.favoriteVacanciesDao(),
+                    LoadVacancyDetailsCloudDataSource.Base(
+                        core.provideRetrofitBuilder.provideRetrofitBuilder(),
+                        core.handleDataError
+                    ),
+                    core.handleDomainError
+                )
+            },
             core.runAsync
         )
     }

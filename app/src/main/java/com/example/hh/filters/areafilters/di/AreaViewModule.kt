@@ -11,8 +11,11 @@ import com.example.hh.filters.data.cache.ChosenFiltersCache
 import com.example.hh.filters.presentation.FilterButtonUi
 import com.example.hh.filters.presentation.FilterButtonsLiveDataWrapper
 
-class AreaViewModule(private val core: Core, private val filtersCore: FiltersCore) : Module<AreaViewModel> {
+class AreaViewModule(private val core: Core, private val filtersCore: FiltersCore) :
+    Module<AreaViewModel> {
+
     private val areaButtonLiveDataWrapper = FilterButtonsLiveDataWrapper.Base<FilterButtonUi>()
+
     override fun viewModel(): AreaViewModel {
         return AreaViewModel(
             filtersCore.customAreaButtonLiveDataWrapper,

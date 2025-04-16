@@ -29,7 +29,6 @@ interface CreatePropertiesForVacancyUi {
 
     class Base() : CreatePropertiesForVacancyUi {
 
-
         override fun createSalary(salary: SalaryEntity?): Salary? {
             return salary?.let {
                 Salary(it.from, it.to, it.currency, it.gross)

@@ -1,6 +1,5 @@
 package com.example.hh.core
 
-//import com.example.hh.loadvacancies.di.LoadVacanciesModule
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.hh.MainViewModel

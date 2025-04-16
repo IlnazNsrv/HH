@@ -5,7 +5,7 @@ import retrofit2.Retrofit
 
 interface LoadVacancyDetailsCloudDataSource {
 
-    suspend fun loadVacancyDetails(vacancyId: String) : VacancyDetailsCloud
+    suspend fun loadVacancyDetails(vacancyId: String): VacancyDetailsCloud
 
     class Base(
         private val service: VacancyDetailsService,
@@ -26,7 +26,7 @@ interface LoadVacancyDetailsCloudDataSource {
             try {
                 val data = service.vacancyDetails(vacancyId).execute()
                 return data.body()!!
-            } catch (e:Exception) {
+            } catch (e: Exception) {
                 throw handleError.handle(e)
             }
         }

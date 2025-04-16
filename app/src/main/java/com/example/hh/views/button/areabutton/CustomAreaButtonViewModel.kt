@@ -29,14 +29,8 @@ class CustomAreaButtonViewModel(
     }
 
     fun handleCloseAction() {
-
         repository.saveParams(areaNameCache.setArea(null).build())
         updateState()
-      //  chosenFiltersCache.save(areaNameCache.setArea(null).build())
-    }
-
-    fun restoreDefault() {
-        repository.saveParams(areaNameCache.setArea(null).build())
     }
 
     fun updateState() {

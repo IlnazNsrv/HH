@@ -39,16 +39,11 @@ class AreaViewModel(
     }
 
     fun loadAreas(text: String) {
-        runAsync.runAsync(viewModelScope,
-            {
-                repository.areas(text)
-            }) {
+        runAsync.runAsync(viewModelScope, {
+            repository.areas(text)
+        }) {
             it.map(mapper)
         }
-    }
-
-    fun handleUserInput(text: String) {
-        loadAreas(text)
     }
 
     fun saveArea() {
@@ -58,7 +53,11 @@ class AreaViewModel(
 
     override fun choose(buttonUi: FilterButtonUi) {
         buttonLiveDataWrapper.clickButton(buttonUi)
-        searchParams.setArea(areaValue = Pair(buttonUi.id(), buttonUi.query()))
+        if (buttonUi.chosen()) {
+            searchParams.setArea(null)
+        } else {
+            searchParams.setArea(areaValue = Pair(buttonUi.id(), buttonUi.query()))
+        }
     }
 
     override fun liveData(tag: String): LiveData<ButtonsUiState<FilterButtonUi>> {

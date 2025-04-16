@@ -18,6 +18,5 @@ interface ProvideResource {
         override fun array(id: Int): Array<String> {
             return context.resources.getStringArray(id)
         }
-
     }
 }

@@ -23,32 +23,14 @@ interface VacanciesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveWorkScheduleByDays(workScheduleByDays: List<WorkScheduleByDaysEntity>)
 
-//    @Query("SELECT * FROM vacancies_table WHERE id=:vacancyId")
-//    suspend fun vacancy(vacancyId: String) : VacancyCache
-
     @Query("SELECT * FROM vacancies_table")
-    suspend fun vacancy() : List<VacancyCache>
-
-    @Query("SELECT * FROM work_format where vacancyId=:vacancyId")
-    suspend fun workFormat(vacancyId: Int) : List<WorkFormatEntity>
-
-    @Query("SELECT * FROM work_schedule_by_days WHERE vacancyId=:vacancyId")
-    suspend fun workScheduleByDays(vacancyId: Int) : List<WorkScheduleByDaysEntity>
-
-    @Query("SELECT * FROM working_hours WHERE vacancyId=:vacancyId")
-    suspend fun workingHoursEntity(vacancyId: Int) : List<WorkingHoursEntity>
+    suspend fun vacancy(): List<VacancyCache>
 
     @Query("UPDATE vacancies_table SET isFavorite=:isFavorite WHERE id=:id")
     suspend fun updateFavoriteState(id: String, isFavorite: Boolean)
 
-    @Query("UPDATE vacancies_table SET isFavorite= NOT isFavorite WHERE id=:id")
-    suspend fun updateFavorite(id: String)
-
     @Query("SELECT * FROM vacancies_table WHERE id=:vacancyId")
-    suspend fun getVacancy(vacancyId: String) : VacancyCache?
-
-    @Query("SELECT * FROM vacancies_table WHERE isFavorite = 1")
-    suspend fun getFavoriteVacancies() : List<VacancyCache>
+    suspend fun getVacancy(vacancyId: String): VacancyCache?
 
     @Query("DELETE FROM vacancies_table WHERE isFavorite=0")
     suspend fun deleteNonFavoriteVacancies()
@@ -71,10 +53,11 @@ interface VacanciesDao {
 
     @Transaction
     @Query("SELECT * FROM vacancies_table")
-    suspend fun getAllVacancies() : List<VacancyWithDetails>
+    suspend fun getAllVacancies(): List<VacancyWithDetails>
 
     @Transaction
-    @Query("""
+    @Query(
+        """
     SELECT *
     FROM vacancies_table
     ORDER BY 
@@ -86,11 +69,13 @@ interface VacanciesDao {
             WHEN salary_from IS NOT NULL THEN salary_from
             ELSE salary_to
         END DESC
-""")
+"""
+    )
     suspend fun getDecreaseSalaryVacancies(): List<VacancyWithDetails>
 
     @Transaction
-    @Query("""
+    @Query(
+        """
     SELECT *
     FROM vacancies_table
     ORDER BY 
@@ -102,9 +87,9 @@ interface VacanciesDao {
             WHEN salary_from IS NOT NULL THEN salary_from
             ELSE salary_to
         END ASC
-""")
+"""
+    )
     suspend fun getIncreaseSalaryVacancies(): List<VacancyWithDetails>
-
 
     data class VacancyWithDetails(
         @Embedded val vacancy: VacancyCache,

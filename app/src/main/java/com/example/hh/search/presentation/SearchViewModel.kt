@@ -42,7 +42,6 @@ class SearchViewModel(
     }
 
     fun openAreaDialogFragment(fragmentManager: FragmentManager) {
-
         if (lastTimeButtonClicked.timePassed()) {
             val dialogFragment = AreaFragment()
             dialogFragment.show(fragmentManager, AreaFragment.AREA_FRAGMENT_TAG)

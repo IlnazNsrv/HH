@@ -1,7 +1,6 @@
 package com.example.hh.main.presentation
 
 import android.content.Context
-import android.os.Bundle
 import android.util.AttributeSet
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
@@ -11,14 +10,12 @@ import com.example.hh.filters.presentation.ButtonsUiState
 import com.example.hh.filters.presentation.FilterButtonUi
 import com.example.hh.filters.presentation.FilterButtonsLiveDataWrapper
 import com.example.hh.filters.presentation.FiltersAdapter
-import com.example.hh.main.data.BundleWrapper
-import com.example.hh.main.presentation.adapter.SaveItems
 import com.example.hh.main.presentation.adapter.UpdateItems
 import com.example.hh.main.presentation.adapter.VacanciesAdapter
 import com.example.hh.vacancydetails.presentation.screen.NavigateToVacancyDetails
 
-class CustomRecyclerView<T : ItemsUi, V : UiState, U : AbstractViewModel<UiState>> : RecyclerView,
-    UpdateItemsRecyclerView<T> {
+class CustomRecyclerView<T : ItemsUi, U : AbstractViewModel<UiState>> : RecyclerView,
+    UpdateItemsRecyclerView<T>, VacanciesUiStateHandler {
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
@@ -30,7 +27,6 @@ class CustomRecyclerView<T : ItemsUi, V : UiState, U : AbstractViewModel<UiState
 
     private lateinit var adapter: Adapter<out ViewHolder>
 
-
     fun init(
         viewModel: U,
         liveDataWrapper: VacanciesLiveDataWrapper,
@@ -41,18 +37,9 @@ class CustomRecyclerView<T : ItemsUi, V : UiState, U : AbstractViewModel<UiState
         adapter = VacanciesAdapter(clickActions = viewModel, liveDataWrapper = liveDataWrapper)
         setAdapter(adapter)
 
-
-
         viewModel.liveData("tag").observe(findViewTreeLifecycleOwner()!!) { uiState ->
             (uiState as VacanciesUiState).show(this as UpdateItemsRecyclerView<VacancyUi>)
-            when (uiState) {
-                is VacanciesUiState.Show -> {
-                    uiState.navigateToVacancyWithId?.let {
-                        uiState.navigatedToVacancy()
-                        navigate.navigateToVacancyDetails(it, backStackName)
-                    }
-                }
-            }
+            uiState.navigate(this, navigate, backStackName)
         }
     }
 
@@ -70,21 +57,23 @@ class CustomRecyclerView<T : ItemsUi, V : UiState, U : AbstractViewModel<UiState
         }
     }
 
-    fun save(bundle: Bundle) {
-        (adapter as SaveItems<V>).save(BundleWrapper.Base(bundle))
-    }
-
-    fun restore(bundle: Bundle) {
-        (adapter as SaveItems<V>).restore(BundleWrapper.Base(bundle))
-    }
-
     override fun update(list: List<T>) {
         (adapter as UpdateItems<T>).updateItems(list)
+    }
+
+    override fun handle(
+        navigate: NavigateToVacancyDetails,
+        vacancyId: String,
+        backStackName: String
+    ) {
+        navigate.navigateToVacancyDetails(vacancyId, backStackName)
     }
 }
 
 interface UpdateItemsRecyclerView<T : ItemsUi> {
-
     fun update(list: List<T>)
-    //fun update(list: List<FilterButtonUi>)
+}
+
+interface VacanciesUiStateHandler {
+    fun handle(navigate: NavigateToVacancyDetails, vacancyId: String, backStackName: String)
 }

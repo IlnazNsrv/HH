@@ -35,7 +35,6 @@ data class VacancyCache(
 
 @Entity(
     tableName = "work_format",
-    //primaryKeys = ["vacancyId", "id", "name"]
     foreignKeys = [ForeignKey(
         entity = VacancyCache::class,
         parentColumns = ["id"],
@@ -53,7 +52,6 @@ data class WorkFormatEntity(
 
 @Entity(
     tableName = "working_hours",
-    //primaryKeys = ["vacancyId", "id", "name"]
     foreignKeys = [ForeignKey(
         entity = VacancyCache::class,
         parentColumns = ["id"],
@@ -71,7 +69,6 @@ data class WorkingHoursEntity(
 
 @Entity(
     tableName = "work_schedule_by_days",
-    // primaryKeys = ["vacancyId", "id", "name"],
     foreignKeys = [ForeignKey(
         entity = VacancyCache::class,
         parentColumns = ["id"],

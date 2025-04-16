@@ -26,6 +26,5 @@ interface AreasCacheDataSource {
         override suspend fun searchAreas(query: String): List<AreaCache> {
            return dao.searchAreas(query)
         }
-
     }
 }

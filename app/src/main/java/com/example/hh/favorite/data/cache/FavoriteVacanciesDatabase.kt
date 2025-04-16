@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
     FavoriteWorkFormatEntity::class,
     FavoriteWorkingHoursEntity::class,
     FavoriteWorkScheduleByDaysEntity::class],
-    version = 1
+    version = 2
 )
 abstract class FavoriteVacanciesDatabase : RoomDatabase() {
 

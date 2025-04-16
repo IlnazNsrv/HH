@@ -25,6 +25,7 @@ import com.example.hh.main.data.cloud.Area
 import com.example.hh.main.data.cloud.Employer
 import com.example.hh.main.data.cloud.Experience
 import com.example.hh.main.data.cloud.LoadVacanciesCloudDataSource
+import com.example.hh.main.data.cloud.MainVacanciesService
 import com.example.hh.main.data.cloud.Salary
 import com.example.hh.main.data.cloud.Type
 import com.example.hh.main.data.cloud.VacancyCloud
@@ -32,7 +33,6 @@ import com.example.hh.main.presentation.VacancyUi
 
 interface VacanciesRepository {
 
-    suspend fun vacancies(searchParams: VacanciesSearchParams): LoadVacanciesResult
     suspend fun vacanciesWithCache(searchParams: VacanciesSearchParams): LoadVacanciesResult
     suspend fun vacanciesFromCache(): LoadVacanciesResult
     suspend fun clearVacancies()
@@ -49,18 +49,6 @@ interface VacanciesRepository {
         private val favoriteVacanciesDao: FavoriteVacanciesDao,
         private val clearVacancies: ClearDataBase
     ) : VacanciesRepository {
-
-        override suspend fun vacancies(searchParams: VacanciesSearchParams): LoadVacanciesResult {
-            return try {
-                val data = cloudDataSource.loadVacancies(searchParams)
-                LoadVacanciesResult.Success(
-                    data.map {
-                        VacancyUi.Base(it, false)
-                    })
-            } catch (e: Exception) {
-                return LoadVacanciesResult.Error(handleError.handle(e))
-            }
-        }
 
         override suspend fun vacanciesWithCache(searchParams: VacanciesSearchParams): LoadVacanciesResult {
             try {
@@ -95,7 +83,6 @@ interface VacanciesRepository {
 
                     val isFavorite = favoriteIds.contains(vacancyCloud.id)
 
-
                     VacancyCache(
                         vacancyCloud.id,
                         vacancyCloud.name,
@@ -118,7 +105,6 @@ interface VacanciesRepository {
                 vacanciesDao.saveWorkFormat(workFormat)
                 vacanciesDao.saveWorkingHours(workingHours)
                 vacanciesDao.saveWorkScheduleByDays(workScheduleByDays)
-
 
                 val vacanciesFromCache = vacanciesDao.getAllVacancies()
 
@@ -250,6 +236,65 @@ interface VacanciesRepository {
                 ExperienceEntity(it.id, it.name)
             }
         }
+    }
 
+    class Fake(
+        private val service: MainVacanciesService,
+        private val handleError: HandleError<String>
+    ) : VacanciesRepository {
+
+        private var favoriteClicked = false
+        private var data: List<VacancyCloud> = listOf()
+        private var cachedSearchParams: VacanciesSearchParams? = null
+
+        override suspend fun vacanciesWithCache(searchParams: VacanciesSearchParams): LoadVacanciesResult {
+            try {
+                data = service.searchVacancies(searchParams.searchText).execute().body()!!.items
+                cachedSearchParams = searchParams
+                val dataWithFilters =
+                    data.filter { it.name.contains(searchParams.searchText, ignoreCase = true) }
+                        .filter {
+                            it.area.name.contains(
+                                searchParams.area!!.second,
+                                ignoreCase = true
+                            )
+                        }
+                return LoadVacanciesResult.Success(
+                    dataWithFilters.map {
+                        VacancyUi.Base(it, false)
+                    })
+            } catch (e: Exception) {
+                return LoadVacanciesResult.Error(handleError.handle(e))
+            }
+        }
+
+        override suspend fun vacanciesFromCache(): LoadVacanciesResult {
+
+            return vacanciesWithCache(cachedSearchParams ?: VacanciesSearchParams.Builder().build())
+        }
+
+        override suspend fun clearVacancies() {
+            data = emptyList()
+        }
+
+        override suspend fun updateFavoriteStatus(vacancyUi: VacancyUi) {
+            favoriteClicked = !favoriteClicked
+        }
+
+        override suspend fun vacanciesWithDecreaseFilter(): LoadVacanciesResult {
+            val decrease = data.sortedByDescending { it.salary?.from ?: Int.MAX_VALUE }
+            return LoadVacanciesResult.Success(
+                decrease.map {
+                    VacancyUi.Base(it, false)
+                })
+        }
+
+        override suspend fun vacanciesWithIncreaseFilters(): LoadVacanciesResult {
+            val increase = data.sortedBy { it.salary?.from ?: Int.MAX_VALUE }
+            return LoadVacanciesResult.Success(
+                increase.map {
+                    VacancyUi.Base(it, false)
+                })
+        }
     }
 }

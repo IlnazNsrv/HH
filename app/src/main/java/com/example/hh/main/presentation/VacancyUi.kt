@@ -24,7 +24,7 @@ interface VacancyUi : ItemsUi {
     fun favoriteChosen(): Boolean
 
 
-    class Base(
+    data class Base(
         private val vacancyCloud: VacancyCloud,
         private var favoriteChosen: Boolean
     ) : VacancyUi {

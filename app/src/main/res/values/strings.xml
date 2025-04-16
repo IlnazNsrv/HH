@@ -25,4 +25,6 @@
     <string name="description">Описании вакансии</string>
     <string name="empty_vacancy_cache">Упс, здесь явно какя-то ошибка. Попробуйте снова.</string>
     <string name="vacancies_for_you">Вакансии для вас</string>
+    <string name="reset">Сбросить</string>
+    <string name="filters_text">Фильры</string>
 </resources>

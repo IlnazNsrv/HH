@@ -4,7 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import com.example.hh.core.UiState
 
-interface BundleWrapper<T : UiState> {
+interface BundleWrapper {
 
     companion object {
         const val KEY = "vacancyList"
@@ -20,7 +20,7 @@ interface BundleWrapper<T : UiState> {
         fun restoreWithKey(key: String): Restore<T>
     }
 
-    interface Mutable<T: UiState> : Save<T>, Restore<T>
+    interface Mutable<T : UiState> : Save<T>, Restore<T>
 
     class Base<T : UiState>(private val bundle: Bundle) : Mutable<T> {
 
@@ -29,7 +29,7 @@ interface BundleWrapper<T : UiState> {
         }
 
         override fun saveWithKey(key: String): Save<T> {
-           return KeyedBundleWrapper<T>(bundle, key)
+            return KeyedBundleWrapper<T>(bundle, key)
         }
 
         override fun restore(): T {
@@ -68,6 +68,5 @@ interface BundleWrapper<T : UiState> {
         override fun restoreWithKey(key: String): Restore<T> {
             return KeyedBundleWrapper(bundle, key)
         }
-
     }
 }

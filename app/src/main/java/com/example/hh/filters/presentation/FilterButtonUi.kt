@@ -7,7 +7,7 @@ import com.example.hh.main.presentation.ItemsUi
 
 interface FilterButtonUi : ItemsUi {
 
-    fun type() : FiltersButtonUiType
+    fun type(): FiltersButtonUiType
     fun show(binding: ItemSearchFilterButtonBinding) = Unit
     fun showAreaButton(binding: ItemAreasButtonBinding) = Unit
     fun id(): String
@@ -82,7 +82,7 @@ interface FilterButtonUi : ItemsUi {
             return FiltersButtonUiType.AreasButton
         }
 
-        override fun id()= id
+        override fun id() = id
 
         override fun changeChosen(): FilterButtonUi {
             return AreaButton(id, value, !chosen)

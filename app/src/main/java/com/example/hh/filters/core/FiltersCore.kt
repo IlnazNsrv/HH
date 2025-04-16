@@ -6,7 +6,8 @@ import com.example.hh.views.button.areabutton.CustomAreaButtonUiState
 
 class FiltersCore {
 
-    val customAreaButtonLiveDataWrapper = CustomButtonLiveDataWrapper.Base<CustomAreaButtonUiState>()
+    val customAreaButtonLiveDataWrapper =
+        CustomButtonLiveDataWrapper.Base<CustomAreaButtonUiState>()
 
     val lastTimeButtonClicked = LastTimeButtonClicked.Base(400)
 }

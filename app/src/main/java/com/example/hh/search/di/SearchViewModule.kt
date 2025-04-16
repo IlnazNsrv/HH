@@ -18,7 +18,6 @@ class SearchViewModule(
     private val chosenFilters = ChosenFiltersCache.Base(core.sharedPreferences)
 
     override fun viewModel(): SearchViewModel {
-
         return SearchViewModel(
             core.clearViewModel,
             searchParams,

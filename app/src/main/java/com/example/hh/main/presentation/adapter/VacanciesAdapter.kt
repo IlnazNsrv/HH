@@ -33,7 +33,7 @@ class VacanciesAdapter(
         result.dispatchUpdatesTo(this)
     }
 
-     override fun save(bundle: BundleWrapper.Save<VacanciesUiState>) {
+    override fun save(bundle: BundleWrapper.Save<VacanciesUiState>) {
         liveDataWrapper.save(bundle)
     }
 
@@ -48,7 +48,7 @@ class VacanciesAdapter(
         val index = typeList.indexOf(type)
         if (index == -1)
             throw IllegalStateException("add type $type to typeList $typeList")
-        return index //0, 1, 2
+        return index
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VacancyViewHolder {

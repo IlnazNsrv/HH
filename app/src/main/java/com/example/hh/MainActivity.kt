@@ -20,14 +20,14 @@ import com.example.hh.loadvacancies.presentation.screen.LoadVacanciesScreen
 import com.example.hh.loadvacancies.presentation.screen.NavigateToLoadVacancies
 import com.example.hh.main.presentation.VacanciesViewModel
 import com.example.hh.main.presentation.screen.MainFragment
+import com.example.hh.main.presentation.screen.ProfileFragment
+import com.example.hh.main.presentation.screen.ResponsesFragment
 import com.example.hh.search.presentation.SearchViewModel
 import com.example.hh.vacancydetails.presentation.screen.NavigateToVacancyDetails
 import com.example.hh.vacancydetails.presentation.screen.VacancyDetailsScreen
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), Navigate {
-
-    private var currentFragment: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,26 +44,17 @@ class MainActivity : AppCompatActivity(), Navigate {
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
-        if (savedInstanceState == null) {
-            currentFragment = MainFragment()
-            supportFragmentManager.beginTransaction()
-                .replace(
-                    R.id.fragment_container_view,
-                    currentFragment!!,
-                    currentFragment!!::class.java.simpleName
-                )
-                .commit()
-            viewModel.clearAllWithoutMain()
-            bottomNavigationView.selectedItemId = R.id.main
-        } else {
-            currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
-        }
-
         bottomNavigationView.setOnItemSelectedListener {
             val fragment: Fragment = when (it.itemId) {
                 R.id.main -> {
-                    viewModel.clearAllWithoutMain()
-                    MainFragment()
+                    val currentFragment1 =
+                        supportFragmentManager.findFragmentById(R.id.fragment_container_view)
+                    if (currentFragment1 is MainFragment) {
+                        return@setOnItemSelectedListener true
+                    } else {
+                        viewModel.clearAllWithoutMain()
+                        MainFragment()
+                    }
                 }
 
                 R.id.favorite -> {
@@ -76,22 +67,28 @@ class MainActivity : AppCompatActivity(), Navigate {
                     FavoriteVacanciesFragment()
                 }
 
+                R.id.responses -> {
+                    viewModel.clearAllWithoutMain()
+                    ResponsesFragment()
+                }
+
+                R.id.profile -> {
+                    viewModel.clearAllWithoutMain()
+                    ProfileFragment()
+                }
+
                 else -> throw IllegalStateException()
             }
-            if (currentFragment?.javaClass != fragment.javaClass) {
-                supportFragmentManager.beginTransaction()
-                    .replace(
-                        R.id.fragment_container_view,
-                        fragment,
-                        fragment::class.java.simpleName
-                    )
-                    .commit()
 
-                currentFragment = fragment
-            }
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container_view, fragment)
+                .commit()
             true
         }
 
+        if (savedInstanceState == null) {
+            bottomNavigationView.selectedItemId = R.id.main
+        }
     }
 
     override fun navigate(screen: Screen) {

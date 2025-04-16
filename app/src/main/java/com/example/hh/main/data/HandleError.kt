@@ -11,10 +11,10 @@ interface HandleError<T : Any> {
     class Data : HandleError<Exception> {
 
         override fun handle(error: Exception): Exception {
-            if (error is UnknownHostException)
-                return NoInternetConnection()
+            return if (error is UnknownHostException)
+                NoInternetConnection()
             else
-                return ServiceUnavailableException()
+                ServiceUnavailableException()
         }
     }
 
@@ -28,6 +28,5 @@ interface HandleError<T : Any> {
                 provideResources.string(R.string.service_is_unavailable)
             return message
         }
-
     }
 }

@@ -1,4 +1,4 @@
-package com.example.hh.main
+package com.example.hh.core
 
 import android.content.res.Resources
 import android.view.View
@@ -51,7 +51,6 @@ class RecyclerViewMatcher(private val recyclerViewId: Int) {
         }
     }
 
-    // Функция для проверки количества элементов
     fun hasItemCount(expectedCount: Int): Matcher<View> {
         val resources: Resources? = null
         return object : TypeSafeMatcher<View>() {

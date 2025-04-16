@@ -57,7 +57,7 @@ data class Employment(
     val id: String,
     @SerializedName("name")
     val name: String
-): Serializable
+) : Serializable
 
 data class ProfessionalRoles(
     @SerializedName("id")

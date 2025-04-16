@@ -49,7 +49,6 @@ abstract class VacancyViewHolder(
             binding.respondButton.setOnClickListener {
                 clickActions.clickRespond(vacancy)
             }
-
             vacancy.show(binding)
         }
     }

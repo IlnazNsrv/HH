@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    android:id="@+id/rootLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,6 +14,7 @@
     android:layout_height="match_parent">
 
 <LinearLayout
+    android:id="@+id/topLinearLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/black"
@@ -41,7 +43,8 @@
             android:layout_marginStart="25dp"
             android:textColor="@color/white"
             android:paddingEnd="25dp"
-            android:text="Фильры"
+            android:paddingStart="25dp"
+            android:text="@string/filters_text"
             android:textSize="26sp" />
 
         <Button
@@ -51,13 +54,11 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:enabled="true"
-            android:text="Сбросить"
-            android:textColor="@color/reset_text_color" />
-
+            android:text="@string/reset"
+            android:textColor="@color/DodgerBlue" />
     </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/inputLayout"
         android:layout_width="match_parent"
         android:layout_height="80dp"
@@ -210,6 +211,7 @@
 </LinearLayout>
 </ScrollView>
     <LinearLayout
+        android:id="@+id/searchButtonLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

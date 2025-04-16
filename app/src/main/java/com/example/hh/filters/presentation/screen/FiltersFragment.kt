@@ -63,7 +63,6 @@ class FiltersFragment : AbstractFragment<FragmentFiltersBinding>() {
                     CreateFilters.EXPERIENCE_TAG
                 )
                 binding.customAreaButton.init(customAreaButtonViewModel, parentFragmentManager)
-
             }
         })
 
@@ -94,7 +93,6 @@ class FiltersFragment : AbstractFragment<FragmentFiltersBinding>() {
         binding.onlyWithSalarySwitchButton.setOnCheckedChangeListener { _, isChecked ->
             viewModel.switchSalaryParams(isChecked)
         }
-
     }
 
     private fun navigateToHome() {

@@ -7,13 +7,9 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Relation
 import androidx.room.Transaction
-import com.example.hh.loadvacancies.data.cache.VacancyCache
 
 @Dao
 interface FavoriteVacanciesDao {
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveVacancies(vacancies: List<FavoriteVacancyCache>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addVacancy(vacancy: FavoriteVacancyCache)
@@ -44,7 +40,7 @@ interface FavoriteVacanciesDao {
     suspend fun getAllVacancies() : List<FavoriteVacancyWithDetails>
 
     data class FavoriteVacancyWithDetails(
-        @Embedded val vacancy: VacancyCache,
+        @Embedded val vacancy: FavoriteVacancyCache,
         @Relation(
             parentColumn = "id",
             entityColumn = "vacancyId"

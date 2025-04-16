@@ -23,12 +23,10 @@ class FiltersViewModel(
     private val filtersRepository: FiltersRepository,
     private val filtersCreate: CreateFilters,
     private val customAreaButtonViewModel: CustomAreaButtonViewModel,
-
-    ) : AbstractViewModel<ButtonsUiState<FilterButtonUi>>() {
+) : AbstractViewModel<ButtonsUiState<FilterButtonUi>>() {
 
     private var cachedQuery: String = ""
     private var cachedSalary: Int? = null
-
 
     interface Mapper {
         fun map(
@@ -38,7 +36,7 @@ class FiltersViewModel(
             employmentButtonLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
             searchFieldButtonLiveDataWrapper: FilterButtonsLiveDataWrapper<FilterButtonUi>,
             customAreaButtonViewModel: CustomAreaButtonViewModel,
-            )
+        )
     }
 
     fun init(isFirstRun: Boolean) {
@@ -58,7 +56,7 @@ class FiltersViewModel(
             employmentButtonLiveDataWrapper,
             searchFieldButtonLiveDataWrapper,
             customAreaButtonViewModel,
-            )
+        )
     }
 
     private fun buildSearchParams() {

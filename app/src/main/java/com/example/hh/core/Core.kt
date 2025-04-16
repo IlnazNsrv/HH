@@ -6,7 +6,9 @@ import com.example.hh.filters.areafilters.data.cache.AreasCacheModule
 import com.example.hh.loadvacancies.data.cache.VacanciesCacheModule
 import com.example.hh.main.data.HandleError
 
-class Core(val clearViewModel: ClearViewModel, private val context: Context) {
+class Core(val clearViewModel: ClearViewModel, context: Context) {
+
+    val runUiTest: Boolean = true
 
     val provideResource: ProvideResource = ProvideResource.Base(context)
 

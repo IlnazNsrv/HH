@@ -26,7 +26,7 @@ class SearchFragment() : AbstractBottomDialogFragment<FragmentSearchDialogBindin
         viewModel =
             (requireActivity().application as ProvideViewModel).viewModel(SearchViewModel::class.java.simpleName)
 
-        viewModel.init(object: SearchViewModel.Mapper {
+        viewModel.init(object : SearchViewModel.Mapper {
             override fun map(customAreaButtonViewModel: CustomAreaButtonViewModel) {
                 binding.cityButton.init(customAreaButtonViewModel, parentFragmentManager)
             }
@@ -43,7 +43,10 @@ class SearchFragment() : AbstractBottomDialogFragment<FragmentSearchDialogBindin
 
         binding.inputEditText.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                viewModel.inputSearch(binding.inputEditText.text.toString(), requireActivity() as NavigateToLoadVacancies)
+                viewModel.inputSearch(
+                    binding.inputEditText.text.toString(),
+                    requireActivity() as NavigateToLoadVacancies
+                )
                 dismiss()
                 viewModel.clearViewModel()
                 true
