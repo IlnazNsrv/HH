@@ -8,7 +8,7 @@ import com.example.hh.main.data.HandleError
 
 class Core(val clearViewModel: ClearViewModel, context: Context) {
 
-    val runUiTest: Boolean = true
+    val runUiTest: Boolean = false
 
     val provideResource: ProvideResource = ProvideResource.Base(context)
 
