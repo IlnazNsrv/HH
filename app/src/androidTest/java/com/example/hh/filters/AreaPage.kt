@@ -7,6 +7,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
 import com.example.hh.R
+import com.example.hh.core.waiting
 import com.example.hh.main.ButtonUi
 import com.example.hh.main.InputUi
 import com.example.hh.main.RecyclerUi
@@ -30,11 +31,13 @@ class AreaPage {
 
     fun findArea(text: String) {
         inputUi.inputText(text)
+        waiting(500)
         recyclerUi.checkAreasButton(0, "Москва")
     }
 
     fun findKzn() {
         inputUi.inputText("Казань")
+        waiting(500)
         recyclerUi.clickItem(0)
         buttonUi.click()
     }

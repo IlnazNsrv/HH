@@ -44,7 +44,6 @@ data class Type(
     val name: String
 ) : Serializable
 
-
 data class Area(
     @SerializedName("id")
     val id: String,
