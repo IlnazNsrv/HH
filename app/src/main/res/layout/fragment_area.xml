@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/ModalBottomSheetDialog"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -14,58 +15,54 @@
         android:background="@drawable/rounded_background"
         android:orientation="vertical">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="start"
                 android:layout_marginStart="160dp"
-                android:text="Регион"
+                android:text="@string/region_text"
                 android:textColor="@color/white"
-                android:textSize="25sp" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:textSize="26sp" />
 
             <ImageButton
                 android:id="@+id/dismissButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
                 android:backgroundTint="@android:color/transparent"
+                android:contentDescription="@string/descriptions_close_fragment"
                 android:src="@drawable/baseline_close_24" />
 
-        </LinearLayout>
+        </FrameLayout>
 
-        <com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/inputLayout"
-            app:startIconDrawable="@drawable/ic_search"
             android:layout_width="match_parent"
             android:layout_height="80dp"
+            android:layout_marginHorizontal="16dp"
             app:boxStrokeWidth="2dp"
-            app:hintEnabled="true"
             app:hintAnimationEnabled="true"
-            android:layout_marginHorizontal="16dp">
+            app:hintEnabled="true"
+            app:startIconDrawable="@drawable/ic_search">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputAreaEditText"
                 android:layout_width="match_parent"
-                android:imeOptions="actionSearch"
-                android:singleLine="true"
-                android:paddingStart="40dp"
-                android:theme="@style/MyEditTextTheme"
-                android:hint="Поиск"
-                android:background="@drawable/input_background"
-                android:textColor="@android:color/white"
-                android:layout_margin="8dp"
                 android:layout_height="wrap_content"
-                />
+                android:layout_margin="8dp"
+                android:background="@drawable/input_background"
+                android:backgroundTint="@color/white"
+                android:hint="@string/hint_input_text"
+                android:imeOptions="actionSearch"
+                android:paddingStart="40dp"
+                android:singleLine="true"
+                android:textColor="@android:color/white"
+                android:theme="@style/MyEditTextTheme"
+                tools:ignore="RtlSymmetry" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <View
@@ -93,15 +90,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:background="@color/black"
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/saveArea"
+            android:id="@+id/saveAreaButton"
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="Сохранить город" />
+            android:text="@string/save_area_button" />
     </LinearLayout>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

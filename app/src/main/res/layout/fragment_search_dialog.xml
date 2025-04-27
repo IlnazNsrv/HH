@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/ModalBottomSheetDialog"
     android:layout_width="match_parent"
@@ -14,34 +13,30 @@
         android:background="@drawable/rounded_black_background"
         android:orientation="vertical">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="center_vertical"
                 android:layout_marginStart="160dp"
-                android:text="Поиск"
+                android:text="@string/hint_input_text"
                 android:textColor="@color/white"
                 android:textSize="25sp" />
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
             <ImageButton
+                android:layout_gravity="end"
                 android:id="@+id/dismissButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/transparent"
+                android:backgroundTint="@color/dimGray"
+                android:contentDescription="@string/button_close_dialog_fragment"
                 android:src="@drawable/baseline_close_24" />
-        </LinearLayout>
+        </FrameLayout>
 
-        <com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <com.google.android.material.textfield.TextInputLayout
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/inputLayout"
             app:startIconDrawable="@drawable/ic_search"
@@ -60,12 +55,12 @@
                 android:singleLine="true"
                 android:paddingStart="40dp"
                 android:theme="@style/MyEditTextTheme"
-                android:hint="Должность, ключевые слова"
+                android:hint="@string/hint_input_keywords"
                 android:background="@drawable/input_background"
                 android:textColor="@android:color/black"
                 android:layout_margin="8dp"
                 android:layout_height="wrap_content"
-                />
+                tools:ignore="RtlSymmetry" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -78,10 +73,10 @@
         <TextView
             android:id="@+id/addAreaButton"
             android:textColor="@color/DodgerBlue"
-            android:text="+ Добавить город"
+            android:text="@string/button_add_area"
             android:textSize="16sp"
-            android:paddingStart="16dp"
-            android:layout_width="wrap_content"
+            android:paddingHorizontal="16dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <View
@@ -94,13 +89,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="История поиска" />
+            android:text="@string/search_history" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:minHeight="700dp"/>
-
     </LinearLayout>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

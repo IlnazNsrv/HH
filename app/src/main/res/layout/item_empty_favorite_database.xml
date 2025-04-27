@@ -10,21 +10,22 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/favorite"
         android:src="@drawable/ic_favorite_clicked" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Здесь Пусто"
+        android:text="@string/its_empty_here"
         android:textColor="@color/white"
-        android:textSize="26dp" />
+        android:textSize="26sp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingBottom="40dp"
-        android:text="Добавляйте интересующие вас вакансии в избранные"
+        android:text="@string/add_favorite_vacancies"
         android:textColor="@color/white" />
 </LinearLayout>

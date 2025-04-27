@@ -39,6 +39,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/ic_favorite"
+        android:contentDescription="@string/favorite_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -68,11 +69,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintEnd_toStartOf="@id/companyImageView"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/city"
         app:layout_constraintWidth_max="0dp"
-        app:layout_constraintHorizontal_bias="0"
         tools:text="companyName" />
 
     <ImageView
@@ -81,13 +82,13 @@
         android:layout_height="64dp"
         android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="40dp"
+        android:contentDescription="@string/vacancy_name_description"
         android:padding="6dp"
-        android:contentDescription="TODO"
         android:src="@drawable/ic_launcher_foreground"
         android:textColor="@color/white"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/respondButton"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/companyName" />
 
     <TextView
@@ -105,13 +106,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_margin="6dp"
         android:layout_marginStart="16dp"
         android:backgroundTint="@color/DodgerBlue"
-        android:text="respond"
-        android:layout_margin="6dp"
+        android:text="@string/respond"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/experience"
         tools:layout_editor_absoluteY="203dp" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

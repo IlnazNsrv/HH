@@ -2,6 +2,7 @@ package com.example.hh.filters
 
 import android.view.View
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.appcompat.widget.SwitchCompat
@@ -29,7 +30,7 @@ class FiltersPage {
     private val inputUi = InputUi(R.id.inputVacancyEditText)
     private val searchButtonUi = ButtonUi(
         withParent(withId(R.id.searchButtonLayout)),
-        topClass,
+        withParent(isAssignableFrom(FrameLayout::class.java)),
         R.id.searchButton,
         Button::class.java
     )
@@ -38,7 +39,7 @@ class FiltersPage {
     private val recyclerExperienceUi = RecyclerUi(rootId, rootClass, R.id.experienceRecyclerView)
     private val recyclerScheduleUi = RecyclerUi(rootId, rootClass, R.id.scheduleRecyclerView)
     private val recyclerEmploymentUi = RecyclerUi(rootId, rootClass, R.id.employmentRecyclerView)
-    private val buttonAreaUi = ButtonUi(
+    private val areaButtonUi = ButtonUi(
         topId,
         topClass,
         R.id.customAreaButton,
@@ -51,7 +52,7 @@ class FiltersPage {
         SwitchCompat::class.java
     )
 
-    fun checkButtons() {
+    fun assertInitialState() {
         recyclerNameUi.checkFiltersButton(0, R.string.name)
         recyclerNameUi.checkFiltersButton(1, R.string.company_name)
 
@@ -68,18 +69,18 @@ class FiltersPage {
     }
 
     fun checkAreaButton() {
-        buttonAreaUi.checkVisible()
+        areaButtonUi.checkVisible()
     }
 
     fun clickAddAreaButton() {
         areaTextUi.click()
     }
 
-    fun setText(text: String) {
+    fun inputText(text: String) {
         inputUi.inputText(text)
     }
 
-    fun search() {
+    fun clickSearchButton() {
         searchButtonUi.click()
     }
 }

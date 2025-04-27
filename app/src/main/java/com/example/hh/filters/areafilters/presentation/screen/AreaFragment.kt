@@ -59,7 +59,7 @@ class AreaFragment() : AbstractBottomDialogFragment<FragmentAreaBinding>() {
 
         viewModel.loadAreas(binding.inputAreaEditText.text.toString())
 
-        binding.saveArea.setOnClickListener {
+        binding.saveAreaButton.setOnClickListener {
             viewModel.saveArea()
             dismiss()
         }

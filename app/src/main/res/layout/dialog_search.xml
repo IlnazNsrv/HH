@@ -7,33 +7,28 @@
     android:orientation="vertical"
     tools:context=".search.presentation.screen.SearchFragment">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="start"
             android:layout_marginStart="160dp"
-            android:text="Поиск"
+            android:text="@string/search_text"
             android:textColor="@color/white"
             android:textSize="25sp" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/dismissButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
             android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/button_close_dialog_fragment"
             android:src="@drawable/baseline_close_24" />
-
-    </LinearLayout>
+    </FrameLayout>
 
     <com.example.hh.views.input.CustomInputView
         android:id="@+id/inputView"
@@ -44,16 +39,17 @@
         android:id="@+id/cityButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        tools:visibility="visible"
         tools:text="москва" />
 
     <TextView
         android:id="@+id/addAreaButton"
-        android:textColor="@color/DodgerBlue"
-        android:text="+ Добавить город"
-        android:textSize="16sp"
-        android:paddingStart="16dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:text="@string/button_add_area"
+        android:textColor="@color/DodgerBlue"
+        android:textSize="16sp" />
 
     <View
         android:layout_width="match_parent"
@@ -61,16 +57,4 @@
         android:layout_marginHorizontal="7dp"
         android:layout_marginTop="16dp"
         android:background="@android:color/darker_gray" />
-
-    <TextView
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="История поиска" />
-
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
 </LinearLayout>

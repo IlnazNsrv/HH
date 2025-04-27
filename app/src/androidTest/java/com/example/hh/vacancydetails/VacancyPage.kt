@@ -22,6 +22,8 @@ class VacancyPage {
         withParent(withId(R.id.vacancyDetailsLayout))
     private val rootClass: Matcher<View> =
         withParent(isAssignableFrom(ConstraintLayout::class.java))
+    private val companyLayoutMatcher = withId(R.id.topLayout)
+    private val contactsLayoutMatcher = withId(R.id.contactsLayout)
 
     private val errorUi = ErrorUi(R.id.errorText)
     private val retryUi =
@@ -31,36 +33,36 @@ class VacancyPage {
             R.id.retryButton,
             Button::class.java
         )
-
     private val parentForTextView = withParent(withId(R.id.detailsTopLayout))
-
     private val vacancyNameUi =
         TextUi(R.id.vacancyName, parentForTextView, rootClass)
-    private val vacancySalary = TextUi(R.id.salary, parentForTextView, rootClass)
+    private val vacancySalaryUi = TextUi(R.id.salary, parentForTextView, rootClass)
     private val companyNameUi =
         TextUi(
             R.id.companyName,
             withParent(withId(R.id.companyLayout)),
             withParent(isAssignableFrom(LinearLayout::class.java))
         )
-    private val companyLayout = withId(R.id.topLayout)
+
     private val experienceUi = TextUi(R.id.experience, parentForTextView, rootClass)
-    private val vacancyDescription = TextUi(R.id.vacancyDescription, parentForTextView, rootClass)
-    private val contactsLayout = withId(R.id.contactsLayout)
-    private val contactsEmail =
+    private val vacancyDescriptionUi = TextUi(R.id.vacancyDescription, parentForTextView, rootClass)
+    private val contactsEmailUi =
         TextUi(
             R.id.contactEmail,
             withParent(withId(R.id.contactsLayout)),
             withParent(isAssignableFrom(LinearLayout::class.java))
         )
-    private val progressBar = ProgressUi(R.id.progressBarVacancyDetails)
-    private val backButton = ButtonUi(rootId, rootClass, R.id.backButton, ImageButton::class.java)
+    private val progressBarUi = ProgressUi(R.id.progressBarVacancyDetails)
+    private val backButtonUi = ButtonUi(rootId, rootClass, R.id.backButton, ImageButton::class.java)
 
-    fun checkProgress() {
-        progressBar.checkVisible()
+    fun assertProgressState() {
+        errorUi.checkNotVisible()
+        retryUi.checkNotVisible()
+        progressBarUi.checkVisible()
     }
 
-    fun checkError() {
+    fun assertErrorState() {
+        progressBarUi.checkNotVisible()
         errorUi.checkVisible()
     }
 
@@ -68,43 +70,43 @@ class VacancyPage {
         retryUi.click()
     }
 
-    fun checkAndroidVacancy() {
-        progressBar.checkNotVisible()
+    fun assertAndroidVacancy() {
+        progressBarUi.checkNotVisible()
         errorUi.checkNotVisible()
         vacancyNameUi.checkText("Android Developer")
-        vacancySalary.checkText("100000 - 200000")
-        companyLayout.matches(isDisplayed())
+        vacancySalaryUi.checkText("100000 - 200000")
+        companyLayoutMatcher.matches(isDisplayed())
         companyNameUi.checkText("Yandex")
-        vacancyDescription.checkText("This is a test description for android developer vacancy")
-        contactsLayout.matches(isDisplayed())
-        contactsEmail.checkText("testEmail@test.com")
+        vacancyDescriptionUi.checkText("This is a test description for android developer vacancy")
+        contactsLayoutMatcher.matches(isDisplayed())
+        contactsEmailUi.checkText("testEmail@test.com")
     }
 
     fun checkSeniorAndroidVacancy() {
-        progressBar.checkNotVisible()
+        progressBarUi.checkNotVisible()
         errorUi.checkNotVisible()
         vacancyNameUi.checkText("Android Senior Developer")
-        vacancySalary.checkText("300000 - 500000")
-        companyLayout.matches(isDisplayed())
+        vacancySalaryUi.checkText("300000 - 500000")
+        companyLayoutMatcher.matches(isDisplayed())
         companyNameUi.checkText("Yandex")
-        vacancyDescription.checkText("This is a test description for senior android developer vacancy")
-        contactsLayout.matches(isDisplayed())
-        contactsEmail.checkText("testEmail@test.com")
+        vacancyDescriptionUi.checkText("This is a test description for senior android developer vacancy")
+        contactsLayoutMatcher.matches(isDisplayed())
+        contactsEmailUi.checkText("testEmail@test.com")
     }
 
     fun checkProjectVacancy() {
-        progressBar.checkNotVisible()
+        progressBarUi.checkNotVisible()
         errorUi.checkNotVisible()
         experienceUi.checkText("Требуемый опыт: Без опыта")
         vacancyNameUi.checkText("Project manager")
-        vacancySalary.checkNotVisible()
-        companyLayout.matches(isDisplayed())
+        vacancySalaryUi.checkNotVisible()
+        companyLayoutMatcher.matches(isDisplayed())
         companyNameUi.checkText("testEmployer")
-        vacancyDescription.checkText("This is the second test description for project manager vacancy")
-        contactsLayout.matches(not(isDisplayed()))
+        vacancyDescriptionUi.checkText("This is the second test description for project manager vacancy")
+        contactsLayoutMatcher.matches(not(isDisplayed()))
     }
 
-    fun clickBack() {
-        backButton.click()
+    fun clickBackButton() {
+        backButtonUi.click()
     }
 }

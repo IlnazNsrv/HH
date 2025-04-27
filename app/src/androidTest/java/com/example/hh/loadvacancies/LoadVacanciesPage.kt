@@ -28,7 +28,7 @@ class LoadVacanciesPage {
     private val retryUi = RetryUi()
     private val recyclerUi: RecyclerUi = RecyclerUi(rootId, rootClass, R.id.recyclerView)
 
-    private val list = MainPage.list
+    private val vacanciesList = MainPage.vacanciesList
 
     fun assertErrorState() {
         errorUi.checkVisible()
@@ -37,8 +37,10 @@ class LoadVacanciesPage {
     fun assertSuccessfulStateWithFilters() {
         recyclerUi.checkVacancies(
             position = 0,
-            vacancy = list[2]
+            vacancy = vacanciesList[2]
         )
+        errorUi.checkNotExist()
+        retryUi.checkNotExist()
     }
 
     fun clickVacancy(position: Int) {

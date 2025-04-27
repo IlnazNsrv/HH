@@ -27,7 +27,7 @@ import org.hamcrest.Matcher
 class MainPage {
 
     companion object {
-        val list = listOf(
+        val vacanciesList = listOf(
             VacancyCloud(
                 id = "1",
                 name = "Android Developer",
@@ -81,18 +81,20 @@ class MainPage {
     private val inputUi: InputUi = InputUi(R.id.textInputForSearch)
     private val recyclerUi: RecyclerUi = RecyclerUi(rootId, rootClass, R.id.recyclerView)
     private val errorUi = ErrorUi(R.id.errorText)
-    private val buttonUi =
+    private val filterButtonUi =
         ButtonUi(withParent(withId(R.id.topLayout)), rootClass, R.id.filterButton, ImageButton::class.java)
     private val progressUi = ProgressUi()
     private val retryUi = RetryUi()
 
     fun assertInitialState() {
         inputUi.checkVisible()
-        buttonUi.checkVisible()
+        filterButtonUi.checkVisible()
         assertProgressState()
     }
 
     fun assertProgressState() {
+        errorUi.checkNotExist()
+        retryUi.checkNotExist()
         progressUi.checkVisible()
     }
 
@@ -102,6 +104,7 @@ class MainPage {
 
     fun assertErrorState() {
         errorUi.checkVisible()
+        progressUi.checkNotExist()
     }
 
     fun clickRetry() {
@@ -109,11 +112,7 @@ class MainPage {
     }
 
     fun clickFilters() {
-        buttonUi.click()
-    }
-
-    fun clickFavorite(position: Int) {
-        recyclerUi.clickFavorite(position = position)
+        filterButtonUi.click()
     }
 
     fun clickVacancy(position: Int) {
@@ -123,11 +122,11 @@ class MainPage {
     fun assertSuccessfulState() {
         recyclerUi.checkVacancies(
             position = 0,
-            vacancy = list[0]
+            vacancy = vacanciesList[0]
         )
         recyclerUi.checkVacancies(
             position = 1,
-            vacancy = list[1]
+            vacancy = vacanciesList[1]
         )
     }
 }

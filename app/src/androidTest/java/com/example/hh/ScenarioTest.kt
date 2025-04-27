@@ -62,24 +62,24 @@ class ScenarioTest {
         mainPage.clickVacancy(0)
 
         with(vacancyPage) {
-            checkProgress()
+            assertProgressState()
 
             waiting(2000)
 
-            checkError()
+            assertErrorState()
             activityScenarioRule.scenario.recreate()
-            checkError()
+            assertErrorState()
 
             clickRetry()
-            checkProgress()
+            assertProgressState()
 
             waiting(2000)
 
-            checkAndroidVacancy()
+            assertAndroidVacancy()
             activityScenarioRule.scenario.recreate()
-            checkAndroidVacancy()
+            assertAndroidVacancy()
 
-            clickBack()
+            clickBackButton()
         }
 
         mainPage.assertSuccessfulState()
@@ -92,27 +92,31 @@ class ScenarioTest {
         mainPage.clickFilters()
 
         with(filtersPage) {
-            checkButtons()
-            clickAddAreaButton()
-        }
-
-        areaPage.findKzn()
-
-        with(filtersPage) {
-            checkButtons()
+            assertInitialState()
             clickAddAreaButton()
         }
 
         with(areaPage) {
-            findArea("Мос")
+            searchArea("Казань")
+            saveChosenArea(0)
+        }
+
+        with(filtersPage) {
+            assertInitialState()
+            clickAddAreaButton()
+        }
+
+        with(areaPage) {
+            searchArea("Мос")
             waiting(500)
-            saveChosenArea()
+            assertAreaButton("Москва")
+            saveChosenArea(0)
         }
 
         with(filtersPage) {
             checkAreaButton()
-            setText("android")
-            search()
+            inputText("android")
+            clickSearchButton()
         }
 
         waiting(2000)
@@ -142,16 +146,16 @@ class ScenarioTest {
         }
 
         with(vacancyPage) {
-            checkProgress()
+            assertProgressState()
 
             waiting(2000)
 
-            checkError()
+            assertErrorState()
             activityScenarioRule.scenario.recreate()
-            checkError()
+            assertErrorState()
 
             clickRetry()
-            checkProgress()
+            assertProgressState()
 
             waiting(2000)
 
@@ -159,7 +163,7 @@ class ScenarioTest {
             activityScenarioRule.scenario.recreate()
             checkSeniorAndroidVacancy()
 
-            clickBack()
+            clickBackButton()
         }
 
         waiting(1000)
@@ -174,16 +178,16 @@ class ScenarioTest {
         mainPage.clickVacancy(1)
 
         with(vacancyPage) {
-            checkProgress()
+            assertProgressState()
 
             waiting(2000)
 
-            checkError()
+            assertErrorState()
             activityScenarioRule.scenario.recreate()
-            checkError()
+            assertErrorState()
 
             clickRetry()
-            checkProgress()
+            assertProgressState()
 
             waiting(2000)
 
@@ -191,7 +195,7 @@ class ScenarioTest {
             activityScenarioRule.scenario.recreate()
             checkProjectVacancy()
 
-            clickBack()
+            clickBackButton()
         }
         mainPage.assertSuccessfulState()
     }

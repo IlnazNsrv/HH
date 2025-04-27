@@ -5,26 +5,23 @@
     android:padding="8dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Текст города -->
     <Button
-        android:id="@+id/cityName"
+        android:id="@+id/cityNameButton"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Город"
         android:backgroundTint="@color/dimGray"
         android:textSize="16sp"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true" />
 
-    <!-- Крестик для удаления -->
-    <ImageView
-        android:id="@+id/removeCity"
+    <ImageButton
+        android:id="@+id/removeCityButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/cityName"
+        android:layout_alignEnd="@+id/cityNameButton"
         android:layout_marginEnd="-1dp"
-        android:contentDescription="Удалить город"
+        android:contentDescription="@string/delete_area_button"
         android:padding="8dp"
+        android:backgroundTint="@android:color/transparent"
         android:src="@android:drawable/ic_menu_close_clear_cancel" />
-
 </RelativeLayout>

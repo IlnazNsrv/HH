@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">HH</string>
     <string name="search">поиск</string>
-    <string name="favorite">избранное</string>
+    <string name="favorite">Избранное</string>
     <string name="responses">отклики</string>
     <string name="profile">профиль</string>
     <string name="no_internet_connection">No internet connection</string>
@@ -26,5 +26,35 @@
     <string name="empty_vacancy_cache">Упс, здесь явно какя-то ошибка. Попробуйте снова.</string>
     <string name="vacancies_for_you">Вакансии для вас</string>
     <string name="reset">Сбросить</string>
-    <string name="filters_text">Фильры</string>
+    <string name="filters_text">Фильтры</string>
+    <string name="save_area_button">Сохранить город</string>
+    <string name="hint_input_text">Поиск</string>
+    <string name="delete_area_button">Кнопка удалить город</string>
+    <string name="button_close_dialog_fragment">Кнопка закрыть диалоговое окно</string>
+    <string name="search_text">Поиск</string>
+    <string name="button_add_area">+ Добавить город</string>
+    <string name="descriptions_close_fragment">Кнопка закрыть экран поиска</string>
+    <string name="region_text">Регион</string>
+    <string name="find_vacancies">Найти вакансии</string>
+    <string name="work_schedule">График работы</string>
+    <string name="button_back">Кнопка назад</string>
+    <string name="hint_input_keywords">Должность, ключевые слова</string>
+    <string name="filter_search_only_in">Искать только в</string>
+    <string name="hint_input_salary">Уровень дохода от</string>
+    <string name="Income_indicated">Указан доход</string>
+    <string name="region">Регион</string>
+    <string name="required_experience">Требуемый опыт</string>
+    <string name="employment_type">Тип занятости</string>
+    <string name="hint_input_matches">По соответствию</string>
+    <string name="button_filters">Кнопка экрана с филтрами</string>
+    <string name="search_history">История поиска</string>
+    <string name="company_image">company image</string>
+    <string name="work_destination">Где предстоит работать</string>
+    <string name="error_text">Ошибка, попробуйте снова</string>
+    <string name="retry">retry</string>
+    <string name="favorite_description">Кнопка добавления в избранное</string>
+    <string name="its_empty_here">Здесь Пусто</string>
+    <string name="add_favorite_vacancies">Добавляйте интересующие вас вакансии в избранные</string>
+    <string name="vacancy_name_description">Название вакансии</string>
+    <string name="respond">respond</string>
 </resources>

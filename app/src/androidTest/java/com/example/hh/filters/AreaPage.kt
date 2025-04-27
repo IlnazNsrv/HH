@@ -24,26 +24,22 @@ class AreaPage {
     private val buttonUi = ButtonUi(
         withParent(withId(R.id.bottomLayout)),
         rootClass,
-        R.id.saveArea,
+        R.id.saveAreaButton,
         Button::class.java
     )
     private val inputUi = InputUi(R.id.inputAreaEditText)
 
-    fun findArea(text: String) {
+    fun searchArea(text: String) {
         inputUi.inputText(text)
         waiting(500)
-        recyclerUi.checkAreasButton(0, "Москва")
     }
 
-    fun findKzn() {
-        inputUi.inputText("Казань")
-        waiting(500)
-        recyclerUi.clickItem(0)
-        buttonUi.click()
+    fun assertAreaButton(area: String) {
+        recyclerUi.checkAreasButton(0, area)
     }
 
-    fun saveChosenArea() {
-        recyclerUi.clickItem(0)
+    fun saveChosenArea(position: Int) {
+        recyclerUi.clickItem(position)
         buttonUi.click()
     }
 }

@@ -32,11 +32,11 @@ class CustomAreaButton : RelativeLayout, UpdateCustomAreaButton {
         
         viewModel.updateState()
 
-        binding.cityName.setOnClickListener {
+        binding.cityNameButton.setOnClickListener {
             viewModel.handleClickArea(fragmentManager)
         }
 
-        binding.removeCity.setOnClickListener {
+        binding.removeCityButton.setOnClickListener {
             viewModel.handleCloseAction()
             this.visibility = GONE
         }
@@ -45,7 +45,7 @@ class CustomAreaButton : RelativeLayout, UpdateCustomAreaButton {
     override fun onSaveInstanceState(): Parcelable? {
         return super.onSaveInstanceState()?.let {
             val savedState = CustomAreaButtonSavedState(it)
-            savedState.save(CustomAreaPermanentState(visibility, binding.cityName.text.toString()))
+            savedState.save(CustomAreaPermanentState(visibility, binding.cityNameButton.text.toString()))
             return savedState
         }
     }
@@ -55,16 +55,16 @@ class CustomAreaButton : RelativeLayout, UpdateCustomAreaButton {
         super.onRestoreInstanceState(restoredState.superState)
         val permanentState = restoredState.restore()
         this.visibility = permanentState.visibility
-        binding.cityName.text = permanentState.text
+        binding.cityNameButton.text = permanentState.text
     }
 
     override fun update(areaPair: Pair<String, String>?) {
         if (areaPair == null) {
             this.visibility = View.GONE
-            binding.cityName.text = ""
+            binding.cityNameButton.text = ""
         } else {
-            binding.cityName.setTextColor(resources.getColor(R.color.white))
-            binding.cityName.text = areaPair.second
+            binding.cityNameButton.setTextColor(resources.getColor(R.color.white))
+            binding.cityNameButton.text = areaPair.second
             this.visibility = View.VISIBLE
         }
     }
